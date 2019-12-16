@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','/js/analytics.js','ga');
+
+ga('create', 'UA-135687698-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+    
+    <title>
+        在Ubuntu18.10安装Docker |
+        
+        欢迎浏览本博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+    
+        <meta name="keywords" content="Ubuntu,Linux,Python,Python Web,爬虫,数据分析,机器学习">
+    
+    <meta name="description" content="Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化，容器是完全使用沙箱机制，相互之间不会有任何接口。一个完整的Docker有以下几个部分组成：    1.DockerClient客户端    2.Docker Daemon守护进程    3.Docker Image镜像    4.DockerCo">
+<meta name="keywords" content="Ubuntu,Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Ubuntu18.10安装Docker">
+<meta property="og:url" content="https://www.xuhuiblog.cn/Docker/在Ubuntu18-10安装Docker/index.html">
+<meta property="og:site_name" content="欢迎浏览本博客">
+<meta property="og:description" content="Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化，容器是完全使用沙箱机制，相互之间不会有任何接口。一个完整的Docker有以下几个部分组成：    1.DockerClient客户端    2.Docker Daemon守护进程    3.Docker Image镜像    4.DockerCo">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.xuhuiblog.cn/Docker/在Ubuntu18-10安装Docker/1.png">
+<meta property="og:image" content="https://www.xuhuiblog.cn/Docker/在Ubuntu18-10安装Docker/2.png">
+<meta property="og:updated_time" content="2019-04-22T06:42:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在Ubuntu18.10安装Docker">
+<meta name="twitter:description" content="Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化，容器是完全使用沙箱机制，相互之间不会有任何接口。一个完整的Docker有以下几个部分组成：    1.DockerClient客户端    2.Docker Daemon守护进程    3.Docker Image镜像    4.DockerCo">
+<meta name="twitter:image" content="https://www.xuhuiblog.cn/Docker/在Ubuntu18-10安装Docker/1.png">
+    
+        <link rel="alternate" href="/atom.xml" title="欢迎浏览本博客" type="application/atom+xml">
+    
+    
+        <link rel="icon" href="/images/favicon.ico">
+    
+    
+        <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <script>
+        let antiquityStorage = window.sessionStorage.getItem('antiquitySessionStorage');
+        if (antiquityStorage == '' || antiquityStorage == null) {
+            var antiquityLoader = '<div id="loaderbox"><div class="loader"><div class="load-roll"><div class="load-top"></div><div class="load-right"></div><div class="load-bottom"></div></div></div></div>';
+            document.write(antiquityLoader);
+            document.body.style.overflow = 'hidden'
+        }
+    </script>
+</head>
+</html>
+<body>
+<div id="fullpage" class="mobile-nav-right">
+    
+    <div id="wrapper" style="background-image: url(/images/bg.jpg)"
+         title="图片来自网络">
+        
+
+            <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-right">
+      
+        <a class="nav-item" href="/" title>首页</a>
+      
+        <a class="nav-item" href="https://github.com/pighui" title>基友</a>
+      
+        <a class="nav-item" href="/archives" title>文章</a>
+      
+        <a class="nav-item" href="/me" title>简历</a>
+      
+        <a class="nav-item" href="/snow" title>看雪</a>
+      
+    </nav>
+  </div>
+</header>
+            <div id="middlecontent" title class="global-width sidebar-right">
+                <section id="main"><article id="post-在Ubuntu18-10安装Docker" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      在Ubuntu18.10安装Docker
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/Docker/在Ubuntu18-10安装Docker/" class="article-date">
+  <time datetime="2019-04-22T05:37:56.000Z" itemprop="datePublished">2019-04-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Docker/">Docker</a>
+  </div>
+
+    
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li></ul>
+
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+    </span>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <p><a href="https://baike.baidu.com/item/Docker/13344470?fr=aladdin" target="_blank" rel="noopener">Docker</a> 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化，容器是完全使用沙箱机制，相互之间不会有任何接口。<br>一个完整的Docker有以下几个部分组成：<br>    1.DockerClient客户端<br>    2.Docker Daemon守护进程<br>    3.Docker Image镜像<br>    4.DockerContainer容器 </p>
+<p>本文将介绍如何在Ubuntu18.10安装Docker容器。</p>
+<p>参考：官方文档<a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/" target="_blank" rel="noopener">https://docs.docker.com/install/linux/docker-ce/ubuntu/</a></p>
+<a id="more"></a>
+<h1 id="1-卸载旧版本"><a href="#1-卸载旧版本" class="headerlink" title="1.卸载旧版本"></a>1.卸载旧版本</h1><p>旧版本的Docker被称为 docker，docker.io或者docker-engine。如果你安装了它们，请卸载。</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br></pre></td></tr></table></figure></div>
+<p>如果你的 apt-get 告知你它们都没有被安装是OK的。</p>
+<h1 id="2-安装Dcoker-CE"><a href="#2-安装Dcoker-CE" class="headerlink" title="2.安装Dcoker CE"></a>2.安装Dcoker CE</h1><p>新版本的Docker被称为，docker-ce，安装在 /var/lib/docker/,包括images, containers, volumes和 networks.</p>
+<h2 id="①升级apt包的索引"><a href="#①升级apt包的索引" class="headerlink" title="①升级apt包的索引"></a>①升级apt包的索引</h2><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure></div>
+<h2 id="②安装下面的包来允许apt使用基于HTTPS的仓库"><a href="#②安装下面的包来允许apt使用基于HTTPS的仓库" class="headerlink" title="②安装下面的包来允许apt使用基于HTTPS的仓库"></a>②安装下面的包来允许apt使用基于HTTPS的仓库</h2><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install \</span><br><span class="line">   apt-transport-https \</span><br><span class="line">   ca-certificates \</span><br><span class="line">   curl \</span><br><span class="line">   gnupg-agent \</span><br><span class="line">   software-properties-common</span><br></pre></td></tr></table></figure></div>
+<h2 id="③添加Docker的官方GPG-key"><a href="#③添加Docker的官方GPG-key" class="headerlink" title="③添加Docker的官方GPG key"></a>③添加Docker的官方GPG key</h2><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure></div>
+<p>你可以使用下面的命令来验证是否添加上了</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br></pre></td></tr></table></figure></div>
+<p>如果返回下面的结果则是正确的</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pub   rsa4096 2017-02-22 [SCEA]</span><br><span class="line">      9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88</span><br><span class="line">uid           [ unknown] Docker Release (CE deb) &lt;docker@docker.com&gt;</span><br><span class="line">sub   rsa4096 2017-02-22 [S]</span><br></pre></td></tr></table></figure></div>
+<h2 id="④添加apt仓库源"><a href="#④添加apt仓库源" class="headerlink" title="④添加apt仓库源"></a>④添加apt仓库源</h2><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository \</span><br><span class="line">   <span class="string">"deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">   <span class="variable">$(lsb_release -cs)</span> \</span></span><br><span class="line"><span class="string">   stable"</span></span><br></pre></td></tr></table></figure></div>
+<h2 id="⑤安装Docker-CE"><a href="#⑤安装Docker-CE" class="headerlink" title="⑤安装Docker CE"></a>⑤安装Docker CE</h2><h3 id="a-升级apt包的索引"><a href="#a-升级apt包的索引" class="headerlink" title="a.升级apt包的索引"></a>a.升级apt包的索引</h3><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure></div>
+<h3 id="b-安装最新的Docker-CE和containerd"><a href="#b-安装最新的Docker-CE和containerd" class="headerlink" title="b.安装最新的Docker CE和containerd"></a>b.安装最新的Docker CE和containerd</h3><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure></div>
+<h3 id="c-使用以下命令来验证是否正确安装"><a href="#c-使用以下命令来验证是否正确安装" class="headerlink" title="c.使用以下命令来验证是否正确安装"></a>c.使用以下命令来验证是否正确安装</h3><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run hello-world</span><br></pre></td></tr></table></figure></div>
+<p>如果返回下面的结果，则说明安装成功</p>
+<p><img src="/Docker/在Ubuntu18-10安装Docker/1.png" alt></p>
+<p>你也可以使用以下命令看看docker服务是否启动</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status docker.service</span><br></pre></td></tr></table></figure></div>
+<p>如过是下面这样的，则说明运行正常。</p>
+<p><img src="/Docker/在Ubuntu18-10安装Docker/2.png" alt></p>
+<p>到此教程结束。enjoy it！</p>
+<p>如果你需要在docker中安装elasticsearch，请参考我的另一篇<a href="https://www.xuhuiblog.cn/Docker/%E5%9C%A8docker%E4%B8%AD%E5%AE%89%E8%A3%85elasticsearch%E4%BB%A5%E5%8F%8A%E7%94%A8%E6%B3%95%E7%9A%84%E4%BB%8B%E7%BB%8D/">文章</a>。</p>
+
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+      <a href="/Hexo/为hexo添加自动提交链接、初始化评论和全自动化脚本/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption"></strong>
+        <div class="article-nav-title">
+          
+            为hexo添加自动提交链接、初始化评论和全自动化脚本
+          
+        </div>
+      </a>
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/Docker/在docker中安装elasticsearch以及用法的介绍/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">在docker中安装elasticsearch以及用法的介绍</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://www.xuhuiblog.cn/css/gitment.css">
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/gitment.js"></script>
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/md5.min.js"></script>
+<script>
+var gitment = new Gitment({
+  id: md5(window.location.pathname.replace(/index.html/, "")),
+  owner: 'pighui',
+  repo: 'myblogdes',
+  oauth: {
+    client_id: '79535b24d59031961e6c',
+    client_secret: '4f1907f09f33c1182feb2ddfeef33677e8e5ff36',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+
+  
+  
+</article>
+</section>
+                <aside id="sidebar">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="360" height="86" src="//music.163.com/outchain/player?type=2&id=1346998796&auto=0&height=66"></iframe>
+    
+        <div class="widget-box">
+    <div class="avatar-box">
+        <img class="avatar" src="/images/default-avatar.jpeg" title="图片来自网络">
+        <h3 class="avatar-name">
+            
+                一介书生
+            
+        </h3>
+        <p class="avatar-slogan">
+            盼 君 金 榜 题 名 时 。
+寒 窗 苦 读 数 十 载 ，
+        </p>
+    </div>
+</div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kali/">Kali</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ubuntu/">Ubuntu</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据分析/">数据分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/爬虫/">爬虫</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kali/">Kali</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分析/">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试/">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 11.43px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 12.86px;">Hexo</a> <a href="/tags/Kali/" style="font-size: 10px;">Kali</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/Ubuntu/" style="font-size: 15.71px;">Ubuntu</a> <a href="/tags/数据分析/" style="font-size: 18.57px;">数据分析</a> <a href="/tags/机器学习/" style="font-size: 14.29px;">机器学习</a> <a href="/tags/测试/" style="font-size: 11.43px;">测试</a> <a href="/tags/爬虫/" style="font-size: 17.14px;">爬虫</a> <a href="/tags/面试题/" style="font-size: 10px;">面试题</a>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/机器学习/人脸自动补全/">人脸自动补全</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/Logistics回归和数字识别/">Logistics回归和数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/LinearRegression线性回归/">LinearRegression线性回归</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/KNN-手写数字识别/">KNN-手写数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/K-近邻算法-KNN/">K-近邻算法（KNN）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+          <div class="widget-box">
+    <h3 class="widget-title">友链</h3>
+    <div class="widget">
+      
+        <a style="display: block;" href="https://yiluyanxia.github.io/" title target="_blank">一路眼瞎</a>
+      
+        <a style="display: block;" href="https://wljsky.cn/" title target="_blank">钧金</a>
+      
+    </div>
+  </div>
+
+    
+</aside>
+            </div>
+            <footer id="footer">
+    <!-- 百度推送 -->
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            } else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+    <!-- 百度统计 -->
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?58e88d550a3485e4fa9494eb391c7e47";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135687698-1"></script> -->
+    <script src="/js/google.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('set', {'user_id': 'UA-135687698-1'});
+        gtag('config', 'UA-135687698-1');
+    </script>
+    <div class="foot-box global-width">
+        &copy;Copyright&nbsp;2019 一介书生<br>
+        驱动于 <a href="http://hexo.io/" target="_blank">Hexo</a>
+        &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+        <br>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <span id="busuanzi_container_site_pv">阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+        <br>
+        豫ICP备<a href="http://ha.beian.miit.gov.cn/">19008962</a>号
+    </div>
+</footer>
+            <script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) {
+        var script = document.createElement('script');
+        script.src = "/js/jquery.min.js";
+        document.body.write(script);
+    }
+</script>
+
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+    <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+        </div>
+        <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="https://github.com/pighui" class="mobile-nav-link">基友</a>
+  
+    <a href="/archives" class="mobile-nav-link">文章</a>
+  
+    <a href="/me" class="mobile-nav-link">简历</a>
+  
+    <a href="/snow" class="mobile-nav-link">看雪</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/js/love.js"></script>
+    <script src="/js/snowy.js"></script>
+    <style type="text/css">.snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100001;
+        }</style>
+    <div class="snow-container"></div>
+</body>
+</html>

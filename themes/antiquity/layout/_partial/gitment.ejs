@@ -1,0 +1,18 @@
+<% if (!index && post.comments){ %>
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://www.xuhuiblog.cn/css/gitment.css">
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/gitment.js"></script>
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/md5.min.js"></script>
+<script>
+var gitment = new Gitment({
+  id: md5(window.location.pathname.replace(/index.html/, "")),
+  owner: '<%= theme.gitment.owner %>',
+  repo: '<%= theme.gitment.repo %>',
+  oauth: {
+    client_id: '<%= theme.gitment.client_id %>',
+    client_secret: '<%= theme.gitment.client_secret %>',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+<% } %>

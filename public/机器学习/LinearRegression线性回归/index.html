@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','/js/analytics.js','ga');
+
+ga('create', 'UA-135687698-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+    
+    <title>
+        LinearRegression线性回归 |
+        
+        欢迎浏览本博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+    
+        <meta name="keywords" content="Ubuntu,Linux,Python,Python Web,爬虫,数据分析,机器学习">
+    
+    <meta name="description" content="线性回归【关键词】最小二乘法，线性">
+<meta name="keywords" content="Python,机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LinearRegression线性回归">
+<meta property="og:url" content="https://www.xuhuiblog.cn/机器学习/LinearRegression线性回归/index.html">
+<meta property="og:site_name" content="欢迎浏览本博客">
+<meta property="og:description" content="线性回归【关键词】最小二乘法，线性">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/LinearRegression线性回归/home/pighui/datas/day08/LinearRegression%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/images/1.PNG">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/LinearRegression线性回归/images/2.PNG">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/LinearRegression线性回归/images/3.PNG">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/LinearRegression线性回归/images/4.PNG">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/LinearRegression线性回归/output_19_0.png">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/LinearRegression线性回归/output_39_0.png">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/LinearRegression线性回归/output_48_0.png">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/LinearRegression线性回归/images/5.PNG">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/LinearRegression线性回归/output_83_0.png">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/LinearRegression线性回归/images/6.PNG">
+<meta property="og:updated_time" content="2019-05-17T13:08:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LinearRegression线性回归">
+<meta name="twitter:description" content="线性回归【关键词】最小二乘法，线性">
+<meta name="twitter:image" content="https://www.xuhuiblog.cn/机器学习/LinearRegression线性回归/home/pighui/datas/day08/LinearRegression%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/images/1.PNG">
+    
+        <link rel="alternate" href="/atom.xml" title="欢迎浏览本博客" type="application/atom+xml">
+    
+    
+        <link rel="icon" href="/images/favicon.ico">
+    
+    
+        <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <script>
+        let antiquityStorage = window.sessionStorage.getItem('antiquitySessionStorage');
+        if (antiquityStorage == '' || antiquityStorage == null) {
+            var antiquityLoader = '<div id="loaderbox"><div class="loader"><div class="load-roll"><div class="load-top"></div><div class="load-right"></div><div class="load-bottom"></div></div></div></div>';
+            document.write(antiquityLoader);
+            document.body.style.overflow = 'hidden'
+        }
+    </script>
+</head>
+</html>
+<body>
+<div id="fullpage" class="mobile-nav-right">
+    
+    <div id="wrapper" style="background-image: url(/images/bg.jpg)"
+         title="图片来自网络">
+        
+
+            <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-right">
+      
+        <a class="nav-item" href="/" title>首页</a>
+      
+        <a class="nav-item" href="https://github.com/pighui" title>基友</a>
+      
+        <a class="nav-item" href="/archives" title>文章</a>
+      
+        <a class="nav-item" href="/me" title>简历</a>
+      
+        <a class="nav-item" href="/snow" title>看雪</a>
+      
+    </nav>
+  </div>
+</header>
+            <div id="middlecontent" title class="global-width sidebar-right">
+                <section id="main"><article id="post-LinearRegression线性回归" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      LinearRegression线性回归
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/机器学习/LinearRegression线性回归/" class="article-date">
+  <time datetime="2019-05-09T13:25:21.000Z" itemprop="datePublished">2019-05-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/机器学习/">机器学习</a>
+  </div>
+
+    
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li></ul>
+
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+    </span>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h1 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h1><h2 id="【关键词】最小二乘法，线性"><a href="#【关键词】最小二乘法，线性" class="headerlink" title="【关键词】最小二乘法，线性"></a>【关键词】最小二乘法，线性</h2><a id="more"></a>
+<h2 id="一、普通线性回归"><a href="#一、普通线性回归" class="headerlink" title="一、普通线性回归"></a>一、普通线性回归</h2><h3 id="1、原理"><a href="#1、原理" class="headerlink" title="1、原理"></a>1、原理</h3><p>分类的目标变量是标称型数据，而回归将会对连续型的数据做出预测。</p>
+<p>应当怎样从一大堆数据里求出回归方程呢？</p>
+<p>假定输人数据存放在矩阵X中，而回归系数存放在向量W中。那么对于给定的数据X1, 预测结果将会通过</p>
+<p>Y=X*W</p>
+<p>给出。现在的问题是，手里有一些X和对应的Y,怎样才能找到W呢？</p>
+<p>一个常用的方法就是找出使误差最小的W。这里的误差是指预测Y值和真实Y值之间的差值，使用该误差的简单累加将使得正差值和负差值相互抵消，所以我<br>们采用平方误差。</p>
+<p>最小二乘法<br><img src="/机器学习/LinearRegression线性回归/home/pighui/datas/day08/LinearRegression%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/images/1.PNG" alt="1.PNG"></p>
+<p>平方误差可以写做<br>对W求导，当导数为零时，平方误差最小，此时W等于：<br><img src="/机器学习/LinearRegression线性回归/images/2.PNG" alt="2.PNG"></p>
+<p>例如有下面一张图片：</p>
+<p><img src="/机器学习/LinearRegression线性回归/images/3.PNG" alt="3.PNG"></p>
+<p>求回归曲线，得到：</p>
+<p><img src="/机器学习/LinearRegression线性回归/images/4.PNG" alt="4.PNG"></p>
+<h3 id="2、实例-糖尿病数据分析"><a href="#2、实例-糖尿病数据分析" class="headerlink" title="2、实例 - 糖尿病数据分析"></a>2、实例 - 糖尿病数据分析</h3><p>导包</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> pandas <span class="keyword">import</span> Series, DataFrame</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">%matplotlib inline</span><br></pre></td></tr></table></figure></div>
+<p>获取糖尿病数据</p>
+<ul>
+<li>sklearn.datasets中load_diabetes()函数<ul>
+<li>data 是特征数据</li>
+<li>feature_names 特征名称</li>
+<li>target 是目标</li>
+</ul>
+</li>
+<li>生成DataFrame查看数据</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_diabetes</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diabetes = load_diabetes()</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">diabetes_df = DataFrame(diabetes.data, columns=diabetes.feature_names)</span><br><span class="line">diabetes_df[<span class="string">'target'</span>] = Series(diabetes.target)</span><br><span class="line">diabetes_df.head()</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>age</th><br>      <th>sex</th><br>      <th>bmi</th><br>      <th>bp</th><br>      <th>s1</th><br>      <th>s2</th><br>      <th>s3</th><br>      <th>s4</th><br>      <th>s5</th><br>      <th>s6</th><br>      <th>target</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>0</th><br>      <td>0.038076</td><br>      <td>0.050680</td><br>      <td>0.061696</td><br>      <td>0.021872</td><br>      <td>-0.044223</td><br>      <td>-0.034821</td><br>      <td>-0.043401</td><br>      <td>-0.002592</td><br>      <td>0.019908</td><br>      <td>-0.017646</td><br>      <td>151.0</td><br>    </tr><br>    <tr><br>      <th>1</th><br>      <td>-0.001882</td><br>      <td>-0.044642</td><br>      <td>-0.051474</td><br>      <td>-0.026328</td><br>      <td>-0.008449</td><br>      <td>-0.019163</td><br>      <td>0.074412</td><br>      <td>-0.039493</td><br>      <td>-0.068330</td><br>      <td>-0.092204</td><br>      <td>75.0</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>0.085299</td><br>      <td>0.050680</td><br>      <td>0.044451</td><br>      <td>-0.005671</td><br>      <td>-0.045599</td><br>      <td>-0.034194</td><br>      <td>-0.032356</td><br>      <td>-0.002592</td><br>      <td>0.002864</td><br>      <td>-0.025930</td><br>      <td>141.0</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>-0.089063</td><br>      <td>-0.044642</td><br>      <td>-0.011595</td><br>      <td>-0.036656</td><br>      <td>0.012191</td><br>      <td>0.024991</td><br>      <td>-0.036038</td><br>      <td>0.034309</td><br>      <td>0.022692</td><br>      <td>-0.009362</td><br>      <td>206.0</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>0.005383</td><br>      <td>-0.044642</td><br>      <td>-0.036385</td><br>      <td>0.021872</td><br>      <td>0.003935</td><br>      <td>0.015596</td><br>      <td>0.008142</td><br>      <td>-0.002592</td><br>      <td>-0.031991</td><br>      <td>-0.046641</td><br>      <td>135.0</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diabetes.DESCR</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&apos;.. _diabetes_dataset:\n\nDiabetes dataset\n----------------\n\nTen baseline variables, age, sex, body mass index, average blood\npressure, and six blood serum measurements were obtained for each of n =\n442 diabetes patients, as well as the response of interest, a\nquantitative measure of disease progression one year after baseline.\n\n**Data Set Characteristics:**\n\n  :Number of Instances: 442\n\n  :Number of Attributes: First 10 columns are numeric predictive values\n\n  :Target: Column 11 is a quantitative measure of disease progression one year after baseline\n\n  :Attribute Information:\n      - Age\n      - Sex\n      - Body mass index\n      - Average blood pressure\n      - S1\n      - S2\n      - S3\n      - S4\n      - S5\n      - S6\n\nNote: Each of these 10 feature variables have been mean centered and scaled by the standard deviation times `n_samples` (i.e. the sum of squares of each column totals 1).\n\nSource URL:\nhttp://www4.stat.ncsu.edu/~boos/var.select/diabetes.html\n\nFor more information see:\nBradley Efron, Trevor Hastie, Iain Johnstone and Robert Tibshirani (2004) &quot;Least Angle Regression,&quot; Annals of Statistics (with discussion), 407-499.\n(http://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf)&apos;</span><br></pre></td></tr></table></figure></div>
+<p>抽取训练数据和预测数据</p>
+<ul>
+<li>研究bmi指标对血糖的影响趋势, bp字段</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bmi = diabetes_df[<span class="string">'bmi'</span>].values</span><br><span class="line">bp = diabetes_df[<span class="string">'bp'</span>].values</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plt.scatter(bmi, bp)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></div>
+<p><img src="/机器学习/LinearRegression线性回归/output_19_0.png" alt="png"></p>
+<p>创建数学模型-普通线性回归</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linear = LinearRegression()</span><br></pre></td></tr></table></figure></div>
+<p>第一步：训练和预测的得分</p>
+<ul>
+<li>sklearn.metrics.r2_score(y_true, y_pred)</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split <span class="keyword">as</span> split</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train_X, test_X, train_y, test_y = split(bmi.reshape(<span class="number">-1</span>, <span class="number">1</span>),</span><br><span class="line">                                         diabetes.target)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linear.fit(train_X, train_y).score(test_X, test_y)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.36813167310279926</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">linear.fit(train_X, train_y)</span><br><span class="line">y_ = linear.predict(test_X)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> r2_score</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r2_score(test_y, y_)  <span class="comment"># 回归性数据，计算真实的数据和预测的数据的比较得分</span></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.36813167310279926</span><br></pre></td></tr></table></figure></div>
+<h3 id="使用全部的样本数据进行模型训练"><a href="#使用全部的样本数据进行模型训练" class="headerlink" title="使用全部的样本数据进行模型训练"></a>使用全部的样本数据进行模型训练</h3><p>生成新的预测数据</p>
+<ul>
+<li>获取bmi的最小和最大值，生成这个区间的100个等差数例<ul>
+<li>linspace()</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bmi.min()</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-0.0902752958985185</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bmi.max()</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.17055522598066</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test_X = np.linspace(bmi.min(), bmi.max(), num=<span class="number">100</span>)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linear.fit(bmi.reshape(<span class="number">-1</span>, <span class="number">1</span>), diabetes.target)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None,</span><br><span class="line">         normalize=False)</span><br></pre></td></tr></table></figure></div>
+<p>预测</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y_ = linear.predict(test_X.reshape(<span class="number">-1</span>, <span class="number">1</span>))</span><br></pre></td></tr></table></figure></div>
+<p>绘制图形</p>
+<ul>
+<li>将 测试数据和结果，画出线型图</li>
+<li>将 训练数据和目标， 画出散点图</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plt.plot(test_X, y_, color=<span class="string">'red'</span>)</span><br><span class="line">plt.scatter(bmi, diabetes.target)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></div>
+<p><img src="/机器学习/LinearRegression线性回归/output_39_0.png" alt="png"></p>
+<p>扩展</p>
+<ul>
+<li>获取训练模型后的系数<ul>
+<li>linear.coef_</li>
+</ul>
+</li>
+<li>计算得分： r2_score(test_true, test_predict)<ul>
+<li>是sklearn.metrics 模块的函数</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linear.coef_  <span class="comment"># 线性函数的 w 系数</span></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array([949.43526038])</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linear.intercept_  <span class="comment"># 线性函数的截距 b</span></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">152.1334841628967</span><br></pre></td></tr></table></figure></div>
+<p>练习： age和bmi对bp的影响</p>
+<ul>
+<li>获取age，bmi的实际数据进行模型的训练</li>
+<li>生成age,bmi的测试数据， 每个特征的(min, max)生成等差数列</li>
+<li>使用测试数据，进行测试</li>
+<li>画出实现数据的散点图和线型图（两个）</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">samples = diabetes_df[[<span class="string">'age'</span>, <span class="string">'bmi'</span>]].values</span><br><span class="line">target = diabetes_df[<span class="string">'bp'</span>].values</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">samples[:, <span class="number">0</span>].min()</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-0.107225631607358</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f1 = np.linspace(samples[:, <span class="number">0</span>].min(),</span><br><span class="line">                 samples[:, <span class="number">0</span>].max(), num=<span class="number">100</span>)</span><br><span class="line">f2 = np.linspace(samples[:, <span class="number">1</span>].min(),</span><br><span class="line">                 samples[:, <span class="number">1</span>].max(), num=<span class="number">100</span>)</span><br><span class="line">test_X = np.c_[f1, f2]  <span class="comment"># 将两个一维数组合成一个两列多行的二维数组</span></span><br><span class="line">test_X.shape</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(100, 2)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">linear.fit(samples, target)</span><br><span class="line">y_ = linear.predict(test_X)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">plt.figure(figsize=(<span class="number">12</span>, <span class="number">4</span>))</span><br><span class="line"></span><br><span class="line">ax1 = plt.subplot(<span class="number">121</span>)</span><br><span class="line">ax1.set_title(<span class="string">'Age vs DP'</span>)</span><br><span class="line">plt.scatter(samples[:, <span class="number">0</span>], target)</span><br><span class="line">plt.plot(test_X[:, <span class="number">0</span>], y_, color=<span class="string">'red'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ax2 = plt.subplot(<span class="number">122</span>)</span><br><span class="line">ax2.set_title(<span class="string">'BMI vs DP'</span>)</span><br><span class="line">plt.scatter(samples[:, <span class="number">1</span>], target)</span><br><span class="line">plt.plot(test_X[:, <span class="number">1</span>], y_, color=<span class="string">'red'</span>)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></div>
+<p><img src="/机器学习/LinearRegression线性回归/output_48_0.png" alt="png"></p>
+<h2 id="二、岭回归"><a href="#二、岭回归" class="headerlink" title="二、岭回归"></a>二、岭回归</h2><p>f(x) = w1<em>x1 + w2</em>x2 + w3<em>x3<br>f(x) = a</em>x1 + b<em>x2 + c</em>x3</p>
+<p>1   2  4  7<br>2   5  3  2<br>3   6  1  9</p>
+<h1 id="有解方程"><a href="#有解方程" class="headerlink" title="有解方程"></a>有解方程</h1><p>1 = a<em>2 + b</em>4 + c<em>7<br>2 = a</em>5 + b<em>3 + c</em>2<br>3 = a<em>6 + b</em>1 + c*9</p>
+<p>1   2  4  7<br>2   5  3  2</p>
+<h1 id="无解方程"><a href="#无解方程" class="headerlink" title="无解方程"></a>无解方程</h1><p>1 = a<em>2 + b</em>4 + c<em>7<br>2 = a</em>5 + b<em>3 + c</em>2</p>
+<h1 id="不满秩矩阵-不能求逆"><a href="#不满秩矩阵-不能求逆" class="headerlink" title="不满秩矩阵 不能求逆"></a>不满秩矩阵 不能求逆</h1><h1 id="数据样本的个数-lt-数据特征的个数-需要使用岭回归"><a href="#数据样本的个数-lt-数据特征的个数-需要使用岭回归" class="headerlink" title="数据样本的个数 &lt; 数据特征的个数 需要使用岭回归"></a>数据样本的个数 &lt; 数据特征的个数 需要使用岭回归</h1><h1 id="多重共性"><a href="#多重共性" class="headerlink" title="多重共性"></a>多重共性</h1><p>2  4  7        1 0 0      3  4  7<br>5  3  2   + λ* 0 1 0  =   5  4  2  -&gt; 可以求逆 -&gt; 线性回归模型就可用了<br>               0 0 1      0  0  1   </p>
+<h3 id="1、原理-1"><a href="#1、原理-1" class="headerlink" title="1、原理"></a>1、原理</h3><p>缩减系数来“理解”数据</p>
+<p>如果数据的特征比样本点还多应该怎么办？是否还可以使用线性回归和之前的方法来做预测？</p>
+<p>答案是否定的，即不能再使用前面介绍的方法。这是因为输入数据的矩阵X不是满秩矩阵。非满秩矩阵在求逆时会出现问题。</p>
+<p>为了解决这个问题，统计学家引入了岭回归（ridge regression)的概念</p>
+<p><img src="/机器学习/LinearRegression线性回归/images/5.PNG" alt="5.PNG"></p>
+<p>缩减方法可以去掉不重要的参数，因此能更好地理解数据。此外，与简单的线性回归相比，缩减法能取得更好的预测效果。</p>
+<p>岭回归是加了二阶正则项的最小二乘，主要适用于过拟合严重或各变量之间存在多重共线性的时候，岭回归是有bias的，这里的bias是为了让variance更小。</p>
+<h4 id="归纳总结"><a href="#归纳总结" class="headerlink" title="归纳总结"></a>归纳总结</h4><p>1.岭回归可以解决特征数量比样本量多的问题</p>
+<p>2.岭回归作为一种缩减算法可以判断哪些特征重要或者不重要，有点类似于降维的效果</p>
+<p>3.缩减算法可以看作是对一个模型增加偏差的同时减少方差</p>
+<p>岭回归用于处理下面两类问题：</p>
+<p>1.数据点少于变量个数</p>
+<p>2.变量间存在共线性（最小二乘回归得到的系数不稳定，方差很大）</p>
+<h3 id="2、实例"><a href="#2、实例" class="headerlink" title="2、实例"></a>2、实例</h3><p>岭回归一般用于样本值不足的时候</p>
+<ul>
+<li>sklearn.linear_model模块中 Ridge</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Ridge</span><br></pre></td></tr></table></figure></div>
+<p>不满轶矩阵数据样本数据</p>
+<ul>
+<li>X_train = [[2,1,1],[1,2,3]]</li>
+<li>y_train = [3, 1]</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 电影分类： 动作片-1， 枪战片-3， 爱情片-2</span></span><br><span class="line"><span class="comment">#           打斗，    开枪，    接吻</span></span><br><span class="line">train_X = [[<span class="number">10</span>, <span class="number">15</span>, <span class="number">8</span>],</span><br><span class="line">           [<span class="number">11</span>, <span class="number">1</span>, <span class="number">5</span>]]</span><br><span class="line">train_y = [<span class="number">3</span>, <span class="number">1</span>]</span><br></pre></td></tr></table></figure></div>
+<p>使用普通线性回归</p>
+<ul>
+<li>LinearRegression</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">linear2 = LinearRegression()</span><br><span class="line">linear2.fit(train_X, train_y)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None,</span><br><span class="line">         normalize=False)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linear2.predict([[<span class="number">15</span>, <span class="number">1</span>, <span class="number">5</span>]])</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array([0.96116505])</span><br></pre></td></tr></table></figure></div>
+<p>使用岭回归</p>
+<ul>
+<li>Ridge(alpha=1) alpha指定偏差系数λ</li>
+<li>经实例证明， alpha=0,Ridge就是普通的线性回归</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ridge = Ridge(alpha=<span class="number">0.5</span>)</span><br><span class="line">ridge.fit(train_X, train_y)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Ridge(alpha=0.5, copy_X=True, fit_intercept=True, max_iter=None,</span><br><span class="line">   normalize=False, random_state=None, solver=&apos;auto&apos;, tol=0.001)</span><br></pre></td></tr></table></figure></div>
+<p>比较它们之间的系数</p>
+<ul>
+<li>coef_ 所有的特征系数</li>
+<li>Ridge()的alpha 无限接近0时，同线性回归几乎相同<ul>
+<li>其实alpha 为0就是线性回归，不过系统会提示一些警告而已</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linear2.coef_</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array([-0.00970874,  0.13592233,  0.02912621])</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ridge = Ridge(alpha=<span class="number">0</span>)  <span class="comment"># alpha 缩减系数为0时，就是一个普通的线性回归</span></span><br><span class="line">ridge.fit(train_X, train_y)</span><br><span class="line">ridge.coef_</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/Users/apple/anaconda3/lib/python3.7/site-packages/sklearn/linear_model/ridge.py:165: LinAlgWarning: scipy.linalg.solve</span><br><span class="line">Ill-conditioned matrix detected. Result is not guaranteed to be accurate.</span><br><span class="line">Reciprocal condition number1.537199e-17</span><br><span class="line">  overwrite_a=False)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array([-0.00970874,  0.13592233,  0.02912621])</span><br></pre></td></tr></table></figure></div>
+<h3 id="【扩展】深入研究岭回归"><a href="#【扩展】深入研究岭回归" class="headerlink" title="【扩展】深入研究岭回归"></a>【扩展】深入研究岭回归</h3><ul>
+<li>理解岭回归缩减系数</li>
+</ul>
+<p>【备注】coef_函数可以获取机器学习模型中各个特征值的系数</p>
+<h4 id="创建一个假象数据样本集"><a href="#创建一个假象数据样本集" class="headerlink" title="创建一个假象数据样本集"></a>创建一个假象数据样本集</h4><ul>
+<li>生成一个10×10的二维数组 和 10个目标值<ul>
+<li>X = 1 / (np.arange(1, 11) + np.arange(0, 10).reshape(-1, 1))</li>
+<li>y = np.linspace(0, 10, num=10)</li>
+</ul>
+</li>
+<li>创建 100个 alpha系数， 范围在 [e^-10, e^-2]<ul>
+<li>np.logspace(-10, -2, 100)  生成e指数的等差数列</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X = <span class="number">1</span>/(np.arange(<span class="number">1</span>, <span class="number">11</span>) + np.arange(<span class="number">10</span>).reshape(<span class="number">-1</span>, <span class="number">1</span>))</span><br><span class="line">y = np.linspace(<span class="number">0</span>, <span class="number">10</span>, num=<span class="number">10</span>, endpoint=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X.shape</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(10, 10)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y.shape</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(10,)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alphas = np.logspace(<span class="number">-10</span>, <span class="number">-2</span>, num=<span class="number">100</span>)</span><br></pre></td></tr></table></figure></div>
+<h4 id="根据不同的alpha-，训练X和y-并收集coef-系统数"><a href="#根据不同的alpha-，训练X和y-并收集coef-系统数" class="headerlink" title="根据不同的alpha ，训练X和y, 并收集coef_系统数"></a>根据不同的alpha ，训练X和y, 并收集coef_系统数</h4><ul>
+<li>设置 Rigde的alpha参数： ridge.set_params(alpha=alpha) </li>
+<li>coefs.append(ridge.coef_) </li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ridge = Ridge()</span><br><span class="line">coefs = []</span><br><span class="line"><span class="keyword">for</span> alpha <span class="keyword">in</span> alphas:</span><br><span class="line">    ridge.set_params(alpha=alpha)</span><br><span class="line">    ridge.fit(X, y)</span><br><span class="line">    coefs.append(ridge.coef_) <span class="comment"># 收集每次模型训练后的 w 系数</span></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">coefs = np.array(coefs)</span><br><span class="line">coefs.shape</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(100, 10)</span><br></pre></td></tr></table></figure></div>
+<h4 id="绘制线型图，查看alpha与coefs的关系"><a href="#绘制线型图，查看alpha与coefs的关系" class="headerlink" title="绘制线型图，查看alpha与coefs的关系"></a>绘制线型图，查看alpha与coefs的关系</h4><ul>
+<li>plt.plot(alphas, coefs)</li>
+<li>plt.xscale(‘log’) 坐标刻度的缩放比例为 指数形式</li>
+<li>ax.set_xlim(ax.get_xlim()[::-1]) # 将x的刻度反转过来</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plt.plot(alphas, coefs)</span><br><span class="line">plt.xscale(<span class="string">'log'</span>)</span><br><span class="line">ax = plt.gca()  <span class="comment"># 获取当前的Axes画布的实例对象</span></span><br><span class="line">ax.set_xlim(ax.get_xlim()[::<span class="number">-1</span>])  <span class="comment"># 将x坐标刻度反转过来</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></div>
+<p><img src="/机器学习/LinearRegression线性回归/output_83_0.png" alt="png"></p>
+<h2 id="三、lasso回归"><a href="#三、lasso回归" class="headerlink" title="三、lasso回归"></a>三、lasso回归</h2><h3 id="1、原理-2"><a href="#1、原理-2" class="headerlink" title="1、原理"></a>1、原理</h3><p>【拉格朗日乘数法】</p>
+<p>对于参数w增加一个限定条件，能到达和岭回归一样的效果：</p>
+<p><img src="/机器学习/LinearRegression线性回归/images/6.PNG" alt="6.PNG"></p>
+<p>在 λ (lambda) 足够小的时候，一些系数会因此被迫缩减到0</p>
+<h3 id="2、实例－波士顿房价数据分析"><a href="#2、实例－波士顿房价数据分析" class="headerlink" title="2、实例－波士顿房价数据分析"></a>2、实例－波士顿房价数据分析</h3><p>加载数据</p>
+<ul>
+<li>sklearn.datasets 模块的 load_boston()</li>
+<li>sklearn.model_selection 模块的 train_test_split() 分出训练数与测试数据</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_boston</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bostan = load_boston()</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bostan.data.shape</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(506, 13)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bostan.feature_names</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">array([&apos;CRIM&apos;, &apos;ZN&apos;, &apos;INDUS&apos;, &apos;CHAS&apos;, &apos;NOX&apos;, &apos;RM&apos;, &apos;AGE&apos;, &apos;DIS&apos;, &apos;RAD&apos;,</span><br><span class="line">       &apos;TAX&apos;, &apos;PTRATIO&apos;, &apos;B&apos;, &apos;LSTAT&apos;], dtype=&apos;&lt;U7&apos;)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_X, test_X, train_y, test_y = split(bostan.data, bostan.target)</span><br></pre></td></tr></table></figure></div>
+<p>比较得分 和 系数</p>
+<ul>
+<li>Ridge(alpha=0.8)</li>
+<li>Lasso(alpha=0.0006)</li>
+<li>sklearn.metrics.r2_score()</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Lasso</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">lasso = Lasso(alpha=<span class="number">0.0006</span>)</span><br><span class="line">ridge = Ridge(alpha=<span class="number">0.7</span>)</span><br><span class="line">linear3 = LinearRegression()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> model <span class="keyword">in</span> [lasso, ridge, linear3]:</span><br><span class="line">    name = model.__class__.__name__</span><br><span class="line">    model.fit(train_X, train_y)</span><br><span class="line">    y_ = model.predict(test_X)</span><br><span class="line">    score = r2_score(test_y, y_)</span><br><span class="line">    print(name, <span class="string">'得分'</span>, score)</span><br><span class="line">    <span class="comment"># print(name, '系数', model.coef_)</span></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Lasso 得分 0.7165217873439823</span><br><span class="line">Ridge 得分 0.7226997084819513</span><br><span class="line">LinearRegression 得分 0.7161985279583359</span><br></pre></td></tr></table></figure></div>
+<h2 id="四、普通线性回归、岭回归与lasso回归比较"><a href="#四、普通线性回归、岭回归与lasso回归比较" class="headerlink" title="四、普通线性回归、岭回归与lasso回归比较"></a>四、普通线性回归、岭回归与lasso回归比较</h2><p>随机生成训练数据和测试数据</p>
+<ul>
+<li>np.random.seed(42) 指定种子</li>
+<li>生成 50 行、200个特征的正态分布的样本数</li>
+<li>生成系数（与特征量相同）的正态分布数 * 3， 即为 coefs</li>
+<li>系数归零化<ul>
+<li>获取系数索引, inds = np.arange(n_features)</li>
+<li>打乱顺序, np.random.shuffle(inds)</li>
+<li>对系数进行归零化处理, coefs[inds[10:]] = 0</li>
+</ul>
+</li>
+<li>生成目标值 y <ul>
+<li>样本数据与系数进行矩阵积的结果， y = np.dot(x, coef)</li>
+<li>对目标值加噪音， y += 0.01*np.random.normal(n_samples)</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">np.random.seed(<span class="number">10</span>)</span><br><span class="line">x = np.random.randn(<span class="number">50</span>, <span class="number">200</span>)  <span class="comment"># 生成样本数据</span></span><br><span class="line">coefs = np.random.randn(<span class="number">200</span>)*<span class="number">3</span>  <span class="comment"># 生成系数</span></span><br><span class="line"></span><br><span class="line">coefs_index = np.arange(<span class="number">200</span>) <span class="comment"># 生成系数的索引位置 0~199</span></span><br><span class="line">np.random.shuffle(coefs_index)  <span class="comment"># 打乱的索引的顺序</span></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coefs_index[:<span class="number">10</span>]</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array([ 53, 115,  40, 108, 103,  47, 186,  10, 129, 116])</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coefs[coefs_index[:<span class="number">10</span>]]</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">array([ 1.95578865,  2.46486138, -1.41746653, -2.42466241,  2.61244235,</span><br><span class="line">       -4.0891305 , -2.81876429, -1.1879966 , -3.0227635 ,  0.3799766 ])</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coefs[coefs_index[<span class="number">10</span>:]] = <span class="number">0</span> <span class="comment"># 随机保留10个有效的w系数值，即其它的都是0</span></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">y = np.dot(x, coefs)  <span class="comment"># 将x 和 w系数进行矩阵积，结果变成50个目标值</span></span><br><span class="line">y += np.random.randn(<span class="number">50</span>) * <span class="number">0.01</span></span><br></pre></td></tr></table></figure></div>
+<p>分别使用线性回归，岭回归，Lasso回归进行数据预测</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trainX, testX, trainy,testy = split(x, y, test_size=<span class="number">.2</span>)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">linear = LinearRegression()</span><br><span class="line">ridge = Ridge(alpha=<span class="number">0.8</span>)</span><br><span class="line">lasso = Lasso(alpha=<span class="number">0.00001</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> model <span class="keyword">in</span> [linear, ridge, lasso]:</span><br><span class="line">    score = model.fit(trainX, trainy).score(testX, testy)</span><br><span class="line">    print(model.__class__.__name__, <span class="string">'得分:'</span>, score)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LinearRegression 得分: 0.09403629166096383</span><br><span class="line">Ridge 得分: 0.09405238738460531</span><br><span class="line">Lasso 得分: 0.04997143478385713</span><br></pre></td></tr></table></figure></div>
+<p>数据视图，此处获取各个算法的训练数据的coef_:系数</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linear.coef_[:<span class="number">10</span>]</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">array([-0.09223179, -0.5798521 , -1.10985274,  0.00800645, -0.19329456,</span><br><span class="line">        0.43135926, -1.39670663, -0.26308844, -0.23870551,  0.54891173])</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coefs[:<span class="number">10</span>]</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ridge.coef_[:<span class="number">10</span>]</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">array([-0.06252339, -0.56804829, -1.12697814,  0.03698796, -0.23258024,</span><br><span class="line">        0.45327138, -1.40633002, -0.24052112, -0.24432255,  0.52978321])</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lasso.coef_[:<span class="number">10</span>]</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">array([  2.59385858,  -4.61989168,  -3.51590501,   1.83343066,</span><br><span class="line">         3.94410478,   0.46006678, -10.32702338,  -6.17487522,</span><br><span class="line">        -3.61182527,   3.27608103])</span><br></pre></td></tr></table></figure></div>
+
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+      <a href="/机器学习/Logistics回归和数字识别/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption"></strong>
+        <div class="article-nav-title">
+          
+            Logistics回归和数字识别
+          
+        </div>
+      </a>
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/机器学习/KNN-手写数字识别/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">KNN-手写数字识别</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://www.xuhuiblog.cn/css/gitment.css">
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/gitment.js"></script>
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/md5.min.js"></script>
+<script>
+var gitment = new Gitment({
+  id: md5(window.location.pathname.replace(/index.html/, "")),
+  owner: 'pighui',
+  repo: 'myblogdes',
+  oauth: {
+    client_id: '79535b24d59031961e6c',
+    client_secret: '4f1907f09f33c1182feb2ddfeef33677e8e5ff36',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+
+  
+  
+</article>
+</section>
+                <aside id="sidebar">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="360" height="86" src="//music.163.com/outchain/player?type=2&id=1346998796&auto=0&height=66"></iframe>
+    
+        <div class="widget-box">
+    <div class="avatar-box">
+        <img class="avatar" src="/images/default-avatar.jpeg" title="图片来自网络">
+        <h3 class="avatar-name">
+            
+                一介书生
+            
+        </h3>
+        <p class="avatar-slogan">
+            盼 君 金 榜 题 名 时 。
+寒 窗 苦 读 数 十 载 ，
+        </p>
+    </div>
+</div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kali/">Kali</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ubuntu/">Ubuntu</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据分析/">数据分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/爬虫/">爬虫</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kali/">Kali</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分析/">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试/">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 11.43px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 12.86px;">Hexo</a> <a href="/tags/Kali/" style="font-size: 10px;">Kali</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/Ubuntu/" style="font-size: 15.71px;">Ubuntu</a> <a href="/tags/数据分析/" style="font-size: 18.57px;">数据分析</a> <a href="/tags/机器学习/" style="font-size: 14.29px;">机器学习</a> <a href="/tags/测试/" style="font-size: 11.43px;">测试</a> <a href="/tags/爬虫/" style="font-size: 17.14px;">爬虫</a> <a href="/tags/面试题/" style="font-size: 10px;">面试题</a>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/机器学习/人脸自动补全/">人脸自动补全</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/Logistics回归和数字识别/">Logistics回归和数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/LinearRegression线性回归/">LinearRegression线性回归</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/KNN-手写数字识别/">KNN-手写数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/K-近邻算法-KNN/">K-近邻算法（KNN）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+          <div class="widget-box">
+    <h3 class="widget-title">友链</h3>
+    <div class="widget">
+      
+        <a style="display: block;" href="https://yiluyanxia.github.io/" title target="_blank">一路眼瞎</a>
+      
+        <a style="display: block;" href="https://wljsky.cn/" title target="_blank">钧金</a>
+      
+    </div>
+  </div>
+
+    
+</aside>
+            </div>
+            <footer id="footer">
+    <!-- 百度推送 -->
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            } else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+    <!-- 百度统计 -->
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?58e88d550a3485e4fa9494eb391c7e47";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135687698-1"></script> -->
+    <script src="/js/google.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('set', {'user_id': 'UA-135687698-1'});
+        gtag('config', 'UA-135687698-1');
+    </script>
+    <div class="foot-box global-width">
+        &copy;Copyright&nbsp;2019 一介书生<br>
+        驱动于 <a href="http://hexo.io/" target="_blank">Hexo</a>
+        &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+        <br>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <span id="busuanzi_container_site_pv">阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+        <br>
+        豫ICP备<a href="http://ha.beian.miit.gov.cn/">19008962</a>号
+    </div>
+</footer>
+            <script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) {
+        var script = document.createElement('script');
+        script.src = "/js/jquery.min.js";
+        document.body.write(script);
+    }
+</script>
+
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+    <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+        </div>
+        <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="https://github.com/pighui" class="mobile-nav-link">基友</a>
+  
+    <a href="/archives" class="mobile-nav-link">文章</a>
+  
+    <a href="/me" class="mobile-nav-link">简历</a>
+  
+    <a href="/snow" class="mobile-nav-link">看雪</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/js/love.js"></script>
+    <script src="/js/snowy.js"></script>
+    <style type="text/css">.snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100001;
+        }</style>
+    <div class="snow-container"></div>
+</body>
+</html>

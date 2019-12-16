@@ -1,0 +1,52 @@
+<footer id="footer">
+    <!-- 百度推送 -->
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            } else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+    <!-- 百度统计 -->
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?58e88d550a3485e4fa9494eb391c7e47";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135687698-1"></script> -->
+    <script src="/js/google.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('set', {'user_id': 'UA-135687698-1'});
+        gtag('config', 'UA-135687698-1');
+    </script>
+    <div class="foot-box global-width">
+        &copy;Copyright&nbsp;<%= date(new Date(), 'YYYY') %> <%= config.author || config.title %><br>
+        <%= __('powered_by') %> <a href="http://hexo.io/" target="_blank">Hexo</a>
+        &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+        <br>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <span id="busuanzi_container_site_pv">阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+        <br>
+        豫ICP备<a href="http://ha.beian.miit.gov.cn/">19008962</a>号
+    </div>
+</footer>

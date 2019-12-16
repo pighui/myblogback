@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','/js/analytics.js','ga');
+
+ga('create', 'UA-135687698-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+    
+    <title>
+        scipy的io操作 |
+        
+        欢迎浏览本博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+    
+        <meta name="keywords" content="Ubuntu,Linux,Python,Python Web,爬虫,数据分析,机器学习">
+    
+    <meta name="description" content="io的保存与加载 scipy.io.savemat() scipy.io.loadmat()">
+<meta name="keywords" content="Python,数据分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="scipy的io操作">
+<meta property="og:url" content="https://www.xuhuiblog.cn/数据分析/scipy的io操作/index.html">
+<meta property="og:site_name" content="欢迎浏览本博客">
+<meta property="og:description" content="io的保存与加载 scipy.io.savemat() scipy.io.loadmat()">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-17T12:48:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="scipy的io操作">
+<meta name="twitter:description" content="io的保存与加载 scipy.io.savemat() scipy.io.loadmat()">
+    
+        <link rel="alternate" href="/atom.xml" title="欢迎浏览本博客" type="application/atom+xml">
+    
+    
+        <link rel="icon" href="/images/favicon.ico">
+    
+    
+        <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <script>
+        let antiquityStorage = window.sessionStorage.getItem('antiquitySessionStorage');
+        if (antiquityStorage == '' || antiquityStorage == null) {
+            var antiquityLoader = '<div id="loaderbox"><div class="loader"><div class="load-roll"><div class="load-top"></div><div class="load-right"></div><div class="load-bottom"></div></div></div></div>';
+            document.write(antiquityLoader);
+            document.body.style.overflow = 'hidden'
+        }
+    </script>
+</head>
+</html>
+<body>
+<div id="fullpage" class="mobile-nav-right">
+    
+    <div id="wrapper" style="background-image: url(/images/bg.jpg)"
+         title="图片来自网络">
+        
+
+            <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-right">
+      
+        <a class="nav-item" href="/" title>首页</a>
+      
+        <a class="nav-item" href="https://github.com/pighui" title>基友</a>
+      
+        <a class="nav-item" href="/archives" title>文章</a>
+      
+        <a class="nav-item" href="/me" title>简历</a>
+      
+        <a class="nav-item" href="/snow" title>看雪</a>
+      
+    </nav>
+  </div>
+</header>
+            <div id="middlecontent" title class="global-width sidebar-right">
+                <section id="main"><article id="post-scipy的io操作" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      scipy的io操作
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/数据分析/scipy的io操作/" class="article-date">
+  <time datetime="2019-05-06T11:26:14.000Z" itemprop="datePublished">2019-05-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据分析/">数据分析</a>
+  </div>
+
+    
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据分析/">数据分析</a></li></ul>
+
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+    </span>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h3 id="io的保存与加载"><a href="#io的保存与加载" class="headerlink" title="io的保存与加载"></a>io的保存与加载</h3><ul>
+<li>scipy.io.savemat()</li>
+<li>scipy.io.loadmat()</li>
+</ul>
+<a id="more"></a>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> scipy <span class="keyword">import</span> io</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成一个1-100之间的1000个等差数列</span></span><br><span class="line">data = np.linspace(<span class="number">1</span>, <span class="number">100</span>, num=<span class="number">1000</span>).reshape((<span class="number">100</span>,<span class="number">10</span>))</span><br><span class="line">data.shape</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(100, 10)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将生成的ndarray的数组保存起来</span></span><br><span class="line"><span class="comment"># 以io模块</span></span><br><span class="line">io.savemat(<span class="string">'data.mat'</span>, mdict=&#123;</span><br><span class="line">    <span class="string">'X'</span>: data,</span><br><span class="line">    <span class="string">'name'</span>: <span class="string">'1-100的1000个等差数列'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 加载mat文件，获取数据</span></span><br><span class="line">dmat=io.loadmat(<span class="string">'data.mat'</span>) <span class="comment"># 返回一个字典对象</span></span><br><span class="line">dmat</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;__header__&apos;: b&apos;MATLAB 5.0 MAT-file Platform: posix, Created on: Mon May  6 17:17:43 2019&apos;,</span><br><span class="line"> &apos;__version__&apos;: &apos;1.0&apos;,</span><br><span class="line"> &apos;__globals__&apos;: [],</span><br><span class="line"> &apos;X&apos;: array([[  1.        ,   1.0990991 ,   1.1981982 ,   1.2972973 ,</span><br><span class="line">           1.3963964 ,   1.4954955 ,   1.59459459,   1.69369369,</span><br><span class="line">           1.79279279,   1.89189189],</span><br><span class="line">        [  1.99099099,   2.09009009,   2.18918919,   2.28828829,</span><br><span class="line">           2.38738739,   2.48648649,   2.58558559,   2.68468468,</span><br><span class="line">           2.78378378,   2.88288288],</span><br><span class="line">        [  2.98198198,   3.08108108,   3.18018018,   3.27927928,</span><br><span class="line">           3.37837838,   3.47747748,   3.57657658,   3.67567568,</span><br><span class="line">           3.77477477,   3.87387387],</span><br><span class="line">        [  3.97297297,   4.07207207,   4.17117117,   4.27027027,</span><br><span class="line">           4.36936937,   4.46846847,   4.56756757,   4.66666667,</span><br><span class="line">           4.76576577,   4.86486486],</span><br><span class="line">        [  4.96396396,   5.06306306,   5.16216216,   5.26126126,</span><br><span class="line">           5.36036036,   5.45945946,   5.55855856,   5.65765766,</span><br><span class="line">           5.75675676,   5.85585586],</span><br><span class="line">        [  5.95495495,   6.05405405,   6.15315315,   6.25225225,</span><br><span class="line">           6.35135135,   6.45045045,   6.54954955,   6.64864865,</span><br><span class="line">           6.74774775,   6.84684685],</span><br><span class="line">        [  6.94594595,   7.04504505,   7.14414414,   7.24324324,</span><br><span class="line">           7.34234234,   7.44144144,   7.54054054,   7.63963964,</span><br><span class="line">           7.73873874,   7.83783784],</span><br><span class="line">        [  7.93693694,   8.03603604,   8.13513514,   8.23423423,</span><br><span class="line">           8.33333333,   8.43243243,   8.53153153,   8.63063063,</span><br><span class="line">           8.72972973,   8.82882883],</span><br><span class="line">        [  8.92792793,   9.02702703,   9.12612613,   9.22522523,</span><br><span class="line">           9.32432432,   9.42342342,   9.52252252,   9.62162162,</span><br><span class="line">           9.72072072,   9.81981982],</span><br><span class="line">        [  9.91891892,  10.01801802,  10.11711712,  10.21621622,</span><br><span class="line">          10.31531532,  10.41441441,  10.51351351,  10.61261261,</span><br><span class="line">          10.71171171,  10.81081081],</span><br><span class="line">        [ 10.90990991,  11.00900901,  11.10810811,  11.20720721,</span><br><span class="line">          11.30630631,  11.40540541,  11.5045045 ,  11.6036036 ,</span><br><span class="line">          11.7027027 ,  11.8018018 ],</span><br><span class="line">        [ 11.9009009 ,  12.        ,  12.0990991 ,  12.1981982 ,</span><br><span class="line">          12.2972973 ,  12.3963964 ,  12.4954955 ,  12.59459459,</span><br><span class="line">          12.69369369,  12.79279279],</span><br><span class="line">        [ 12.89189189,  12.99099099,  13.09009009,  13.18918919,</span><br><span class="line">          13.28828829,  13.38738739,  13.48648649,  13.58558559,</span><br><span class="line">          13.68468468,  13.78378378],</span><br><span class="line">        [ 13.88288288,  13.98198198,  14.08108108,  14.18018018,</span><br><span class="line">          14.27927928,  14.37837838,  14.47747748,  14.57657658,</span><br><span class="line">          14.67567568,  14.77477477],</span><br><span class="line">        [ 14.87387387,  14.97297297,  15.07207207,  15.17117117,</span><br><span class="line">          15.27027027,  15.36936937,  15.46846847,  15.56756757,</span><br><span class="line">          15.66666667,  15.76576577],</span><br><span class="line">        [ 15.86486486,  15.96396396,  16.06306306,  16.16216216,</span><br><span class="line">          16.26126126,  16.36036036,  16.45945946,  16.55855856,</span><br><span class="line">          16.65765766,  16.75675676],</span><br><span class="line">        [ 16.85585586,  16.95495495,  17.05405405,  17.15315315,</span><br><span class="line">          17.25225225,  17.35135135,  17.45045045,  17.54954955,</span><br><span class="line">          17.64864865,  17.74774775],</span><br><span class="line">        [ 17.84684685,  17.94594595,  18.04504505,  18.14414414,</span><br><span class="line">          18.24324324,  18.34234234,  18.44144144,  18.54054054,</span><br><span class="line">          18.63963964,  18.73873874],</span><br><span class="line">        [ 18.83783784,  18.93693694,  19.03603604,  19.13513514,</span><br><span class="line">          19.23423423,  19.33333333,  19.43243243,  19.53153153,</span><br><span class="line">          19.63063063,  19.72972973],</span><br><span class="line">        [ 19.82882883,  19.92792793,  20.02702703,  20.12612613,</span><br><span class="line">          20.22522523,  20.32432432,  20.42342342,  20.52252252,</span><br><span class="line">          20.62162162,  20.72072072],</span><br><span class="line">        [ 20.81981982,  20.91891892,  21.01801802,  21.11711712,</span><br><span class="line">          21.21621622,  21.31531532,  21.41441441,  21.51351351,</span><br><span class="line">          21.61261261,  21.71171171],</span><br><span class="line">        [ 21.81081081,  21.90990991,  22.00900901,  22.10810811,</span><br><span class="line">          22.20720721,  22.30630631,  22.40540541,  22.5045045 ,</span><br><span class="line">          22.6036036 ,  22.7027027 ],</span><br><span class="line">        [ 22.8018018 ,  22.9009009 ,  23.        ,  23.0990991 ,</span><br><span class="line">          23.1981982 ,  23.2972973 ,  23.3963964 ,  23.4954955 ,</span><br><span class="line">          23.59459459,  23.69369369],</span><br><span class="line">        [ 23.79279279,  23.89189189,  23.99099099,  24.09009009,</span><br><span class="line">          24.18918919,  24.28828829,  24.38738739,  24.48648649,</span><br><span class="line">          24.58558559,  24.68468468],</span><br><span class="line">        [ 24.78378378,  24.88288288,  24.98198198,  25.08108108,</span><br><span class="line">          25.18018018,  25.27927928,  25.37837838,  25.47747748,</span><br><span class="line">          25.57657658,  25.67567568],</span><br><span class="line">        [ 25.77477477,  25.87387387,  25.97297297,  26.07207207,</span><br><span class="line">          26.17117117,  26.27027027,  26.36936937,  26.46846847,</span><br><span class="line">          26.56756757,  26.66666667],</span><br><span class="line">        [ 26.76576577,  26.86486486,  26.96396396,  27.06306306,</span><br><span class="line">          27.16216216,  27.26126126,  27.36036036,  27.45945946,</span><br><span class="line">          27.55855856,  27.65765766],</span><br><span class="line">        [ 27.75675676,  27.85585586,  27.95495495,  28.05405405,</span><br><span class="line">          28.15315315,  28.25225225,  28.35135135,  28.45045045,</span><br><span class="line">          28.54954955,  28.64864865],</span><br><span class="line">        [ 28.74774775,  28.84684685,  28.94594595,  29.04504505,</span><br><span class="line">          29.14414414,  29.24324324,  29.34234234,  29.44144144,</span><br><span class="line">          29.54054054,  29.63963964],</span><br><span class="line">        [ 29.73873874,  29.83783784,  29.93693694,  30.03603604,</span><br><span class="line">          30.13513514,  30.23423423,  30.33333333,  30.43243243,</span><br><span class="line">          30.53153153,  30.63063063],</span><br><span class="line">        [ 30.72972973,  30.82882883,  30.92792793,  31.02702703,</span><br><span class="line">          31.12612613,  31.22522523,  31.32432432,  31.42342342,</span><br><span class="line">          31.52252252,  31.62162162],</span><br><span class="line">        [ 31.72072072,  31.81981982,  31.91891892,  32.01801802,</span><br><span class="line">          32.11711712,  32.21621622,  32.31531532,  32.41441441,</span><br><span class="line">          32.51351351,  32.61261261],</span><br><span class="line">        [ 32.71171171,  32.81081081,  32.90990991,  33.00900901,</span><br><span class="line">          33.10810811,  33.20720721,  33.30630631,  33.40540541,</span><br><span class="line">          33.5045045 ,  33.6036036 ],</span><br><span class="line">        [ 33.7027027 ,  33.8018018 ,  33.9009009 ,  34.        ,</span><br><span class="line">          34.0990991 ,  34.1981982 ,  34.2972973 ,  34.3963964 ,</span><br><span class="line">          34.4954955 ,  34.59459459],</span><br><span class="line">        [ 34.69369369,  34.79279279,  34.89189189,  34.99099099,</span><br><span class="line">          35.09009009,  35.18918919,  35.28828829,  35.38738739,</span><br><span class="line">          35.48648649,  35.58558559],</span><br><span class="line">        [ 35.68468468,  35.78378378,  35.88288288,  35.98198198,</span><br><span class="line">          36.08108108,  36.18018018,  36.27927928,  36.37837838,</span><br><span class="line">          36.47747748,  36.57657658],</span><br><span class="line">        [ 36.67567568,  36.77477477,  36.87387387,  36.97297297,</span><br><span class="line">          37.07207207,  37.17117117,  37.27027027,  37.36936937,</span><br><span class="line">          37.46846847,  37.56756757],</span><br><span class="line">        [ 37.66666667,  37.76576577,  37.86486486,  37.96396396,</span><br><span class="line">          38.06306306,  38.16216216,  38.26126126,  38.36036036,</span><br><span class="line">          38.45945946,  38.55855856],</span><br><span class="line">        [ 38.65765766,  38.75675676,  38.85585586,  38.95495495,</span><br><span class="line">          39.05405405,  39.15315315,  39.25225225,  39.35135135,</span><br><span class="line">          39.45045045,  39.54954955],</span><br><span class="line">        [ 39.64864865,  39.74774775,  39.84684685,  39.94594595,</span><br><span class="line">          40.04504505,  40.14414414,  40.24324324,  40.34234234,</span><br><span class="line">          40.44144144,  40.54054054],</span><br><span class="line">        [ 40.63963964,  40.73873874,  40.83783784,  40.93693694,</span><br><span class="line">          41.03603604,  41.13513514,  41.23423423,  41.33333333,</span><br><span class="line">          41.43243243,  41.53153153],</span><br><span class="line">        [ 41.63063063,  41.72972973,  41.82882883,  41.92792793,</span><br><span class="line">          42.02702703,  42.12612613,  42.22522523,  42.32432432,</span><br><span class="line">          42.42342342,  42.52252252],</span><br><span class="line">        [ 42.62162162,  42.72072072,  42.81981982,  42.91891892,</span><br><span class="line">          43.01801802,  43.11711712,  43.21621622,  43.31531532,</span><br><span class="line">          43.41441441,  43.51351351],</span><br><span class="line">        [ 43.61261261,  43.71171171,  43.81081081,  43.90990991,</span><br><span class="line">          44.00900901,  44.10810811,  44.20720721,  44.30630631,</span><br><span class="line">          44.40540541,  44.5045045 ],</span><br><span class="line">        [ 44.6036036 ,  44.7027027 ,  44.8018018 ,  44.9009009 ,</span><br><span class="line">          45.        ,  45.0990991 ,  45.1981982 ,  45.2972973 ,</span><br><span class="line">          45.3963964 ,  45.4954955 ],</span><br><span class="line">        [ 45.59459459,  45.69369369,  45.79279279,  45.89189189,</span><br><span class="line">          45.99099099,  46.09009009,  46.18918919,  46.28828829,</span><br><span class="line">          46.38738739,  46.48648649],</span><br><span class="line">        [ 46.58558559,  46.68468468,  46.78378378,  46.88288288,</span><br><span class="line">          46.98198198,  47.08108108,  47.18018018,  47.27927928,</span><br><span class="line">          47.37837838,  47.47747748],</span><br><span class="line">        [ 47.57657658,  47.67567568,  47.77477477,  47.87387387,</span><br><span class="line">          47.97297297,  48.07207207,  48.17117117,  48.27027027,</span><br><span class="line">          48.36936937,  48.46846847],</span><br><span class="line">        [ 48.56756757,  48.66666667,  48.76576577,  48.86486486,</span><br><span class="line">          48.96396396,  49.06306306,  49.16216216,  49.26126126,</span><br><span class="line">          49.36036036,  49.45945946],</span><br><span class="line">        [ 49.55855856,  49.65765766,  49.75675676,  49.85585586,</span><br><span class="line">          49.95495495,  50.05405405,  50.15315315,  50.25225225,</span><br><span class="line">          50.35135135,  50.45045045],</span><br><span class="line">        [ 50.54954955,  50.64864865,  50.74774775,  50.84684685,</span><br><span class="line">          50.94594595,  51.04504505,  51.14414414,  51.24324324,</span><br><span class="line">          51.34234234,  51.44144144],</span><br><span class="line">        [ 51.54054054,  51.63963964,  51.73873874,  51.83783784,</span><br><span class="line">          51.93693694,  52.03603604,  52.13513514,  52.23423423,</span><br><span class="line">          52.33333333,  52.43243243],</span><br><span class="line">        [ 52.53153153,  52.63063063,  52.72972973,  52.82882883,</span><br><span class="line">          52.92792793,  53.02702703,  53.12612613,  53.22522523,</span><br><span class="line">          53.32432432,  53.42342342],</span><br><span class="line">        [ 53.52252252,  53.62162162,  53.72072072,  53.81981982,</span><br><span class="line">          53.91891892,  54.01801802,  54.11711712,  54.21621622,</span><br><span class="line">          54.31531532,  54.41441441],</span><br><span class="line">        [ 54.51351351,  54.61261261,  54.71171171,  54.81081081,</span><br><span class="line">          54.90990991,  55.00900901,  55.10810811,  55.20720721,</span><br><span class="line">          55.30630631,  55.40540541],</span><br><span class="line">        [ 55.5045045 ,  55.6036036 ,  55.7027027 ,  55.8018018 ,</span><br><span class="line">          55.9009009 ,  56.        ,  56.0990991 ,  56.1981982 ,</span><br><span class="line">          56.2972973 ,  56.3963964 ],</span><br><span class="line">        [ 56.4954955 ,  56.59459459,  56.69369369,  56.79279279,</span><br><span class="line">          56.89189189,  56.99099099,  57.09009009,  57.18918919,</span><br><span class="line">          57.28828829,  57.38738739],</span><br><span class="line">        [ 57.48648649,  57.58558559,  57.68468468,  57.78378378,</span><br><span class="line">          57.88288288,  57.98198198,  58.08108108,  58.18018018,</span><br><span class="line">          58.27927928,  58.37837838],</span><br><span class="line">        [ 58.47747748,  58.57657658,  58.67567568,  58.77477477,</span><br><span class="line">          58.87387387,  58.97297297,  59.07207207,  59.17117117,</span><br><span class="line">          59.27027027,  59.36936937],</span><br><span class="line">        [ 59.46846847,  59.56756757,  59.66666667,  59.76576577,</span><br><span class="line">          59.86486486,  59.96396396,  60.06306306,  60.16216216,</span><br><span class="line">          60.26126126,  60.36036036],</span><br><span class="line">        [ 60.45945946,  60.55855856,  60.65765766,  60.75675676,</span><br><span class="line">          60.85585586,  60.95495495,  61.05405405,  61.15315315,</span><br><span class="line">          61.25225225,  61.35135135],</span><br><span class="line">        [ 61.45045045,  61.54954955,  61.64864865,  61.74774775,</span><br><span class="line">          61.84684685,  61.94594595,  62.04504505,  62.14414414,</span><br><span class="line">          62.24324324,  62.34234234],</span><br><span class="line">        [ 62.44144144,  62.54054054,  62.63963964,  62.73873874,</span><br><span class="line">          62.83783784,  62.93693694,  63.03603604,  63.13513514,</span><br><span class="line">          63.23423423,  63.33333333],</span><br><span class="line">        [ 63.43243243,  63.53153153,  63.63063063,  63.72972973,</span><br><span class="line">          63.82882883,  63.92792793,  64.02702703,  64.12612613,</span><br><span class="line">          64.22522523,  64.32432432],</span><br><span class="line">        [ 64.42342342,  64.52252252,  64.62162162,  64.72072072,</span><br><span class="line">          64.81981982,  64.91891892,  65.01801802,  65.11711712,</span><br><span class="line">          65.21621622,  65.31531532],</span><br><span class="line">        [ 65.41441441,  65.51351351,  65.61261261,  65.71171171,</span><br><span class="line">          65.81081081,  65.90990991,  66.00900901,  66.10810811,</span><br><span class="line">          66.20720721,  66.30630631],</span><br><span class="line">        [ 66.40540541,  66.5045045 ,  66.6036036 ,  66.7027027 ,</span><br><span class="line">          66.8018018 ,  66.9009009 ,  67.        ,  67.0990991 ,</span><br><span class="line">          67.1981982 ,  67.2972973 ],</span><br><span class="line">        [ 67.3963964 ,  67.4954955 ,  67.59459459,  67.69369369,</span><br><span class="line">          67.79279279,  67.89189189,  67.99099099,  68.09009009,</span><br><span class="line">          68.18918919,  68.28828829],</span><br><span class="line">        [ 68.38738739,  68.48648649,  68.58558559,  68.68468468,</span><br><span class="line">          68.78378378,  68.88288288,  68.98198198,  69.08108108,</span><br><span class="line">          69.18018018,  69.27927928],</span><br><span class="line">        [ 69.37837838,  69.47747748,  69.57657658,  69.67567568,</span><br><span class="line">          69.77477477,  69.87387387,  69.97297297,  70.07207207,</span><br><span class="line">          70.17117117,  70.27027027],</span><br><span class="line">        [ 70.36936937,  70.46846847,  70.56756757,  70.66666667,</span><br><span class="line">          70.76576577,  70.86486486,  70.96396396,  71.06306306,</span><br><span class="line">          71.16216216,  71.26126126],</span><br><span class="line">        [ 71.36036036,  71.45945946,  71.55855856,  71.65765766,</span><br><span class="line">          71.75675676,  71.85585586,  71.95495495,  72.05405405,</span><br><span class="line">          72.15315315,  72.25225225],</span><br><span class="line">        [ 72.35135135,  72.45045045,  72.54954955,  72.64864865,</span><br><span class="line">          72.74774775,  72.84684685,  72.94594595,  73.04504505,</span><br><span class="line">          73.14414414,  73.24324324],</span><br><span class="line">        [ 73.34234234,  73.44144144,  73.54054054,  73.63963964,</span><br><span class="line">          73.73873874,  73.83783784,  73.93693694,  74.03603604,</span><br><span class="line">          74.13513514,  74.23423423],</span><br><span class="line">        [ 74.33333333,  74.43243243,  74.53153153,  74.63063063,</span><br><span class="line">          74.72972973,  74.82882883,  74.92792793,  75.02702703,</span><br><span class="line">          75.12612613,  75.22522523],</span><br><span class="line">        [ 75.32432432,  75.42342342,  75.52252252,  75.62162162,</span><br><span class="line">          75.72072072,  75.81981982,  75.91891892,  76.01801802,</span><br><span class="line">          76.11711712,  76.21621622],</span><br><span class="line">        [ 76.31531532,  76.41441441,  76.51351351,  76.61261261,</span><br><span class="line">          76.71171171,  76.81081081,  76.90990991,  77.00900901,</span><br><span class="line">          77.10810811,  77.20720721],</span><br><span class="line">        [ 77.30630631,  77.40540541,  77.5045045 ,  77.6036036 ,</span><br><span class="line">          77.7027027 ,  77.8018018 ,  77.9009009 ,  78.        ,</span><br><span class="line">          78.0990991 ,  78.1981982 ],</span><br><span class="line">        [ 78.2972973 ,  78.3963964 ,  78.4954955 ,  78.59459459,</span><br><span class="line">          78.69369369,  78.79279279,  78.89189189,  78.99099099,</span><br><span class="line">          79.09009009,  79.18918919],</span><br><span class="line">        [ 79.28828829,  79.38738739,  79.48648649,  79.58558559,</span><br><span class="line">          79.68468468,  79.78378378,  79.88288288,  79.98198198,</span><br><span class="line">          80.08108108,  80.18018018],</span><br><span class="line">        [ 80.27927928,  80.37837838,  80.47747748,  80.57657658,</span><br><span class="line">          80.67567568,  80.77477477,  80.87387387,  80.97297297,</span><br><span class="line">          81.07207207,  81.17117117],</span><br><span class="line">        [ 81.27027027,  81.36936937,  81.46846847,  81.56756757,</span><br><span class="line">          81.66666667,  81.76576577,  81.86486486,  81.96396396,</span><br><span class="line">          82.06306306,  82.16216216],</span><br><span class="line">        [ 82.26126126,  82.36036036,  82.45945946,  82.55855856,</span><br><span class="line">          82.65765766,  82.75675676,  82.85585586,  82.95495495,</span><br><span class="line">          83.05405405,  83.15315315],</span><br><span class="line">        [ 83.25225225,  83.35135135,  83.45045045,  83.54954955,</span><br><span class="line">          83.64864865,  83.74774775,  83.84684685,  83.94594595,</span><br><span class="line">          84.04504505,  84.14414414],</span><br><span class="line">        [ 84.24324324,  84.34234234,  84.44144144,  84.54054054,</span><br><span class="line">          84.63963964,  84.73873874,  84.83783784,  84.93693694,</span><br><span class="line">          85.03603604,  85.13513514],</span><br><span class="line">        [ 85.23423423,  85.33333333,  85.43243243,  85.53153153,</span><br><span class="line">          85.63063063,  85.72972973,  85.82882883,  85.92792793,</span><br><span class="line">          86.02702703,  86.12612613],</span><br><span class="line">        [ 86.22522523,  86.32432432,  86.42342342,  86.52252252,</span><br><span class="line">          86.62162162,  86.72072072,  86.81981982,  86.91891892,</span><br><span class="line">          87.01801802,  87.11711712],</span><br><span class="line">        [ 87.21621622,  87.31531532,  87.41441441,  87.51351351,</span><br><span class="line">          87.61261261,  87.71171171,  87.81081081,  87.90990991,</span><br><span class="line">          88.00900901,  88.10810811],</span><br><span class="line">        [ 88.20720721,  88.30630631,  88.40540541,  88.5045045 ,</span><br><span class="line">          88.6036036 ,  88.7027027 ,  88.8018018 ,  88.9009009 ,</span><br><span class="line">          89.        ,  89.0990991 ],</span><br><span class="line">        [ 89.1981982 ,  89.2972973 ,  89.3963964 ,  89.4954955 ,</span><br><span class="line">          89.59459459,  89.69369369,  89.79279279,  89.89189189,</span><br><span class="line">          89.99099099,  90.09009009],</span><br><span class="line">        [ 90.18918919,  90.28828829,  90.38738739,  90.48648649,</span><br><span class="line">          90.58558559,  90.68468468,  90.78378378,  90.88288288,</span><br><span class="line">          90.98198198,  91.08108108],</span><br><span class="line">        [ 91.18018018,  91.27927928,  91.37837838,  91.47747748,</span><br><span class="line">          91.57657658,  91.67567568,  91.77477477,  91.87387387,</span><br><span class="line">          91.97297297,  92.07207207],</span><br><span class="line">        [ 92.17117117,  92.27027027,  92.36936937,  92.46846847,</span><br><span class="line">          92.56756757,  92.66666667,  92.76576577,  92.86486486,</span><br><span class="line">          92.96396396,  93.06306306],</span><br><span class="line">        [ 93.16216216,  93.26126126,  93.36036036,  93.45945946,</span><br><span class="line">          93.55855856,  93.65765766,  93.75675676,  93.85585586,</span><br><span class="line">          93.95495495,  94.05405405],</span><br><span class="line">        [ 94.15315315,  94.25225225,  94.35135135,  94.45045045,</span><br><span class="line">          94.54954955,  94.64864865,  94.74774775,  94.84684685,</span><br><span class="line">          94.94594595,  95.04504505],</span><br><span class="line">        [ 95.14414414,  95.24324324,  95.34234234,  95.44144144,</span><br><span class="line">          95.54054054,  95.63963964,  95.73873874,  95.83783784,</span><br><span class="line">          95.93693694,  96.03603604],</span><br><span class="line">        [ 96.13513514,  96.23423423,  96.33333333,  96.43243243,</span><br><span class="line">          96.53153153,  96.63063063,  96.72972973,  96.82882883,</span><br><span class="line">          96.92792793,  97.02702703],</span><br><span class="line">        [ 97.12612613,  97.22522523,  97.32432432,  97.42342342,</span><br><span class="line">          97.52252252,  97.62162162,  97.72072072,  97.81981982,</span><br><span class="line">          97.91891892,  98.01801802],</span><br><span class="line">        [ 98.11711712,  98.21621622,  98.31531532,  98.41441441,</span><br><span class="line">          98.51351351,  98.61261261,  98.71171171,  98.81081081,</span><br><span class="line">          98.90990991,  99.00900901],</span><br><span class="line">        [ 99.10810811,  99.20720721,  99.30630631,  99.40540541,</span><br><span class="line">          99.5045045 ,  99.6036036 ,  99.7027027 ,  99.8018018 ,</span><br><span class="line">          99.9009009 , 100.        ]]),</span><br><span class="line"> &apos;name&apos;: array([&apos;1-100的1000个等差数列&apos;], dtype=&apos;&lt;U15&apos;)&#125;</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dmat[<span class="string">'name'</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&apos;1-100的1000个等差数列&apos;</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dmat[<span class="string">'X'</span>].shape</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(100, 10)</span><br></pre></td></tr></table></figure></div>
+<h3 id="扩展Python对象的序列化和反序列化"><a href="#扩展Python对象的序列化和反序列化" class="headerlink" title="扩展Python对象的序列化和反序列化"></a>扩展Python对象的序列化和反序列化</h3><ul>
+<li>pickle.dump(obj,fp) 将对象序列化成字节流，并写入到fp的文件对象中</li>
+<li>pickle.load(fp) 将字节流反序列化成对象</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ss</span><span class="params">(name, age)</span>:</span></span><br><span class="line">    print(name, age)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ss</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;function __main__.ss(name, age)&gt;</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将 ss函数对象保存到文件</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'ss.func'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    pickle.dump(ss, f)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 加载 ss.func的文件,获取ss函数对象</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'ss.func'</span>, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    s_func = pickle.load(f)</span><br><span class="line">    print(s_func)</span><br><span class="line">s_func(<span class="string">'disen'</span>, <span class="string">'20'</span>)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;function ss at 0x7f66bb6e16a8&gt;</span><br><span class="line">disen 20</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将data的ndarray对象存储到data.nd文件中</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'data.nd'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    pickle.dump(data, f)</span><br><span class="line">    print(<span class="string">'写入成功'</span>)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">写入成功</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#　将data数据从data.nd中加载出来</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'data.nd'</span>, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    d = pickle.load(f)</span><br><span class="line">    print(d.shape)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(100, 10)</span><br></pre></td></tr></table></figure></div>
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+      <a href="/数据分析/scipy中的ndimage的应用/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption"></strong>
+        <div class="article-nav-title">
+          
+            scipy中的ndimage的应用
+          
+        </div>
+      </a>
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/数据分析/scipy的图片处理/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">scipy的图片处理</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://www.xuhuiblog.cn/css/gitment.css">
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/gitment.js"></script>
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/md5.min.js"></script>
+<script>
+var gitment = new Gitment({
+  id: md5(window.location.pathname.replace(/index.html/, "")),
+  owner: 'pighui',
+  repo: 'myblogdes',
+  oauth: {
+    client_id: '79535b24d59031961e6c',
+    client_secret: '4f1907f09f33c1182feb2ddfeef33677e8e5ff36',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+
+  
+  
+</article>
+</section>
+                <aside id="sidebar">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="360" height="86" src="//music.163.com/outchain/player?type=2&id=1346998796&auto=0&height=66"></iframe>
+    
+        <div class="widget-box">
+    <div class="avatar-box">
+        <img class="avatar" src="/images/default-avatar.jpeg" title="图片来自网络">
+        <h3 class="avatar-name">
+            
+                一介书生
+            
+        </h3>
+        <p class="avatar-slogan">
+            盼 君 金 榜 题 名 时 。
+寒 窗 苦 读 数 十 载 ，
+        </p>
+    </div>
+</div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kali/">Kali</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ubuntu/">Ubuntu</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据分析/">数据分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/爬虫/">爬虫</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kali/">Kali</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分析/">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试/">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 11.43px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 12.86px;">Hexo</a> <a href="/tags/Kali/" style="font-size: 10px;">Kali</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/Ubuntu/" style="font-size: 15.71px;">Ubuntu</a> <a href="/tags/数据分析/" style="font-size: 18.57px;">数据分析</a> <a href="/tags/机器学习/" style="font-size: 14.29px;">机器学习</a> <a href="/tags/测试/" style="font-size: 11.43px;">测试</a> <a href="/tags/爬虫/" style="font-size: 17.14px;">爬虫</a> <a href="/tags/面试题/" style="font-size: 10px;">面试题</a>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/机器学习/人脸自动补全/">人脸自动补全</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/Logistics回归和数字识别/">Logistics回归和数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/LinearRegression线性回归/">LinearRegression线性回归</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/KNN-手写数字识别/">KNN-手写数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/K-近邻算法-KNN/">K-近邻算法（KNN）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+          <div class="widget-box">
+    <h3 class="widget-title">友链</h3>
+    <div class="widget">
+      
+        <a style="display: block;" href="https://yiluyanxia.github.io/" title target="_blank">一路眼瞎</a>
+      
+        <a style="display: block;" href="https://wljsky.cn/" title target="_blank">钧金</a>
+      
+    </div>
+  </div>
+
+    
+</aside>
+            </div>
+            <footer id="footer">
+    <!-- 百度推送 -->
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            } else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+    <!-- 百度统计 -->
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?58e88d550a3485e4fa9494eb391c7e47";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135687698-1"></script> -->
+    <script src="/js/google.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('set', {'user_id': 'UA-135687698-1'});
+        gtag('config', 'UA-135687698-1');
+    </script>
+    <div class="foot-box global-width">
+        &copy;Copyright&nbsp;2019 一介书生<br>
+        驱动于 <a href="http://hexo.io/" target="_blank">Hexo</a>
+        &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+        <br>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <span id="busuanzi_container_site_pv">阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+        <br>
+        豫ICP备<a href="http://ha.beian.miit.gov.cn/">19008962</a>号
+    </div>
+</footer>
+            <script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) {
+        var script = document.createElement('script');
+        script.src = "/js/jquery.min.js";
+        document.body.write(script);
+    }
+</script>
+
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+    <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+        </div>
+        <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="https://github.com/pighui" class="mobile-nav-link">基友</a>
+  
+    <a href="/archives" class="mobile-nav-link">文章</a>
+  
+    <a href="/me" class="mobile-nav-link">简历</a>
+  
+    <a href="/snow" class="mobile-nav-link">看雪</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/js/love.js"></script>
+    <script src="/js/snowy.js"></script>
+    <style type="text/css">.snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100001;
+        }</style>
+    <div class="snow-container"></div>
+</body>
+</html>

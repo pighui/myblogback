@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','/js/analytics.js','ga');
+
+ga('create', 'UA-135687698-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+    
+    <title>
+        Pandas的多层索引 |
+        
+        欢迎浏览本博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+    
+        <meta name="keywords" content="Ubuntu,Linux,Python,Python Web,爬虫,数据分析,机器学习">
+    
+    <meta name="description" content="行的多层索引 Series的多层索引 DataFrame的多层索引">
+<meta name="keywords" content="Python,数据分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pandas的多层索引">
+<meta property="og:url" content="https://www.xuhuiblog.cn/数据分析/Pandas的多层索引/index.html">
+<meta property="og:site_name" content="欢迎浏览本博客">
+<meta property="og:description" content="行的多层索引 Series的多层索引 DataFrame的多层索引">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-17T10:07:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pandas的多层索引">
+<meta name="twitter:description" content="行的多层索引 Series的多层索引 DataFrame的多层索引">
+    
+        <link rel="alternate" href="/atom.xml" title="欢迎浏览本博客" type="application/atom+xml">
+    
+    
+        <link rel="icon" href="/images/favicon.ico">
+    
+    
+        <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <script>
+        let antiquityStorage = window.sessionStorage.getItem('antiquitySessionStorage');
+        if (antiquityStorage == '' || antiquityStorage == null) {
+            var antiquityLoader = '<div id="loaderbox"><div class="loader"><div class="load-roll"><div class="load-top"></div><div class="load-right"></div><div class="load-bottom"></div></div></div></div>';
+            document.write(antiquityLoader);
+            document.body.style.overflow = 'hidden'
+        }
+    </script>
+</head>
+</html>
+<body>
+<div id="fullpage" class="mobile-nav-right">
+    
+    <div id="wrapper" style="background-image: url(/images/bg.jpg)"
+         title="图片来自网络">
+        
+
+            <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-right">
+      
+        <a class="nav-item" href="/" title>首页</a>
+      
+        <a class="nav-item" href="https://github.com/pighui" title>基友</a>
+      
+        <a class="nav-item" href="/archives" title>文章</a>
+      
+        <a class="nav-item" href="/me" title>简历</a>
+      
+        <a class="nav-item" href="/snow" title>看雪</a>
+      
+    </nav>
+  </div>
+</header>
+            <div id="middlecontent" title class="global-width sidebar-right">
+                <section id="main"><article id="post-Pandas的多层索引" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      Pandas的多层索引
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/数据分析/Pandas的多层索引/" class="article-date">
+  <time datetime="2019-04-30T04:54:03.000Z" itemprop="datePublished">2019-04-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据分析/">数据分析</a>
+  </div>
+
+    
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据分析/">数据分析</a></li></ul>
+
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+    </span>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h3 id="行的多层索引"><a href="#行的多层索引" class="headerlink" title="行的多层索引"></a>行的多层索引</h3><ul>
+<li>Series的多层索引</li>
+<li>DataFrame的多层索引</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li>创建方式<ul>
+<li>隐式方式，使用二维数组，如[[一级索引名称,], [二级索引名称,]]</li>
+<li>显式方式，MultiIndex<ul>
+<li>MultiIndex.from_arrays([[一级索引名称,], [二级索引名称,]])</li>
+<li>MultiIndex.from_tuples([(一级索引名称, 二级索引名称), ])</li>
+<li>MultiIndex.from_product([[一级索引名称,], [二级索引名称,]])</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<font color="red"><strong>说明：from_arrays()中索引名称会重复多次，而from_product()中索引不会重复。</strong></font>
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> pandas <span class="keyword">import</span> Series, DataFrame, MultiIndex</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建1月份的五大城市(西安、上海、北京、广州、深圳)的</span></span><br><span class="line"><span class="comment"># Oppo、华为、小米、iphone四中手机的销售量情况</span></span><br><span class="line">cosumers_1 = Series(np.random.randint(<span class="number">1000</span>, <span class="number">2000</span>, size=<span class="number">20</span>),</span><br><span class="line">                   index=[[<span class="string">'西安'</span>,<span class="string">'西安'</span>,<span class="string">'西安'</span>,<span class="string">'西安'</span>,</span><br><span class="line">                          <span class="string">'上海'</span>,<span class="string">'上海'</span>,<span class="string">'上海'</span>,<span class="string">'上海'</span>,</span><br><span class="line">                          <span class="string">'北京'</span>,<span class="string">'北京'</span>,<span class="string">'北京'</span>,<span class="string">'北京'</span>,</span><br><span class="line">                          <span class="string">'广州'</span>,<span class="string">'广州'</span>,<span class="string">'广州'</span>,<span class="string">'广州'</span>,</span><br><span class="line">                          <span class="string">'深圳'</span>,<span class="string">'深圳'</span>,<span class="string">'深圳'</span>,<span class="string">'深圳'</span>],</span><br><span class="line">                         [<span class="string">'Oppo'</span>,<span class="string">'华为'</span>,<span class="string">'小米'</span>,<span class="string">'iphone'</span>]*<span class="number">5</span>])</span><br><span class="line">cosumers_1</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">西安  Oppo      1430</span><br><span class="line">    华为        1217</span><br><span class="line">    小米        1679</span><br><span class="line">    iphone    1514</span><br><span class="line">上海  Oppo      1067</span><br><span class="line">    华为        1513</span><br><span class="line">    小米        1736</span><br><span class="line">    iphone    1168</span><br><span class="line">北京  Oppo      1361</span><br><span class="line">    华为        1070</span><br><span class="line">    小米        1157</span><br><span class="line">    iphone    1025</span><br><span class="line">广州  Oppo      1161</span><br><span class="line">    华为        1565</span><br><span class="line">    小米        1670</span><br><span class="line">    iphone    1261</span><br><span class="line">深圳  Oppo      1781</span><br><span class="line">    华为        1283</span><br><span class="line">    小米        1720</span><br><span class="line">    iphone    1566</span><br><span class="line">dtype: int64</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建二月份的两个城市(西安，上海)的Oppo/iphone2种手机的销售量情况</span></span><br><span class="line">cosumers_2 = Series([<span class="number">1500</span>,<span class="number">600</span>,<span class="number">2412</span>,<span class="number">50</span>],</span><br><span class="line">                   index=MultiIndex.from_tuples([(<span class="string">'西安'</span>,<span class="string">'Oppo'</span>),</span><br><span class="line">                                                (<span class="string">'西安'</span>,<span class="string">'iphone'</span>),</span><br><span class="line">                                                (<span class="string">'上海'</span>,<span class="string">'Oppo'</span>),</span><br><span class="line">                                                (<span class="string">'上海'</span>,<span class="string">'iphone'</span>)]))</span><br><span class="line">cosumers_2</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">西安  Oppo      1500</span><br><span class="line">    iphone     600</span><br><span class="line">上海  Oppo      2412</span><br><span class="line">    iphone      50</span><br><span class="line">dtype: int64</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用product()方式，将以上两个创建多层索引的表的方式优化</span></span><br><span class="line">c1 = Series(np.random.randint(<span class="number">100</span>, <span class="number">2000</span>, size=<span class="number">20</span>),</span><br><span class="line">           index=MultiIndex.from_product([[<span class="string">'西安'</span>, <span class="string">'上海'</span>, <span class="string">'北京'</span>, <span class="string">'广州'</span>, <span class="string">'深圳'</span>],</span><br><span class="line">                                          [<span class="string">'Oppo'</span>, <span class="string">'华为'</span>, <span class="string">'小米'</span>, <span class="string">'iPhone'</span>]]))</span><br><span class="line">c1</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">西安  Oppo      1558</span><br><span class="line">    华为         397</span><br><span class="line">    小米         404</span><br><span class="line">    iPhone     682</span><br><span class="line">上海  Oppo       452</span><br><span class="line">    华为        1993</span><br><span class="line">    小米         654</span><br><span class="line">    iPhone    1397</span><br><span class="line">北京  Oppo       400</span><br><span class="line">    华为         146</span><br><span class="line">    小米         721</span><br><span class="line">    iPhone     648</span><br><span class="line">广州  Oppo      1804</span><br><span class="line">    华为        1955</span><br><span class="line">    小米         529</span><br><span class="line">    iPhone     992</span><br><span class="line">深圳  Oppo      1795</span><br><span class="line">    华为        1985</span><br><span class="line">    小米        1435</span><br><span class="line">    iPhone    1034</span><br><span class="line">dtype: int64</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建1~12月份的五大城市的四种手机的售量情况表</span></span><br><span class="line">index = MultiIndex.from_product([[<span class="string">'西安'</span>, <span class="string">'上海'</span>, <span class="string">'北京'</span>, <span class="string">'广州'</span>, <span class="string">'深圳'</span>],</span><br><span class="line">                                 [<span class="string">'Oppo'</span>, <span class="string">'华为'</span>, <span class="string">'小米'</span>, <span class="string">'iPhone'</span>]])</span><br><span class="line">sales = DataFrame(np.random.randint(<span class="number">50</span>, <span class="number">2000</span>, size=(<span class="number">20</span>, <span class="number">12</span>)),</span><br><span class="line">                 index=index,</span><br><span class="line">                 columns=np.arange(<span class="number">1</span>, <span class="number">13</span>, step=<span class="number">1</span>))</span><br><span class="line">sales</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th></th><br>      <th>1</th><br>      <th>2</th><br>      <th>3</th><br>      <th>4</th><br>      <th>5</th><br>      <th>6</th><br>      <th>7</th><br>      <th>8</th><br>      <th>9</th><br>      <th>10</th><br>      <th>11</th><br>      <th>12</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th rowspan="4" valign="top">西安</th><br>      <th>Oppo</th><br>      <td>1213</td><br>      <td>1407</td><br>      <td>691</td><br>      <td>1734</td><br>      <td>86</td><br>      <td>484</td><br>      <td>365</td><br>      <td>1699</td><br>      <td>1759</td><br>      <td>1806</td><br>      <td>1930</td><br>      <td>1390</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>1206</td><br>      <td>180</td><br>      <td>1392</td><br>      <td>337</td><br>      <td>268</td><br>      <td>1332</td><br>      <td>298</td><br>      <td>724</td><br>      <td>330</td><br>      <td>549</td><br>      <td>1479</td><br>      <td>1229</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>509</td><br>      <td>1280</td><br>      <td>1354</td><br>      <td>1414</td><br>      <td>1981</td><br>      <td>862</td><br>      <td>183</td><br>      <td>377</td><br>      <td>1925</td><br>      <td>369</td><br>      <td>179</td><br>      <td>813</td><br>    </tr><br>    <tr><br>      <th>iPhone</th><br>      <td>1364</td><br>      <td>1420</td><br>      <td>1188</td><br>      <td>584</td><br>      <td>1974</td><br>      <td>349</td><br>      <td>226</td><br>      <td>1745</td><br>      <td>1571</td><br>      <td>797</td><br>      <td>1751</td><br>      <td>1663</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">上海</th><br>      <th>Oppo</th><br>      <td>718</td><br>      <td>1605</td><br>      <td>1047</td><br>      <td>1224</td><br>      <td>760</td><br>      <td>246</td><br>      <td>1236</td><br>      <td>1652</td><br>      <td>1939</td><br>      <td>695</td><br>      <td>581</td><br>      <td>379</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>562</td><br>      <td>1173</td><br>      <td>357</td><br>      <td>565</td><br>      <td>1796</td><br>      <td>65</td><br>      <td>609</td><br>      <td>1869</td><br>      <td>1464</td><br>      <td>211</td><br>      <td>1584</td><br>      <td>988</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>1631</td><br>      <td>567</td><br>      <td>121</td><br>      <td>1140</td><br>      <td>1843</td><br>      <td>651</td><br>      <td>1480</td><br>      <td>224</td><br>      <td>1740</td><br>      <td>250</td><br>      <td>1167</td><br>      <td>1286</td><br>    </tr><br>    <tr><br>      <th>iPhone</th><br>      <td>532</td><br>      <td>1692</td><br>      <td>1536</td><br>      <td>112</td><br>      <td>1370</td><br>      <td>526</td><br>      <td>1633</td><br>      <td>1150</td><br>      <td>1669</td><br>      <td>218</td><br>      <td>1395</td><br>      <td>993</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">北京</th><br>      <th>Oppo</th><br>      <td>1822</td><br>      <td>575</td><br>      <td>143</td><br>      <td>429</td><br>      <td>138</td><br>      <td>1804</td><br>      <td>439</td><br>      <td>1548</td><br>      <td>966</td><br>      <td>290</td><br>      <td>1783</td><br>      <td>1985</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>1397</td><br>      <td>1378</td><br>      <td>941</td><br>      <td>1575</td><br>      <td>580</td><br>      <td>1472</td><br>      <td>922</td><br>      <td>988</td><br>      <td>1486</td><br>      <td>478</td><br>      <td>1838</td><br>      <td>1289</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>1309</td><br>      <td>1097</td><br>      <td>618</td><br>      <td>1935</td><br>      <td>736</td><br>      <td>1105</td><br>      <td>198</td><br>      <td>1639</td><br>      <td>807</td><br>      <td>1699</td><br>      <td>1225</td><br>      <td>1248</td><br>    </tr><br>    <tr><br>      <th>iPhone</th><br>      <td>793</td><br>      <td>1128</td><br>      <td>1809</td><br>      <td>1296</td><br>      <td>378</td><br>      <td>144</td><br>      <td>1544</td><br>      <td>1175</td><br>      <td>1736</td><br>      <td>922</td><br>      <td>1462</td><br>      <td>1292</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">广州</th><br>      <th>Oppo</th><br>      <td>1463</td><br>      <td>1227</td><br>      <td>1535</td><br>      <td>906</td><br>      <td>1745</td><br>      <td>1270</td><br>      <td>828</td><br>      <td>1729</td><br>      <td>1894</td><br>      <td>160</td><br>      <td>723</td><br>      <td>196</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>1192</td><br>      <td>1170</td><br>      <td>1171</td><br>      <td>1770</td><br>      <td>773</td><br>      <td>871</td><br>      <td>1222</td><br>      <td>796</td><br>      <td>1141</td><br>      <td>1028</td><br>      <td>1699</td><br>      <td>1137</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>1830</td><br>      <td>692</td><br>      <td>885</td><br>      <td>1064</td><br>      <td>1961</td><br>      <td>1632</td><br>      <td>1691</td><br>      <td>1653</td><br>      <td>387</td><br>      <td>661</td><br>      <td>467</td><br>      <td>1253</td><br>    </tr><br>    <tr><br>      <th>iPhone</th><br>      <td>1847</td><br>      <td>1294</td><br>      <td>1199</td><br>      <td>760</td><br>      <td>1547</td><br>      <td>425</td><br>      <td>1931</td><br>      <td>1046</td><br>      <td>407</td><br>      <td>904</td><br>      <td>1571</td><br>      <td>1354</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">深圳</th><br>      <th>Oppo</th><br>      <td>895</td><br>      <td>1733</td><br>      <td>390</td><br>      <td>513</td><br>      <td>573</td><br>      <td>977</td><br>      <td>397</td><br>      <td>899</td><br>      <td>1946</td><br>      <td>1157</td><br>      <td>1307</td><br>      <td>1409</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>626</td><br>      <td>1012</td><br>      <td>1889</td><br>      <td>1363</td><br>      <td>868</td><br>      <td>199</td><br>      <td>190</td><br>      <td>1601</td><br>      <td>679</td><br>      <td>1681</td><br>      <td>1815</td><br>      <td>931</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>1503</td><br>      <td>1742</td><br>      <td>525</td><br>      <td>1097</td><br>      <td>1476</td><br>      <td>586</td><br>      <td>752</td><br>      <td>1840</td><br>      <td>182</td><br>      <td>1745</td><br>      <td>556</td><br>      <td>1052</td><br>    </tr><br>    <tr><br>      <th>iPhone</th><br>      <td>1285</td><br>      <td>810</td><br>      <td>1446</td><br>      <td>521</td><br>      <td>717</td><br>      <td>805</td><br>      <td>1814</td><br>      <td>976</td><br>      <td>1650</td><br>      <td>1452</td><br>      <td>1311</td><br>      <td>301</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+
+
+<h3 id="多层列索引"><a href="#多层列索引" class="headerlink" title="多层列索引"></a>多层列索引</h3><ul>
+<li>同多层行索引</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成5大城市的四种手机品牌的2017、2018两个年度的4个季节的售量表</span></span><br><span class="line">datas = np.random.randint(<span class="number">50</span>,<span class="number">5000</span>,size=(<span class="number">20</span>,<span class="number">8</span>))</span><br><span class="line">index = MultiIndex.from_product([[<span class="string">'西安'</span>, <span class="string">'上海'</span>, <span class="string">'北京'</span>, <span class="string">'广州'</span>, <span class="string">'深圳'</span>],</span><br><span class="line">                           [<span class="string">'Oppo'</span>, <span class="string">'华为'</span>, <span class="string">'小米'</span>, <span class="string">'iphone'</span>]])</span><br><span class="line">columns = MultiIndex.from_product([[<span class="string">'2017'</span>, <span class="string">'2018'</span>],</span><br><span class="line">                             [<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>]])</span><br><span class="line">df = DataFrame(datas, index, columns)</span><br><span class="line">df</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead tr th {<br>    text-align: left;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr><br>      <th></th><br>      <th></th><br>      <th colspan="4" halign="left">2017</th><br>      <th colspan="4" halign="left">2018</th><br>    </tr><br>    <tr><br>      <th></th><br>      <th></th><br>      <th>1</th><br>      <th>2</th><br>      <th>3</th><br>      <th>4</th><br>      <th>1</th><br>      <th>2</th><br>      <th>3</th><br>      <th>4</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th rowspan="4" valign="top">西安</th><br>      <th>Oppo</th><br>      <td>1083</td><br>      <td>3895</td><br>      <td>589</td><br>      <td>1675</td><br>      <td>3620</td><br>      <td>2033</td><br>      <td>3712</td><br>      <td>1140</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>4519</td><br>      <td>271</td><br>      <td>286</td><br>      <td>4029</td><br>      <td>3189</td><br>      <td>2208</td><br>      <td>2072</td><br>      <td>3957</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>2195</td><br>      <td>679</td><br>      <td>1467</td><br>      <td>1793</td><br>      <td>3025</td><br>      <td>864</td><br>      <td>1362</td><br>      <td>2566</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>2356</td><br>      <td>537</td><br>      <td>205</td><br>      <td>1246</td><br>      <td>768</td><br>      <td>1555</td><br>      <td>734</td><br>      <td>4252</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">上海</th><br>      <th>Oppo</th><br>      <td>415</td><br>      <td>2999</td><br>      <td>2039</td><br>      <td>2517</td><br>      <td>4035</td><br>      <td>1400</td><br>      <td>2602</td><br>      <td>4731</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>1781</td><br>      <td>1732</td><br>      <td>1476</td><br>      <td>1236</td><br>      <td>1973</td><br>      <td>4875</td><br>      <td>891</td><br>      <td>76</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>993</td><br>      <td>190</td><br>      <td>2148</td><br>      <td>3934</td><br>      <td>4008</td><br>      <td>3662</td><br>      <td>119</td><br>      <td>3928</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>1595</td><br>      <td>819</td><br>      <td>3033</td><br>      <td>4157</td><br>      <td>4645</td><br>      <td>4489</td><br>      <td>1058</td><br>      <td>268</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">北京</th><br>      <th>Oppo</th><br>      <td>3472</td><br>      <td>3334</td><br>      <td>494</td><br>      <td>1888</td><br>      <td>1283</td><br>      <td>2286</td><br>      <td>4246</td><br>      <td>3683</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>4348</td><br>      <td>2115</td><br>      <td>2153</td><br>      <td>295</td><br>      <td>2830</td><br>      <td>2625</td><br>      <td>576</td><br>      <td>1608</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>2343</td><br>      <td>3544</td><br>      <td>4272</td><br>      <td>2806</td><br>      <td>3380</td><br>      <td>3105</td><br>      <td>2432</td><br>      <td>2220</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>1163</td><br>      <td>4934</td><br>      <td>517</td><br>      <td>4357</td><br>      <td>508</td><br>      <td>2372</td><br>      <td>3048</td><br>      <td>2326</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">广州</th><br>      <th>Oppo</th><br>      <td>2574</td><br>      <td>3347</td><br>      <td>1768</td><br>      <td>2933</td><br>      <td>848</td><br>      <td>1787</td><br>      <td>1887</td><br>      <td>3121</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>1965</td><br>      <td>401</td><br>      <td>1719</td><br>      <td>2495</td><br>      <td>1552</td><br>      <td>482</td><br>      <td>584</td><br>      <td>4940</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>963</td><br>      <td>2257</td><br>      <td>2237</td><br>      <td>1281</td><br>      <td>816</td><br>      <td>1782</td><br>      <td>2694</td><br>      <td>3769</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>855</td><br>      <td>61</td><br>      <td>1596</td><br>      <td>1001</td><br>      <td>121</td><br>      <td>942</td><br>      <td>4385</td><br>      <td>429</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">深圳</th><br>      <th>Oppo</th><br>      <td>535</td><br>      <td>4147</td><br>      <td>1049</td><br>      <td>4212</td><br>      <td>3290</td><br>      <td>1644</td><br>      <td>2499</td><br>      <td>4938</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>1301</td><br>      <td>3747</td><br>      <td>4177</td><br>      <td>416</td><br>      <td>1030</td><br>      <td>2800</td><br>      <td>2829</td><br>      <td>400</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>1914</td><br>      <td>4762</td><br>      <td>1573</td><br>      <td>2578</td><br>      <td>2230</td><br>      <td>1891</td><br>      <td>993</td><br>      <td>1047</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>2047</td><br>      <td>3159</td><br>      <td>1492</td><br>      <td>3990</td><br>      <td>803</td><br>      <td>4354</td><br>      <td>4012</td><br>      <td>2580</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<h3 id="多层索引选择和切片操作"><a href="#多层索引选择和切片操作" class="headerlink" title="多层索引选择和切片操作"></a>多层索引选择和切片操作</h3><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看2017年西安城市的所有手机品牌的销售量情况</span></span><br><span class="line"><span class="comment"># 一级标签索引的选择，同DataFrame的普通索引和选择操作</span></span><br><span class="line">df.loc[<span class="string">'西安'</span>, <span class="string">'2017'</span>]</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>1</th><br>      <th>2</th><br>      <th>3</th><br>      <th>4</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>Oppo</th><br>      <td>1083</td><br>      <td>3895</td><br>      <td>589</td><br>      <td>1675</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>4519</td><br>      <td>271</td><br>      <td>286</td><br>      <td>4029</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>2195</td><br>      <td>679</td><br>      <td>1467</td><br>      <td>1793</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>2356</td><br>      <td>537</td><br>      <td>205</td><br>      <td>1246</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看北京城市的所有手机品牌在不同年度的第2季度销售量情况</span></span><br><span class="line"><span class="comment"># 一级行标签 + 二级列标签 (元组中包含一级标签和二级标签)</span></span><br><span class="line">df.loc[<span class="string">'北京'</span>,[(<span class="string">'2017'</span>,<span class="string">'2'</span>),(<span class="string">'2018'</span>,<span class="string">'2'</span>)]]</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead tr th {<br>    text-align: left;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr><br>      <th></th><br>      <th>2017</th><br>      <th>2018</th><br>    </tr><br>    <tr><br>      <th></th><br>      <th>2</th><br>      <th>2</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>Oppo</th><br>      <td>3334</td><br>      <td>2286</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>2115</td><br>      <td>2625</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>3544</td><br>      <td>3105</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>4934</td><br>      <td>2372</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看2018年不同城市的小米手机的销售量情况</span></span><br><span class="line"><span class="comment"># 一级列标签 + 二级行标签</span></span><br><span class="line">df.loc[[(<span class="string">'西安'</span>,<span class="string">'小米'</span>),</span><br><span class="line">        (<span class="string">'上海'</span>,<span class="string">'小米'</span>),</span><br><span class="line">        (<span class="string">'北京'</span>,<span class="string">'小米'</span>),</span><br><span class="line">        (<span class="string">'广州'</span>,<span class="string">'小米'</span>),</span><br><span class="line">        (<span class="string">'深圳'</span>,<span class="string">'小米'</span>),</span><br><span class="line">       ],<span class="string">'2018'</span>]</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th></th><br>      <th>1</th><br>      <th>2</th><br>      <th>3</th><br>      <th>4</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>西安</th><br>      <th>小米</th><br>      <td>3025</td><br>      <td>864</td><br>      <td>1362</td><br>      <td>2566</td><br>    </tr><br>    <tr><br>      <th>上海</th><br>      <th>小米</th><br>      <td>4008</td><br>      <td>3662</td><br>      <td>119</td><br>      <td>3928</td><br>    </tr><br>    <tr><br>      <th>北京</th><br>      <th>小米</th><br>      <td>3380</td><br>      <td>3105</td><br>      <td>2432</td><br>      <td>2220</td><br>    </tr><br>    <tr><br>      <th>广州</th><br>      <th>小米</th><br>      <td>816</td><br>      <td>1782</td><br>      <td>2694</td><br>      <td>3769</td><br>    </tr><br>    <tr><br>      <th>深圳</th><br>      <th>小米</th><br>      <td>2230</td><br>      <td>1891</td><br>      <td>993</td><br>      <td>1047</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看2018年不同城市的小米手机的销售量情况</span></span><br><span class="line"><span class="comment"># 使用.iloc[]方式,以切片方式实现</span></span><br><span class="line">df.iloc[<span class="number">2</span>::<span class="number">4</span>,<span class="number">4</span>:]</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead tr th {<br>    text-align: left;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr><br>      <th></th><br>      <th></th><br>      <th colspan="4" halign="left">2018</th><br>    </tr><br>    <tr><br>      <th></th><br>      <th></th><br>      <th>1</th><br>      <th>2</th><br>      <th>3</th><br>      <th>4</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>西安</th><br>      <th>小米</th><br>      <td>3025</td><br>      <td>864</td><br>      <td>1362</td><br>      <td>2566</td><br>    </tr><br>    <tr><br>      <th>上海</th><br>      <th>小米</th><br>      <td>4008</td><br>      <td>3662</td><br>      <td>119</td><br>      <td>3928</td><br>    </tr><br>    <tr><br>      <th>北京</th><br>      <th>小米</th><br>      <td>3380</td><br>      <td>3105</td><br>      <td>2432</td><br>      <td>2220</td><br>    </tr><br>    <tr><br>      <th>广州</th><br>      <th>小米</th><br>      <td>816</td><br>      <td>1782</td><br>      <td>2694</td><br>      <td>3769</td><br>    </tr><br>    <tr><br>      <th>深圳</th><br>      <th>小米</th><br>      <td>2230</td><br>      <td>1891</td><br>      <td>993</td><br>      <td>1047</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看不同城市的iphone品牌在不同年度的3季度的销售量情况</span></span><br><span class="line"><span class="comment"># 二级行索引 + 二级列索引</span></span><br><span class="line">df.loc[[(<span class="string">'西安'</span>,<span class="string">'iphone'</span>),</span><br><span class="line">        (<span class="string">'上海'</span>,<span class="string">'iphone'</span>),</span><br><span class="line">        (<span class="string">'北京'</span>,<span class="string">'iphone'</span>),</span><br><span class="line">        (<span class="string">'广州'</span>,<span class="string">'iphone'</span>),</span><br><span class="line">        (<span class="string">'深圳'</span>,<span class="string">'iphone'</span>),</span><br><span class="line">       ],[(<span class="string">'2017'</span>,<span class="string">'3'</span>),</span><br><span class="line">         (<span class="string">'2018'</span>,<span class="string">'3'</span>)</span><br><span class="line">         ]]</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead tr th {<br>    text-align: left;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr><br>      <th></th><br>      <th></th><br>      <th>2017</th><br>      <th>2018</th><br>    </tr><br>    <tr><br>      <th></th><br>      <th></th><br>      <th>3</th><br>      <th>3</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>西安</th><br>      <th>iphone</th><br>      <td>205</td><br>      <td>734</td><br>    </tr><br>    <tr><br>      <th>上海</th><br>      <th>iphone</th><br>      <td>3033</td><br>      <td>1058</td><br>    </tr><br>    <tr><br>      <th>北京</th><br>      <th>iphone</th><br>      <td>517</td><br>      <td>3048</td><br>    </tr><br>    <tr><br>      <th>广州</th><br>      <th>iphone</th><br>      <td>1596</td><br>      <td>4385</td><br>    </tr><br>    <tr><br>      <th>深圳</th><br>      <th>iphone</th><br>      <td>1492</td><br>      <td>4012</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.iloc[<span class="number">3</span>::<span class="number">4</span>, <span class="number">2</span>::<span class="number">4</span>]</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead tr th {<br>    text-align: left;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr><br>      <th></th><br>      <th></th><br>      <th>2017</th><br>      <th>2018</th><br>    </tr><br>    <tr><br>      <th></th><br>      <th></th><br>      <th>3</th><br>      <th>3</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>西安</th><br>      <th>iphone</th><br>      <td>205</td><br>      <td>734</td><br>    </tr><br>    <tr><br>      <th>上海</th><br>      <th>iphone</th><br>      <td>3033</td><br>      <td>1058</td><br>    </tr><br>    <tr><br>      <th>北京</th><br>      <th>iphone</th><br>      <td>517</td><br>      <td>3048</td><br>    </tr><br>    <tr><br>      <th>广州</th><br>      <th>iphone</th><br>      <td>1596</td><br>      <td>4385</td><br>    </tr><br>    <tr><br>      <th>深圳</th><br>      <th>iphone</th><br>      <td>1492</td><br>      <td>4012</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将上海的苹果品牌在2017第3季度的销量减去1000</span></span><br><span class="line">df.loc[(<span class="string">'上海'</span>,<span class="string">'iphone'</span>),(<span class="string">'2017'</span>,<span class="string">'3'</span>)] -= <span class="number">1000</span></span><br><span class="line">df</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead tr th {<br>    text-align: left;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr><br>      <th></th><br>      <th></th><br>      <th colspan="4" halign="left">2017</th><br>      <th colspan="4" halign="left">2018</th><br>    </tr><br>    <tr><br>      <th></th><br>      <th></th><br>      <th>1</th><br>      <th>2</th><br>      <th>3</th><br>      <th>4</th><br>      <th>1</th><br>      <th>2</th><br>      <th>3</th><br>      <th>4</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th rowspan="4" valign="top">西安</th><br>      <th>Oppo</th><br>      <td>1083</td><br>      <td>3895</td><br>      <td>589</td><br>      <td>1675</td><br>      <td>3620</td><br>      <td>2033</td><br>      <td>3712</td><br>      <td>1140</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>4519</td><br>      <td>271</td><br>      <td>286</td><br>      <td>4029</td><br>      <td>3189</td><br>      <td>2208</td><br>      <td>2072</td><br>      <td>3957</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>2195</td><br>      <td>679</td><br>      <td>1467</td><br>      <td>1793</td><br>      <td>3025</td><br>      <td>864</td><br>      <td>1362</td><br>      <td>2566</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>2356</td><br>      <td>537</td><br>      <td>205</td><br>      <td>1246</td><br>      <td>768</td><br>      <td>1555</td><br>      <td>734</td><br>      <td>4252</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">上海</th><br>      <th>Oppo</th><br>      <td>415</td><br>      <td>2999</td><br>      <td>2039</td><br>      <td>2517</td><br>      <td>4035</td><br>      <td>1400</td><br>      <td>2602</td><br>      <td>4731</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>1781</td><br>      <td>1732</td><br>      <td>1476</td><br>      <td>1236</td><br>      <td>1973</td><br>      <td>4875</td><br>      <td>891</td><br>      <td>76</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>993</td><br>      <td>190</td><br>      <td>2148</td><br>      <td>3934</td><br>      <td>4008</td><br>      <td>3662</td><br>      <td>119</td><br>      <td>3928</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>1595</td><br>      <td>819</td><br>      <td>2033</td><br>      <td>4157</td><br>      <td>4645</td><br>      <td>4489</td><br>      <td>1058</td><br>      <td>268</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">北京</th><br>      <th>Oppo</th><br>      <td>3472</td><br>      <td>3334</td><br>      <td>494</td><br>      <td>1888</td><br>      <td>1283</td><br>      <td>2286</td><br>      <td>4246</td><br>      <td>3683</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>4348</td><br>      <td>2115</td><br>      <td>2153</td><br>      <td>295</td><br>      <td>2830</td><br>      <td>2625</td><br>      <td>576</td><br>      <td>1608</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>2343</td><br>      <td>3544</td><br>      <td>4272</td><br>      <td>2806</td><br>      <td>3380</td><br>      <td>3105</td><br>      <td>2432</td><br>      <td>2220</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>1163</td><br>      <td>4934</td><br>      <td>517</td><br>      <td>4357</td><br>      <td>508</td><br>      <td>2372</td><br>      <td>3048</td><br>      <td>2326</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">广州</th><br>      <th>Oppo</th><br>      <td>2574</td><br>      <td>3347</td><br>      <td>1768</td><br>      <td>2933</td><br>      <td>848</td><br>      <td>1787</td><br>      <td>1887</td><br>      <td>3121</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>1965</td><br>      <td>401</td><br>      <td>1719</td><br>      <td>2495</td><br>      <td>1552</td><br>      <td>482</td><br>      <td>584</td><br>      <td>4940</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>963</td><br>      <td>2257</td><br>      <td>2237</td><br>      <td>1281</td><br>      <td>816</td><br>      <td>1782</td><br>      <td>2694</td><br>      <td>3769</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>855</td><br>      <td>61</td><br>      <td>1596</td><br>      <td>1001</td><br>      <td>121</td><br>      <td>942</td><br>      <td>4385</td><br>      <td>429</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">深圳</th><br>      <th>Oppo</th><br>      <td>535</td><br>      <td>4147</td><br>      <td>1049</td><br>      <td>4212</td><br>      <td>3290</td><br>      <td>1644</td><br>      <td>2499</td><br>      <td>4938</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>1301</td><br>      <td>3747</td><br>      <td>4177</td><br>      <td>416</td><br>      <td>1030</td><br>      <td>2800</td><br>      <td>2829</td><br>      <td>400</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>1914</td><br>      <td>4762</td><br>      <td>1573</td><br>      <td>2578</td><br>      <td>2230</td><br>      <td>1891</td><br>      <td>993</td><br>      <td>1047</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>2047</td><br>      <td>3159</td><br>      <td>1492</td><br>      <td>3990</td><br>      <td>803</td><br>      <td>4354</td><br>      <td>4012</td><br>      <td>2580</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<h3 id="扩展：Python中的对象，哪些可以作为dict的key"><a href="#扩展：Python中的对象，哪些可以作为dict的key" class="headerlink" title="扩展：Python中的对象，哪些可以作为dict的key"></a>扩展：Python中的对象，哪些可以作为dict的key</h3><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ChildError</span><span class="params">(Exception)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e = ChildError(<span class="string">'不能创建分身'</span>)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># str, int, float, bool(True, False), None</span></span><br><span class="line"><span class="comment"># tuple(), object, fun, class,</span></span><br><span class="line"><span class="comment"># 如果类对象作为dict的key必须是可以被hash的</span></span><br><span class="line"><span class="comment"># 可以通过hash()内置函数尝试获取对象的hash值</span></span><br><span class="line">disen = &#123;</span><br><span class="line">    <span class="string">'name'</span>: <span class="string">'disen'</span>,</span><br><span class="line">    <span class="string">'age'</span>: <span class="number">20</span>,</span><br><span class="line">    <span class="string">'salary'</span>: <span class="number">1000.5</span>,</span><br><span class="line">    <span class="string">'action'</span>: <span class="keyword">lambda</span> x: x**<span class="number">2</span>,</span><br><span class="line">    <span class="string">'is_alive'</span>: <span class="literal">True</span>,</span><br><span class="line">    <span class="string">'level'</span>: <span class="literal">None</span>,</span><br><span class="line">    <span class="string">'city'</span>: (<span class="string">'陕西'</span>, <span class="string">'西安'</span>),</span><br><span class="line">    <span class="string">'error'</span>: ChildError,</span><br><span class="line">    <span class="string">'error_obj'</span>: e</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">disen_ct = &#123; value:key <span class="keyword">for</span> key,value <span class="keyword">in</span> disen.items() &#125;</span><br><span class="line">disen_ct</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;disen&apos;: &apos;name&apos;,</span><br><span class="line"> 20: &apos;age&apos;,</span><br><span class="line"> 1000.5: &apos;salary&apos;,</span><br><span class="line"> &lt;function __main__.&lt;lambda&gt;(x)&gt;: &apos;action&apos;,</span><br><span class="line"> True: &apos;is_alive&apos;,</span><br><span class="line"> None: &apos;level&apos;,</span><br><span class="line"> (&apos;陕西&apos;, &apos;西安&apos;): &apos;city&apos;,</span><br><span class="line"> __main__.ChildError: &apos;error&apos;,</span><br><span class="line"> __main__.ChildError(&apos;不能创建分身&apos;): &apos;error_obj&apos;&#125;</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 调用字典中的函数</span></span><br><span class="line">action = disen.get(<span class="string">'action'</span>)</span><br><span class="line">action(<span class="number">100</span>)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">10000</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 字典中的key使用hash生成唯一标识</span></span><br><span class="line">hash(e)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-9223363251881703466</span><br></pre></td></tr></table></figure></div>
+<h3 id="索引的堆操作"><a href="#索引的堆操作" class="headerlink" title="索引的堆操作"></a>索引的堆操作</h3><ul>
+<li>stack() 将列索引转成行索引(标签)</li>
+<li>unstack() 将行索引转成列索引(标签)</li>
+</ul>
+<p>两个函数中，有一个level属性，表示哪一级别的标签，0 一级， -1 最内级别</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.stack(level=<span class="number">-1</span>) <span class="comment"># 将列的第二级的标签转成行标签（第三级）</span></span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th></th><br>      <th></th><br>      <th>2017</th><br>      <th>2018</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th rowspan="16" valign="top">西安</th><br>      <th rowspan="4" valign="top">Oppo</th><br>      <th>1</th><br>      <td>1083</td><br>      <td>3620</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>3895</td><br>      <td>2033</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>589</td><br>      <td>3712</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>1675</td><br>      <td>1140</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">华为</th><br>      <th>1</th><br>      <td>4519</td><br>      <td>3189</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>271</td><br>      <td>2208</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>286</td><br>      <td>2072</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>4029</td><br>      <td>3957</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">小米</th><br>      <th>1</th><br>      <td>2195</td><br>      <td>3025</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>679</td><br>      <td>864</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>1467</td><br>      <td>1362</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>1793</td><br>      <td>2566</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">iphone</th><br>      <th>1</th><br>      <td>2356</td><br>      <td>768</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>537</td><br>      <td>1555</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>205</td><br>      <td>734</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>1246</td><br>      <td>4252</td><br>    </tr><br>    <tr><br>      <th rowspan="14" valign="top">上海</th><br>      <th rowspan="4" valign="top">Oppo</th><br>      <th>1</th><br>      <td>415</td><br>      <td>4035</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>2999</td><br>      <td>1400</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>2039</td><br>      <td>2602</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>2517</td><br>      <td>4731</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">华为</th><br>      <th>1</th><br>      <td>1781</td><br>      <td>1973</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>1732</td><br>      <td>4875</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>1476</td><br>      <td>891</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>1236</td><br>      <td>76</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">小米</th><br>      <th>1</th><br>      <td>993</td><br>      <td>4008</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>190</td><br>      <td>3662</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>2148</td><br>      <td>119</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>3934</td><br>      <td>3928</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">iphone</th><br>      <th>1</th><br>      <td>1595</td><br>      <td>4645</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>819</td><br>      <td>4489</td><br>    </tr><br>    <tr><br>      <th>…</th><br>      <th>…</th><br>      <th>…</th><br>      <td>…</td><br>      <td>…</td><br>    </tr><br>    <tr><br>      <th rowspan="14" valign="top">广州</th><br>      <th rowspan="2" valign="top">Oppo</th><br>      <th>3</th><br>      <td>1768</td><br>      <td>1887</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>2933</td><br>      <td>3121</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">华为</th><br>      <th>1</th><br>      <td>1965</td><br>      <td>1552</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>401</td><br>      <td>482</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>1719</td><br>      <td>584</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>2495</td><br>      <td>4940</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">小米</th><br>      <th>1</th><br>      <td>963</td><br>      <td>816</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>2257</td><br>      <td>1782</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>2237</td><br>      <td>2694</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>1281</td><br>      <td>3769</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">iphone</th><br>      <th>1</th><br>      <td>855</td><br>      <td>121</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>61</td><br>      <td>942</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>1596</td><br>      <td>4385</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>1001</td><br>      <td>429</td><br>    </tr><br>    <tr><br>      <th rowspan="16" valign="top">深圳</th><br>      <th rowspan="4" valign="top">Oppo</th><br>      <th>1</th><br>      <td>535</td><br>      <td>3290</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>4147</td><br>      <td>1644</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>1049</td><br>      <td>2499</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>4212</td><br>      <td>4938</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">华为</th><br>      <th>1</th><br>      <td>1301</td><br>      <td>1030</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>3747</td><br>      <td>2800</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>4177</td><br>      <td>2829</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>416</td><br>      <td>400</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">小米</th><br>      <th>1</th><br>      <td>1914</td><br>      <td>2230</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>4762</td><br>      <td>1891</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>1573</td><br>      <td>993</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>2578</td><br>      <td>1047</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">iphone</th><br>      <th>1</th><br>      <td>2047</td><br>      <td>803</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>3159</td><br>      <td>4354</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>1492</td><br>      <td>4012</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>3990</td><br>      <td>2580</td><br>    </tr><br>  </tbody><br></table><br><p>80 rows × 2 columns</p><br></div>
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.stack(level=<span class="number">-1</span>).loc[(<span class="string">'西安'</span>, <span class="string">'Oppo'</span>, <span class="string">'3'</span>), <span class="string">'2017'</span>]</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">589</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.stack(level=<span class="number">-1</span>).index</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MultiIndex(levels=[[&apos;上海&apos;, &apos;北京&apos;, &apos;广州&apos;, &apos;深圳&apos;, &apos;西安&apos;], [&apos;Oppo&apos;, &apos;iphone&apos;, &apos;华为&apos;, &apos;小米&apos;], [&apos;1&apos;, &apos;2&apos;, &apos;3&apos;, &apos;4&apos;]],</span><br><span class="line">           labels=[[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [0, 0, 0, 0, 2, 2, 2, 2, 3, 3, 3, 3, 1, 1, 1, 1, 0, 0, 0, 0, 2, 2, 2, 2, 3, 3, 3, 3, 1, 1, 1, 1, 0, 0, 0, 0, 2, 2, 2, 2, 3, 3, 3, 3, 1, 1, 1, 1, 0, 0, 0, 0, 2, 2, 2, 2, 3, 3, 3, 3, 1, 1, 1, 1, 0, 0, 0, 0, 2, 2, 2, 2, 3, 3, 3, 3, 1, 1, 1, 1], [0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3]])</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.stack(level=<span class="number">0</span>) <span class="comment"># 将列的一级标签转成行的三级标签</span></span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th></th><br>      <th></th><br>      <th>1</th><br>      <th>2</th><br>      <th>3</th><br>      <th>4</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th rowspan="8" valign="top">西安</th><br>      <th rowspan="2" valign="top">Oppo</th><br>      <th>2017</th><br>      <td>1083</td><br>      <td>3895</td><br>      <td>589</td><br>      <td>1675</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>3620</td><br>      <td>2033</td><br>      <td>3712</td><br>      <td>1140</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">华为</th><br>      <th>2017</th><br>      <td>4519</td><br>      <td>271</td><br>      <td>286</td><br>      <td>4029</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>3189</td><br>      <td>2208</td><br>      <td>2072</td><br>      <td>3957</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">小米</th><br>      <th>2017</th><br>      <td>2195</td><br>      <td>679</td><br>      <td>1467</td><br>      <td>1793</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>3025</td><br>      <td>864</td><br>      <td>1362</td><br>      <td>2566</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">iphone</th><br>      <th>2017</th><br>      <td>2356</td><br>      <td>537</td><br>      <td>205</td><br>      <td>1246</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>768</td><br>      <td>1555</td><br>      <td>734</td><br>      <td>4252</td><br>    </tr><br>    <tr><br>      <th rowspan="8" valign="top">上海</th><br>      <th rowspan="2" valign="top">Oppo</th><br>      <th>2017</th><br>      <td>415</td><br>      <td>2999</td><br>      <td>2039</td><br>      <td>2517</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>4035</td><br>      <td>1400</td><br>      <td>2602</td><br>      <td>4731</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">华为</th><br>      <th>2017</th><br>      <td>1781</td><br>      <td>1732</td><br>      <td>1476</td><br>      <td>1236</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>1973</td><br>      <td>4875</td><br>      <td>891</td><br>      <td>76</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">小米</th><br>      <th>2017</th><br>      <td>993</td><br>      <td>190</td><br>      <td>2148</td><br>      <td>3934</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>4008</td><br>      <td>3662</td><br>      <td>119</td><br>      <td>3928</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">iphone</th><br>      <th>2017</th><br>      <td>1595</td><br>      <td>819</td><br>      <td>2033</td><br>      <td>4157</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>4645</td><br>      <td>4489</td><br>      <td>1058</td><br>      <td>268</td><br>    </tr><br>    <tr><br>      <th rowspan="8" valign="top">北京</th><br>      <th rowspan="2" valign="top">Oppo</th><br>      <th>2017</th><br>      <td>3472</td><br>      <td>3334</td><br>      <td>494</td><br>      <td>1888</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>1283</td><br>      <td>2286</td><br>      <td>4246</td><br>      <td>3683</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">华为</th><br>      <th>2017</th><br>      <td>4348</td><br>      <td>2115</td><br>      <td>2153</td><br>      <td>295</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>2830</td><br>      <td>2625</td><br>      <td>576</td><br>      <td>1608</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">小米</th><br>      <th>2017</th><br>      <td>2343</td><br>      <td>3544</td><br>      <td>4272</td><br>      <td>2806</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>3380</td><br>      <td>3105</td><br>      <td>2432</td><br>      <td>2220</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">iphone</th><br>      <th>2017</th><br>      <td>1163</td><br>      <td>4934</td><br>      <td>517</td><br>      <td>4357</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>508</td><br>      <td>2372</td><br>      <td>3048</td><br>      <td>2326</td><br>    </tr><br>    <tr><br>      <th rowspan="8" valign="top">广州</th><br>      <th rowspan="2" valign="top">Oppo</th><br>      <th>2017</th><br>      <td>2574</td><br>      <td>3347</td><br>      <td>1768</td><br>      <td>2933</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>848</td><br>      <td>1787</td><br>      <td>1887</td><br>      <td>3121</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">华为</th><br>      <th>2017</th><br>      <td>1965</td><br>      <td>401</td><br>      <td>1719</td><br>      <td>2495</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>1552</td><br>      <td>482</td><br>      <td>584</td><br>      <td>4940</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">小米</th><br>      <th>2017</th><br>      <td>963</td><br>      <td>2257</td><br>      <td>2237</td><br>      <td>1281</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>816</td><br>      <td>1782</td><br>      <td>2694</td><br>      <td>3769</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">iphone</th><br>      <th>2017</th><br>      <td>855</td><br>      <td>61</td><br>      <td>1596</td><br>      <td>1001</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>121</td><br>      <td>942</td><br>      <td>4385</td><br>      <td>429</td><br>    </tr><br>    <tr><br>      <th rowspan="8" valign="top">深圳</th><br>      <th rowspan="2" valign="top">Oppo</th><br>      <th>2017</th><br>      <td>535</td><br>      <td>4147</td><br>      <td>1049</td><br>      <td>4212</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>3290</td><br>      <td>1644</td><br>      <td>2499</td><br>      <td>4938</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">华为</th><br>      <th>2017</th><br>      <td>1301</td><br>      <td>3747</td><br>      <td>4177</td><br>      <td>416</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>1030</td><br>      <td>2800</td><br>      <td>2829</td><br>      <td>400</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">小米</th><br>      <th>2017</th><br>      <td>1914</td><br>      <td>4762</td><br>      <td>1573</td><br>      <td>2578</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>2230</td><br>      <td>1891</td><br>      <td>993</td><br>      <td>1047</td><br>    </tr><br>    <tr><br>      <th rowspan="2" valign="top">iphone</th><br>      <th>2017</th><br>      <td>2047</td><br>      <td>3159</td><br>      <td>1492</td><br>      <td>3990</td><br>    </tr><br>    <tr><br>      <th>2018</th><br>      <td>803</td><br>      <td>4354</td><br>      <td>4012</td><br>      <td>2580</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.unstack(level=<span class="number">0</span>) <span class="comment"># 将行的一级标签转成列的三级标签</span></span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead tr th {<br>    text-align: left;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr><br>      <th></th><br>      <th colspan="20" halign="left">2017</th><br>      <th colspan="20" halign="left">2018</th><br>    </tr><br>    <tr><br>      <th></th><br>      <th colspan="5" halign="left">1</th><br>      <th colspan="5" halign="left">2</th><br>      <th colspan="5" halign="left">3</th><br>      <th colspan="5" halign="left">4</th><br>      <th colspan="5" halign="left">1</th><br>      <th colspan="5" halign="left">2</th><br>      <th colspan="5" halign="left">3</th><br>      <th colspan="5" halign="left">4</th><br>    </tr><br>    <tr><br>      <th></th><br>      <th>上海</th><br>      <th>北京</th><br>      <th>广州</th><br>      <th>深圳</th><br>      <th>西安</th><br>      <th>上海</th><br>      <th>北京</th><br>      <th>广州</th><br>      <th>深圳</th><br>      <th>西安</th><br>      <th>上海</th><br>      <th>北京</th><br>      <th>广州</th><br>      <th>深圳</th><br>      <th>西安</th><br>      <th>上海</th><br>      <th>北京</th><br>      <th>广州</th><br>      <th>深圳</th><br>      <th>西安</th><br>      <th>上海</th><br>      <th>北京</th><br>      <th>广州</th><br>      <th>深圳</th><br>      <th>西安</th><br>      <th>上海</th><br>      <th>北京</th><br>      <th>广州</th><br>      <th>深圳</th><br>      <th>西安</th><br>      <th>上海</th><br>      <th>北京</th><br>      <th>广州</th><br>      <th>深圳</th><br>      <th>西安</th><br>      <th>上海</th><br>      <th>北京</th><br>      <th>广州</th><br>      <th>深圳</th><br>      <th>西安</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>Oppo</th><br>      <td>415</td><br>      <td>3472</td><br>      <td>2574</td><br>      <td>535</td><br>      <td>1083</td><br>      <td>2999</td><br>      <td>3334</td><br>      <td>3347</td><br>      <td>4147</td><br>      <td>3895</td><br>      <td>2039</td><br>      <td>494</td><br>      <td>1768</td><br>      <td>1049</td><br>      <td>589</td><br>      <td>2517</td><br>      <td>1888</td><br>      <td>2933</td><br>      <td>4212</td><br>      <td>1675</td><br>      <td>4035</td><br>      <td>1283</td><br>      <td>848</td><br>      <td>3290</td><br>      <td>3620</td><br>      <td>1400</td><br>      <td>2286</td><br>      <td>1787</td><br>      <td>1644</td><br>      <td>2033</td><br>      <td>2602</td><br>      <td>4246</td><br>      <td>1887</td><br>      <td>2499</td><br>      <td>3712</td><br>      <td>4731</td><br>      <td>3683</td><br>      <td>3121</td><br>      <td>4938</td><br>      <td>1140</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>1595</td><br>      <td>1163</td><br>      <td>855</td><br>      <td>2047</td><br>      <td>2356</td><br>      <td>819</td><br>      <td>4934</td><br>      <td>61</td><br>      <td>3159</td><br>      <td>537</td><br>      <td>2033</td><br>      <td>517</td><br>      <td>1596</td><br>      <td>1492</td><br>      <td>205</td><br>      <td>4157</td><br>      <td>4357</td><br>      <td>1001</td><br>      <td>3990</td><br>      <td>1246</td><br>      <td>4645</td><br>      <td>508</td><br>      <td>121</td><br>      <td>803</td><br>      <td>768</td><br>      <td>4489</td><br>      <td>2372</td><br>      <td>942</td><br>      <td>4354</td><br>      <td>1555</td><br>      <td>1058</td><br>      <td>3048</td><br>      <td>4385</td><br>      <td>4012</td><br>      <td>734</td><br>      <td>268</td><br>      <td>2326</td><br>      <td>429</td><br>      <td>2580</td><br>      <td>4252</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>1781</td><br>      <td>4348</td><br>      <td>1965</td><br>      <td>1301</td><br>      <td>4519</td><br>      <td>1732</td><br>      <td>2115</td><br>      <td>401</td><br>      <td>3747</td><br>      <td>271</td><br>      <td>1476</td><br>      <td>2153</td><br>      <td>1719</td><br>      <td>4177</td><br>      <td>286</td><br>      <td>1236</td><br>      <td>295</td><br>      <td>2495</td><br>      <td>416</td><br>      <td>4029</td><br>      <td>1973</td><br>      <td>2830</td><br>      <td>1552</td><br>      <td>1030</td><br>      <td>3189</td><br>      <td>4875</td><br>      <td>2625</td><br>      <td>482</td><br>      <td>2800</td><br>      <td>2208</td><br>      <td>891</td><br>      <td>576</td><br>      <td>584</td><br>      <td>2829</td><br>      <td>2072</td><br>      <td>76</td><br>      <td>1608</td><br>      <td>4940</td><br>      <td>400</td><br>      <td>3957</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>993</td><br>      <td>2343</td><br>      <td>963</td><br>      <td>1914</td><br>      <td>2195</td><br>      <td>190</td><br>      <td>3544</td><br>      <td>2257</td><br>      <td>4762</td><br>      <td>679</td><br>      <td>2148</td><br>      <td>4272</td><br>      <td>2237</td><br>      <td>1573</td><br>      <td>1467</td><br>      <td>3934</td><br>      <td>2806</td><br>      <td>1281</td><br>      <td>2578</td><br>      <td>1793</td><br>      <td>4008</td><br>      <td>3380</td><br>      <td>816</td><br>      <td>2230</td><br>      <td>3025</td><br>      <td>3662</td><br>      <td>3105</td><br>      <td>1782</td><br>      <td>1891</td><br>      <td>864</td><br>      <td>119</td><br>      <td>2432</td><br>      <td>2694</td><br>      <td>993</td><br>      <td>1362</td><br>      <td>3928</td><br>      <td>2220</td><br>      <td>3769</td><br>      <td>1047</td><br>      <td>2566</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+<h3 id="多层索引的聚合操作"><a href="#多层索引的聚合操作" class="headerlink" title="多层索引的聚合操作"></a>多层索引的聚合操作</h3><ul>
+<li>max(level=0)  </li>
+<li>min()</li>
+<li>mean()</li>
+</ul>
+<p>指定了level之后，按level层级进行数据的聚合操作</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 统计全年的不同城市不同品牌的售量</span></span><br><span class="line">df.sum(axis=<span class="number">1</span>, level=<span class="number">0</span>) <span class="comment"># 保留一级列标签， 理解为按一级的列标签进行分组聚合</span></span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th></th><br>      <th>2017</th><br>      <th>2018</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th rowspan="4" valign="top">西安</th><br>      <th>Oppo</th><br>      <td>7242</td><br>      <td>10505</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>9105</td><br>      <td>11426</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>6134</td><br>      <td>7817</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>4344</td><br>      <td>7309</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">上海</th><br>      <th>Oppo</th><br>      <td>7970</td><br>      <td>12768</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>6225</td><br>      <td>7815</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>7265</td><br>      <td>11717</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>8604</td><br>      <td>10460</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">北京</th><br>      <th>Oppo</th><br>      <td>9188</td><br>      <td>11498</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>8911</td><br>      <td>7639</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>12965</td><br>      <td>11137</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>10971</td><br>      <td>8254</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">广州</th><br>      <th>Oppo</th><br>      <td>10622</td><br>      <td>7643</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>6580</td><br>      <td>7558</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>6738</td><br>      <td>9061</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>3513</td><br>      <td>5877</td><br>    </tr><br>    <tr><br>      <th rowspan="4" valign="top">深圳</th><br>      <th>Oppo</th><br>      <td>9943</td><br>      <td>12371</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>9641</td><br>      <td>7059</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>10827</td><br>      <td>6161</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>10688</td><br>      <td>11749</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 统计不同季度下各个城市所有手机的售量情况</span></span><br><span class="line">df.sum(axis=<span class="number">0</span>, level=<span class="number">0</span>)</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead tr th {<br>    text-align: left;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr><br>      <th></th><br>      <th colspan="4" halign="left">2017</th><br>      <th colspan="4" halign="left">2018</th><br>    </tr><br>    <tr><br>      <th></th><br>      <th>1</th><br>      <th>2</th><br>      <th>3</th><br>      <th>4</th><br>      <th>1</th><br>      <th>2</th><br>      <th>3</th><br>      <th>4</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>西安</th><br>      <td>10153</td><br>      <td>5382</td><br>      <td>2547</td><br>      <td>8743</td><br>      <td>10602</td><br>      <td>6660</td><br>      <td>7880</td><br>      <td>11915</td><br>    </tr><br>    <tr><br>      <th>上海</th><br>      <td>4784</td><br>      <td>5740</td><br>      <td>7696</td><br>      <td>11844</td><br>      <td>14661</td><br>      <td>14426</td><br>      <td>4670</td><br>      <td>9003</td><br>    </tr><br>    <tr><br>      <th>北京</th><br>      <td>11326</td><br>      <td>13927</td><br>      <td>7436</td><br>      <td>9346</td><br>      <td>8001</td><br>      <td>10388</td><br>      <td>10302</td><br>      <td>9837</td><br>    </tr><br>    <tr><br>      <th>广州</th><br>      <td>6357</td><br>      <td>6066</td><br>      <td>7320</td><br>      <td>7710</td><br>      <td>3337</td><br>      <td>4993</td><br>      <td>9550</td><br>      <td>12259</td><br>    </tr><br>    <tr><br>      <th>深圳</th><br>      <td>5797</td><br>      <td>15815</td><br>      <td>8291</td><br>      <td>11196</td><br>      <td>7353</td><br>      <td>10689</td><br>      <td>10333</td><br>      <td>8965</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 统计不同品牌的全年售量情况</span></span><br><span class="line">df.sum(axis=<span class="number">0</span>, level=<span class="number">1</span>).sum(axis=<span class="number">1</span>, level=<span class="number">0</span>)</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>2017</th><br>      <th>2018</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>Oppo</th><br>      <td>44965</td><br>      <td>54785</td><br>    </tr><br>    <tr><br>      <th>华为</th><br>      <td>40462</td><br>      <td>41497</td><br>    </tr><br>    <tr><br>      <th>小米</th><br>      <td>43929</td><br>      <td>45893</td><br>    </tr><br>    <tr><br>      <th>iphone</th><br>      <td>38120</td><br>      <td>43649</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+      <a href="/数据分析/Pandas的级联操作/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption"></strong>
+        <div class="article-nav-title">
+          
+            Pandas的级联操作
+          
+        </div>
+      </a>
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/数据分析/DataFrame的NaN处理/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">DataFrame的NaN处理</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://www.xuhuiblog.cn/css/gitment.css">
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/gitment.js"></script>
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/md5.min.js"></script>
+<script>
+var gitment = new Gitment({
+  id: md5(window.location.pathname.replace(/index.html/, "")),
+  owner: 'pighui',
+  repo: 'myblogdes',
+  oauth: {
+    client_id: '79535b24d59031961e6c',
+    client_secret: '4f1907f09f33c1182feb2ddfeef33677e8e5ff36',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+
+  
+  
+</article>
+</section>
+                <aside id="sidebar">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="360" height="86" src="//music.163.com/outchain/player?type=2&id=1346998796&auto=0&height=66"></iframe>
+    
+        <div class="widget-box">
+    <div class="avatar-box">
+        <img class="avatar" src="/images/default-avatar.jpeg" title="图片来自网络">
+        <h3 class="avatar-name">
+            
+                一介书生
+            
+        </h3>
+        <p class="avatar-slogan">
+            盼 君 金 榜 题 名 时 。
+寒 窗 苦 读 数 十 载 ，
+        </p>
+    </div>
+</div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kali/">Kali</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ubuntu/">Ubuntu</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据分析/">数据分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/爬虫/">爬虫</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kali/">Kali</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分析/">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试/">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 11.43px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 12.86px;">Hexo</a> <a href="/tags/Kali/" style="font-size: 10px;">Kali</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/Ubuntu/" style="font-size: 15.71px;">Ubuntu</a> <a href="/tags/数据分析/" style="font-size: 18.57px;">数据分析</a> <a href="/tags/机器学习/" style="font-size: 14.29px;">机器学习</a> <a href="/tags/测试/" style="font-size: 11.43px;">测试</a> <a href="/tags/爬虫/" style="font-size: 17.14px;">爬虫</a> <a href="/tags/面试题/" style="font-size: 10px;">面试题</a>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/机器学习/人脸自动补全/">人脸自动补全</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/Logistics回归和数字识别/">Logistics回归和数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/LinearRegression线性回归/">LinearRegression线性回归</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/KNN-手写数字识别/">KNN-手写数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/K-近邻算法-KNN/">K-近邻算法（KNN）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+          <div class="widget-box">
+    <h3 class="widget-title">友链</h3>
+    <div class="widget">
+      
+        <a style="display: block;" href="https://yiluyanxia.github.io/" title target="_blank">一路眼瞎</a>
+      
+        <a style="display: block;" href="https://wljsky.cn/" title target="_blank">钧金</a>
+      
+    </div>
+  </div>
+
+    
+</aside>
+            </div>
+            <footer id="footer">
+    <!-- 百度推送 -->
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            } else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+    <!-- 百度统计 -->
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?58e88d550a3485e4fa9494eb391c7e47";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135687698-1"></script> -->
+    <script src="/js/google.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('set', {'user_id': 'UA-135687698-1'});
+        gtag('config', 'UA-135687698-1');
+    </script>
+    <div class="foot-box global-width">
+        &copy;Copyright&nbsp;2019 一介书生<br>
+        驱动于 <a href="http://hexo.io/" target="_blank">Hexo</a>
+        &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+        <br>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <span id="busuanzi_container_site_pv">阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+        <br>
+        豫ICP备<a href="http://ha.beian.miit.gov.cn/">19008962</a>号
+    </div>
+</footer>
+            <script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) {
+        var script = document.createElement('script');
+        script.src = "/js/jquery.min.js";
+        document.body.write(script);
+    }
+</script>
+
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+    <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+        </div>
+        <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="https://github.com/pighui" class="mobile-nav-link">基友</a>
+  
+    <a href="/archives" class="mobile-nav-link">文章</a>
+  
+    <a href="/me" class="mobile-nav-link">简历</a>
+  
+    <a href="/snow" class="mobile-nav-link">看雪</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/js/love.js"></script>
+    <script src="/js/snowy.js"></script>
+    <style type="text/css">.snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100001;
+        }</style>
+    <div class="snow-container"></div>
+</body>
+</html>

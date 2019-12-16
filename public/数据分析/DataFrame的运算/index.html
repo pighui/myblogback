@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','/js/analytics.js','ga');
+
+ga('create', 'UA-135687698-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+    
+    <title>
+        DataFrame的运算 |
+        
+        欢迎浏览本博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+    
+        <meta name="keywords" content="Ubuntu,Linux,Python,Python Web,爬虫,数据分析,机器学习">
+    
+    <meta name="description" content="123import numpy as npimport pandas as pdfrom pandas import Series, DataFrame">
+<meta name="keywords" content="Python,数据分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DataFrame的运算">
+<meta property="og:url" content="https://www.xuhuiblog.cn/数据分析/DataFrame的运算/index.html">
+<meta property="og:site_name" content="欢迎浏览本博客">
+<meta property="og:description" content="123import numpy as npimport pandas as pdfrom pandas import Series, DataFrame">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-17T13:13:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DataFrame的运算">
+<meta name="twitter:description" content="123import numpy as npimport pandas as pdfrom pandas import Series, DataFrame">
+    
+        <link rel="alternate" href="/atom.xml" title="欢迎浏览本博客" type="application/atom+xml">
+    
+    
+        <link rel="icon" href="/images/favicon.ico">
+    
+    
+        <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <script>
+        let antiquityStorage = window.sessionStorage.getItem('antiquitySessionStorage');
+        if (antiquityStorage == '' || antiquityStorage == null) {
+            var antiquityLoader = '<div id="loaderbox"><div class="loader"><div class="load-roll"><div class="load-top"></div><div class="load-right"></div><div class="load-bottom"></div></div></div></div>';
+            document.write(antiquityLoader);
+            document.body.style.overflow = 'hidden'
+        }
+    </script>
+</head>
+</html>
+<body>
+<div id="fullpage" class="mobile-nav-right">
+    
+    <div id="wrapper" style="background-image: url(/images/bg.jpg)"
+         title="图片来自网络">
+        
+
+            <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-right">
+      
+        <a class="nav-item" href="/" title>首页</a>
+      
+        <a class="nav-item" href="https://github.com/pighui" title>基友</a>
+      
+        <a class="nav-item" href="/archives" title>文章</a>
+      
+        <a class="nav-item" href="/me" title>简历</a>
+      
+        <a class="nav-item" href="/snow" title>看雪</a>
+      
+    </nav>
+  </div>
+</header>
+            <div id="middlecontent" title class="global-width sidebar-right">
+                <section id="main"><article id="post-DataFrame的运算" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      DataFrame的运算
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/数据分析/DataFrame的运算/" class="article-date">
+  <time datetime="2019-04-29T06:47:09.000Z" itemprop="datePublished">2019-04-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据分析/">数据分析</a>
+  </div>
+
+    
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据分析/">数据分析</a></li></ul>
+
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+    </span>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> pandas <span class="keyword">import</span> Series, DataFrame</span><br></pre></td></tr></table></figure></div>
+<a id="more"></a>
+<h3 id="DataFrame运算"><a href="#DataFrame运算" class="headerlink" title="DataFrame运算"></a>DataFrame运算</h3><ul>
+<li>add()</li>
+<li>sub()</li>
+<li>mul() * 乘法</li>
+<li>div() / 除法</li>
+<li>floordiv() // 整除</li>
+<li>mod() % 取余</li>
+<li>pow() ^ 次方(幂)</li>
+</ul>
+<p>使用运算的函数，可以与处理NaN值</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 14天的四种蔬菜的价格表</span></span><br><span class="line">datas = np.random.randint(<span class="number">1</span>, <span class="number">10</span>, size=(<span class="number">14</span>, <span class="number">4</span>))</span><br><span class="line">columns = (<span class="string">'白萝卜'</span>, <span class="string">'西红柿'</span>, <span class="string">'黄瓜'</span>, <span class="string">'白菜'</span>)</span><br><span class="line">days = np.arange(<span class="number">1</span>, <span class="number">15</span>, step=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">df = DataFrame(datas,days,columns)</span><br><span class="line">df</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>白萝卜</th><br>      <th>西红柿</th><br>      <th>黄瓜</th><br>      <th>白菜</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>1</th><br>      <td>5</td><br>      <td>9</td><br>      <td>7</td><br>      <td>8</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>2</td><br>      <td>6</td><br>      <td>5</td><br>      <td>7</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>4</td><br>      <td>7</td><br>      <td>5</td><br>      <td>1</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>8</td><br>      <td>4</td><br>      <td>7</td><br>      <td>9</td><br>    </tr><br>    <tr><br>      <th>5</th><br>      <td>2</td><br>      <td>3</td><br>      <td>2</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>6</th><br>      <td>6</td><br>      <td>9</td><br>      <td>5</td><br>      <td>8</td><br>    </tr><br>    <tr><br>      <th>7</th><br>      <td>2</td><br>      <td>6</td><br>      <td>6</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>8</th><br>      <td>8</td><br>      <td>8</td><br>      <td>2</td><br>      <td>3</td><br>    </tr><br>    <tr><br>      <th>9</th><br>      <td>3</td><br>      <td>7</td><br>      <td>5</td><br>      <td>6</td><br>    </tr><br>    <tr><br>      <th>10</th><br>      <td>2</td><br>      <td>5</td><br>      <td>4</td><br>      <td>5</td><br>    </tr><br>    <tr><br>      <th>11</th><br>      <td>3</td><br>      <td>7</td><br>      <td>3</td><br>      <td>5</td><br>    </tr><br>    <tr><br>      <th>12</th><br>      <td>9</td><br>      <td>4</td><br>      <td>1</td><br>      <td>4</td><br>    </tr><br>    <tr><br>      <th>13</th><br>      <td>2</td><br>      <td>3</td><br>      <td>4</td><br>      <td>1</td><br>    </tr><br>    <tr><br>      <th>14</th><br>      <td>8</td><br>      <td>3</td><br>      <td>7</td><br>      <td>7</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将所有蔬菜的价格全部上调1.5倍</span></span><br><span class="line">df *= <span class="number">2.5</span></span><br><span class="line">df</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>白萝卜</th><br>      <th>西红柿</th><br>      <th>黄瓜</th><br>      <th>白菜</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>1</th><br>      <td>12.5</td><br>      <td>22.5</td><br>      <td>17.5</td><br>      <td>20.0</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>5.0</td><br>      <td>15.0</td><br>      <td>12.5</td><br>      <td>17.5</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>10.0</td><br>      <td>17.5</td><br>      <td>12.5</td><br>      <td>2.5</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>20.0</td><br>      <td>10.0</td><br>      <td>17.5</td><br>      <td>22.5</td><br>    </tr><br>    <tr><br>      <th>5</th><br>      <td>5.0</td><br>      <td>7.5</td><br>      <td>5.0</td><br>      <td>7.5</td><br>    </tr><br>    <tr><br>      <th>6</th><br>      <td>15.0</td><br>      <td>22.5</td><br>      <td>12.5</td><br>      <td>20.0</td><br>    </tr><br>    <tr><br>      <th>7</th><br>      <td>5.0</td><br>      <td>15.0</td><br>      <td>15.0</td><br>      <td>7.5</td><br>    </tr><br>    <tr><br>      <th>8</th><br>      <td>20.0</td><br>      <td>20.0</td><br>      <td>5.0</td><br>      <td>7.5</td><br>    </tr><br>    <tr><br>      <th>9</th><br>      <td>7.5</td><br>      <td>17.5</td><br>      <td>12.5</td><br>      <td>15.0</td><br>    </tr><br>    <tr><br>      <th>10</th><br>      <td>5.0</td><br>      <td>12.5</td><br>      <td>10.0</td><br>      <td>12.5</td><br>    </tr><br>    <tr><br>      <th>11</th><br>      <td>7.5</td><br>      <td>17.5</td><br>      <td>7.5</td><br>      <td>12.5</td><br>    </tr><br>    <tr><br>      <th>12</th><br>      <td>22.5</td><br>      <td>10.0</td><br>      <td>2.5</td><br>      <td>10.0</td><br>    </tr><br>    <tr><br>      <th>13</th><br>      <td>5.0</td><br>      <td>7.5</td><br>      <td>10.0</td><br>      <td>2.5</td><br>    </tr><br>    <tr><br>      <th>14</th><br>      <td>20.0</td><br>      <td>7.5</td><br>      <td>17.5</td><br>      <td>17.5</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将前五天的所有的蔬菜价格打8.8折</span></span><br><span class="line">df[:<span class="number">5</span>] *= <span class="number">0.88</span></span><br><span class="line">df</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>白萝卜</th><br>      <th>西红柿</th><br>      <th>黄瓜</th><br>      <th>白菜</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>1</th><br>      <td>11.0</td><br>      <td>19.8</td><br>      <td>15.4</td><br>      <td>17.6</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>4.4</td><br>      <td>13.2</td><br>      <td>11.0</td><br>      <td>15.4</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>8.8</td><br>      <td>15.4</td><br>      <td>11.0</td><br>      <td>2.2</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>17.6</td><br>      <td>8.8</td><br>      <td>15.4</td><br>      <td>19.8</td><br>    </tr><br>    <tr><br>      <th>5</th><br>      <td>4.4</td><br>      <td>6.6</td><br>      <td>4.4</td><br>      <td>6.6</td><br>    </tr><br>    <tr><br>      <th>6</th><br>      <td>15.0</td><br>      <td>22.5</td><br>      <td>12.5</td><br>      <td>20.0</td><br>    </tr><br>    <tr><br>      <th>7</th><br>      <td>5.0</td><br>      <td>15.0</td><br>      <td>15.0</td><br>      <td>7.5</td><br>    </tr><br>    <tr><br>      <th>8</th><br>      <td>20.0</td><br>      <td>20.0</td><br>      <td>5.0</td><br>      <td>7.5</td><br>    </tr><br>    <tr><br>      <th>9</th><br>      <td>7.5</td><br>      <td>17.5</td><br>      <td>12.5</td><br>      <td>15.0</td><br>    </tr><br>    <tr><br>      <th>10</th><br>      <td>5.0</td><br>      <td>12.5</td><br>      <td>10.0</td><br>      <td>12.5</td><br>    </tr><br>    <tr><br>      <th>11</th><br>      <td>7.5</td><br>      <td>17.5</td><br>      <td>7.5</td><br>      <td>12.5</td><br>    </tr><br>    <tr><br>      <th>12</th><br>      <td>22.5</td><br>      <td>10.0</td><br>      <td>2.5</td><br>      <td>10.0</td><br>    </tr><br>    <tr><br>      <th>13</th><br>      <td>5.0</td><br>      <td>7.5</td><br>      <td>10.0</td><br>      <td>2.5</td><br>    </tr><br>    <tr><br>      <th>14</th><br>      <td>20.0</td><br>      <td>7.5</td><br>      <td>17.5</td><br>      <td>17.5</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将第7、9/11天的白萝卜价格降半价且减1元</span></span><br><span class="line">df.loc[<span class="number">7</span>:<span class="number">12</span>:<span class="number">2</span>,<span class="string">'白萝卜'</span>] = df.loc[<span class="number">7</span>:<span class="number">12</span>:<span class="number">2</span>,<span class="string">'白萝卜'</span>]/<span class="number">2</span><span class="number">-1</span></span><br><span class="line">df</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>白萝卜</th><br>      <th>西红柿</th><br>      <th>黄瓜</th><br>      <th>白菜</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>1</th><br>      <td>11.00</td><br>      <td>19.8</td><br>      <td>15.4</td><br>      <td>17.6</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>4.40</td><br>      <td>13.2</td><br>      <td>11.0</td><br>      <td>15.4</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>8.80</td><br>      <td>15.4</td><br>      <td>11.0</td><br>      <td>2.2</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>17.60</td><br>      <td>8.8</td><br>      <td>15.4</td><br>      <td>19.8</td><br>    </tr><br>    <tr><br>      <th>5</th><br>      <td>4.40</td><br>      <td>6.6</td><br>      <td>4.4</td><br>      <td>6.6</td><br>    </tr><br>    <tr><br>      <th>6</th><br>      <td>15.00</td><br>      <td>22.5</td><br>      <td>12.5</td><br>      <td>20.0</td><br>    </tr><br>    <tr><br>      <th>7</th><br>      <td>1.50</td><br>      <td>15.0</td><br>      <td>15.0</td><br>      <td>7.5</td><br>    </tr><br>    <tr><br>      <th>8</th><br>      <td>20.00</td><br>      <td>20.0</td><br>      <td>5.0</td><br>      <td>7.5</td><br>    </tr><br>    <tr><br>      <th>9</th><br>      <td>2.75</td><br>      <td>17.5</td><br>      <td>12.5</td><br>      <td>15.0</td><br>    </tr><br>    <tr><br>      <th>10</th><br>      <td>5.00</td><br>      <td>12.5</td><br>      <td>10.0</td><br>      <td>12.5</td><br>    </tr><br>    <tr><br>      <th>11</th><br>      <td>2.75</td><br>      <td>17.5</td><br>      <td>7.5</td><br>      <td>12.5</td><br>    </tr><br>    <tr><br>      <th>12</th><br>      <td>22.50</td><br>      <td>10.0</td><br>      <td>2.5</td><br>      <td>10.0</td><br>    </tr><br>    <tr><br>      <th>13</th><br>      <td>5.00</td><br>      <td>7.5</td><br>      <td>10.0</td><br>      <td>2.5</td><br>    </tr><br>    <tr><br>      <th>14</th><br>      <td>20.00</td><br>      <td>7.5</td><br>      <td>17.5</td><br>      <td>17.5</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">df.iloc[[<span class="number">1</span>,<span class="number">5</span>,<span class="number">8</span>],[<span class="number">0</span>,<span class="number">3</span>]]=np.nan</span><br><span class="line">df</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>白萝卜</th><br>      <th>西红柿</th><br>      <th>黄瓜</th><br>      <th>白菜</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>1</th><br>      <td>11.00</td><br>      <td>19.8</td><br>      <td>15.4</td><br>      <td>17.6</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>NaN</td><br>      <td>13.2</td><br>      <td>11.0</td><br>      <td>NaN</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>8.80</td><br>      <td>15.4</td><br>      <td>11.0</td><br>      <td>2.2</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>17.60</td><br>      <td>8.8</td><br>      <td>15.4</td><br>      <td>19.8</td><br>    </tr><br>    <tr><br>      <th>5</th><br>      <td>4.40</td><br>      <td>6.6</td><br>      <td>4.4</td><br>      <td>6.6</td><br>    </tr><br>    <tr><br>      <th>6</th><br>      <td>NaN</td><br>      <td>22.5</td><br>      <td>12.5</td><br>      <td>NaN</td><br>    </tr><br>    <tr><br>      <th>7</th><br>      <td>1.50</td><br>      <td>15.0</td><br>      <td>15.0</td><br>      <td>7.5</td><br>    </tr><br>    <tr><br>      <th>8</th><br>      <td>20.00</td><br>      <td>20.0</td><br>      <td>5.0</td><br>      <td>7.5</td><br>    </tr><br>    <tr><br>      <th>9</th><br>      <td>NaN</td><br>      <td>17.5</td><br>      <td>12.5</td><br>      <td>NaN</td><br>    </tr><br>    <tr><br>      <th>10</th><br>      <td>5.00</td><br>      <td>12.5</td><br>      <td>10.0</td><br>      <td>12.5</td><br>    </tr><br>    <tr><br>      <th>11</th><br>      <td>2.75</td><br>      <td>17.5</td><br>      <td>7.5</td><br>      <td>12.5</td><br>    </tr><br>    <tr><br>      <th>12</th><br>      <td>22.50</td><br>      <td>10.0</td><br>      <td>2.5</td><br>      <td>10.0</td><br>    </tr><br>    <tr><br>      <th>13</th><br>      <td>5.00</td><br>      <td>7.5</td><br>      <td>10.0</td><br>      <td>2.5</td><br>    </tr><br>    <tr><br>      <th>14</th><br>      <td>20.00</td><br>      <td>7.5</td><br>      <td>17.5</td><br>      <td>17.5</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.add(<span class="number">1</span>, fill_value=<span class="number">0</span>)</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>白萝卜</th><br>      <th>西红柿</th><br>      <th>黄瓜</th><br>      <th>白菜</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>1</th><br>      <td>12.00</td><br>      <td>20.8</td><br>      <td>16.4</td><br>      <td>18.6</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>1.00</td><br>      <td>14.2</td><br>      <td>12.0</td><br>      <td>1.0</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>9.80</td><br>      <td>16.4</td><br>      <td>12.0</td><br>      <td>3.2</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>18.60</td><br>      <td>9.8</td><br>      <td>16.4</td><br>      <td>20.8</td><br>    </tr><br>    <tr><br>      <th>5</th><br>      <td>5.40</td><br>      <td>7.6</td><br>      <td>5.4</td><br>      <td>7.6</td><br>    </tr><br>    <tr><br>      <th>6</th><br>      <td>1.00</td><br>      <td>23.5</td><br>      <td>13.5</td><br>      <td>1.0</td><br>    </tr><br>    <tr><br>      <th>7</th><br>      <td>2.50</td><br>      <td>16.0</td><br>      <td>16.0</td><br>      <td>8.5</td><br>    </tr><br>    <tr><br>      <th>8</th><br>      <td>21.00</td><br>      <td>21.0</td><br>      <td>6.0</td><br>      <td>8.5</td><br>    </tr><br>    <tr><br>      <th>9</th><br>      <td>1.00</td><br>      <td>18.5</td><br>      <td>13.5</td><br>      <td>1.0</td><br>    </tr><br>    <tr><br>      <th>10</th><br>      <td>6.00</td><br>      <td>13.5</td><br>      <td>11.0</td><br>      <td>13.5</td><br>    </tr><br>    <tr><br>      <th>11</th><br>      <td>3.75</td><br>      <td>18.5</td><br>      <td>8.5</td><br>      <td>13.5</td><br>    </tr><br>    <tr><br>      <th>12</th><br>      <td>23.50</td><br>      <td>11.0</td><br>      <td>3.5</td><br>      <td>11.0</td><br>    </tr><br>    <tr><br>      <th>13</th><br>      <td>6.00</td><br>      <td>8.5</td><br>      <td>11.0</td><br>      <td>3.5</td><br>    </tr><br>    <tr><br>      <th>14</th><br>      <td>21.00</td><br>      <td>8.5</td><br>      <td>18.5</td><br>      <td>18.5</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">df2 = DataFrame(&#123;</span><br><span class="line">    <span class="string">'A'</span>:[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],</span><br><span class="line">    <span class="string">'B'</span>:[<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>],</span><br><span class="line">    <span class="string">'C'</span>:[<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>]</span><br><span class="line">&#125;)</span><br><span class="line">df2</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>0</th><br>      <td>1</td><br>      <td>5</td><br>      <td>8</td><br>    </tr><br>    <tr><br>      <th>1</th><br>      <td>2</td><br>      <td>6</td><br>      <td>9</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>3</td><br>      <td>7</td><br>      <td>10</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># axis='columns' -&gt; axis=1</span></span><br><span class="line">df2.add([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], axis=<span class="string">'columns'</span>) <span class="comment"># 按列相加，每行的数值按列的顺序相加</span></span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>0</th><br>      <td>2</td><br>      <td>7</td><br>      <td>11</td><br>    </tr><br>    <tr><br>      <th>1</th><br>      <td>3</td><br>      <td>8</td><br>      <td>12</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>4</td><br>      <td>9</td><br>      <td>13</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># axis='index' -&gt; axis=0</span></span><br><span class="line">df2.add(Series([<span class="number">10</span>,<span class="number">11</span>,<span class="number">12</span>]),axis=<span class="string">'index'</span>) <span class="comment"># 按行相加，每列按行的顺序相加</span></span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>0</th><br>      <td>11</td><br>      <td>15</td><br>      <td>18</td><br>    </tr><br>    <tr><br>      <th>1</th><br>      <td>13</td><br>      <td>17</td><br>      <td>20</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>15</td><br>      <td>19</td><br>      <td>22</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 增加第四列，折扣列(8.8-5.5)</span></span><br><span class="line">rate=np.round(Series(np.random.uniform(<span class="number">0.55</span>,<span class="number">0.89</span>,size=<span class="number">3</span>)),<span class="number">2</span>)</span><br><span class="line">rate</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0    0.74</span><br><span class="line">1    0.75</span><br><span class="line">2    0.58</span><br><span class="line">dtype: float64</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 新增一列</span></span><br><span class="line">df2[<span class="string">'rate'</span>] = rate</span><br><span class="line">df2</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>      <th>rate</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>0</th><br>      <td>1</td><br>      <td>5</td><br>      <td>8</td><br>      <td>0.74</td><br>    </tr><br>    <tr><br>      <th>1</th><br>      <td>2</td><br>      <td>6</td><br>      <td>9</td><br>      <td>0.75</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>3</td><br>      <td>7</td><br>      <td>10</td><br>      <td>0.58</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将 B 列的数值和rate列的数值相乘，并将结果生成result列</span></span><br><span class="line">df2[<span class="string">'result'</span>] = df2[<span class="string">'B'</span>].mul(df2[<span class="string">'rate'</span>]) <span class="comment"># 两个Series按照航索引进行乘法运算</span></span><br><span class="line">df2</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>A</th><br>      <th>B</th><br>      <th>C</th><br>      <th>rate</th><br>      <th>result</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>0</th><br>      <td>1</td><br>      <td>5</td><br>      <td>8</td><br>      <td>0.74</td><br>      <td>3.70</td><br>    </tr><br>    <tr><br>      <th>1</th><br>      <td>2</td><br>      <td>6</td><br>      <td>9</td><br>      <td>0.75</td><br>      <td>4.50</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>3</td><br>      <td>7</td><br>      <td>10</td><br>      <td>0.58</td><br>      <td>4.06</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+
+
+<h3 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h3><ul>
+<li>假设ddd是期中考试成绩，ddd2是期末考试成绩，请自由创建ddd2，并将其与ddd相加，求期中期末平均值。</li>
+<li>假设张三期中考试数学被发现作弊，要记为0分，如何实现？</li>
+<li>李四因为举报张三作弊立功，期中考试所有科目加100分，如何实现？</li>
+<li>后来老师发现有一道题出错了，为了安抚学生情绪，给每位学生每个科目都加10分，如何实现？</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">names = [<span class="string">'张三'</span>, <span class="string">'李四'</span>, <span class="string">'王五'</span>, <span class="string">'赵六'</span>]</span><br><span class="line">course = [<span class="string">'语文'</span>, <span class="string">'数学'</span>, <span class="string">'英语'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 期中考试</span></span><br><span class="line">ddd = DataFrame(np.random.randint(<span class="number">50</span>,<span class="number">100</span>, size=(<span class="number">4</span>, <span class="number">3</span>)), names, course)</span><br><span class="line">ddd</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>语文</th><br>      <th>数学</th><br>      <th>英语</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>张三</th><br>      <td>71</td><br>      <td>99</td><br>      <td>67</td><br>    </tr><br>    <tr><br>      <th>李四</th><br>      <td>57</td><br>      <td>70</td><br>      <td>55</td><br>    </tr><br>    <tr><br>      <th>王五</th><br>      <td>80</td><br>      <td>90</td><br>      <td>87</td><br>    </tr><br>    <tr><br>      <th>赵六</th><br>      <td>96</td><br>      <td>81</td><br>      <td>68</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 期末考试</span></span><br><span class="line">ddd2 = DataFrame(np.random.randint(<span class="number">60</span>,<span class="number">100</span>, size=(<span class="number">4</span>, <span class="number">3</span>)), names, course)</span><br><span class="line">ddd2</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>语文</th><br>      <th>数学</th><br>      <th>英语</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>张三</th><br>      <td>89</td><br>      <td>96</td><br>      <td>83</td><br>    </tr><br>    <tr><br>      <th>李四</th><br>      <td>94</td><br>      <td>62</td><br>      <td>60</td><br>    </tr><br>    <tr><br>      <th>王五</th><br>      <td>90</td><br>      <td>82</td><br>      <td>70</td><br>    </tr><br>    <tr><br>      <th>赵六</th><br>      <td>78</td><br>      <td>76</td><br>      <td>62</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 平均成绩</span></span><br><span class="line">(ddd + ddd2)/<span class="number">2</span></span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>语文</th><br>      <th>数学</th><br>      <th>英语</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>张三</th><br>      <td>80.0</td><br>      <td>97.5</td><br>      <td>75.0</td><br>    </tr><br>    <tr><br>      <th>李四</th><br>      <td>75.5</td><br>      <td>66.0</td><br>      <td>57.5</td><br>    </tr><br>    <tr><br>      <th>王五</th><br>      <td>85.0</td><br>      <td>86.0</td><br>      <td>78.5</td><br>    </tr><br>    <tr><br>      <th>赵六</th><br>      <td>87.0</td><br>      <td>78.5</td><br>      <td>65.0</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 平均成绩</span></span><br><span class="line">ddd.add(ddd2).div(<span class="number">2</span>)</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>语文</th><br>      <th>数学</th><br>      <th>英语</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>张三</th><br>      <td>80.0</td><br>      <td>97.5</td><br>      <td>75.0</td><br>    </tr><br>    <tr><br>      <th>李四</th><br>      <td>75.5</td><br>      <td>66.0</td><br>      <td>57.5</td><br>    </tr><br>    <tr><br>      <th>王五</th><br>      <td>85.0</td><br>      <td>86.0</td><br>      <td>78.5</td><br>    </tr><br>    <tr><br>      <th>赵六</th><br>      <td>87.0</td><br>      <td>78.5</td><br>      <td>65.0</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ddd.loc[<span class="string">'张三'</span>,[<span class="string">'数学'</span>]] = <span class="number">0</span></span><br><span class="line">ddd</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>语文</th><br>      <th>数学</th><br>      <th>英语</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>张三</th><br>      <td>71</td><br>      <td>0</td><br>      <td>67</td><br>    </tr><br>    <tr><br>      <th>李四</th><br>      <td>57</td><br>      <td>70</td><br>      <td>55</td><br>    </tr><br>    <tr><br>      <th>王五</th><br>      <td>80</td><br>      <td>90</td><br>      <td>87</td><br>    </tr><br>    <tr><br>      <th>赵六</th><br>      <td>96</td><br>      <td>81</td><br>      <td>68</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ddd.loc[<span class="string">'李四'</span>] += <span class="number">100</span></span><br><span class="line">ddd</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>语文</th><br>      <th>数学</th><br>      <th>英语</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>张三</th><br>      <td>71</td><br>      <td>0</td><br>      <td>67</td><br>    </tr><br>    <tr><br>      <th>李四</th><br>      <td>157</td><br>      <td>170</td><br>      <td>155</td><br>    </tr><br>    <tr><br>      <th>王五</th><br>      <td>80</td><br>      <td>90</td><br>      <td>87</td><br>    </tr><br>    <tr><br>      <th>赵六</th><br>      <td>96</td><br>      <td>81</td><br>      <td>68</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ddd.add(<span class="number">10</span>)</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br>    </style><br>    <table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>语文</th><br>      <th>数学</th><br>      <th>英语</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>张三</th><br>      <td>81</td><br>      <td>10</td><br>      <td>77</td><br>    </tr><br>    <tr><br>      <th>李四</th><br>      <td>167</td><br>      <td>180</td><br>      <td>165</td><br>    </tr><br>    <tr><br>      <th>王五</th><br>      <td>90</td><br>      <td>100</td><br>      <td>97</td><br>    </tr><br>    <tr><br>      <th>赵六</th><br>      <td>106</td><br>      <td>91</td><br>      <td>78</td><br>    </tr><br>  </tbody><br></table><br>    </div>
+
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+      <a href="/数据分析/DataFrame的应用/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption"></strong>
+        <div class="article-nav-title">
+          
+            DataFrame的应用
+          
+        </div>
+      </a>
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/数据分析/读取图片并处理/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">读取图片并处理</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://www.xuhuiblog.cn/css/gitment.css">
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/gitment.js"></script>
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/md5.min.js"></script>
+<script>
+var gitment = new Gitment({
+  id: md5(window.location.pathname.replace(/index.html/, "")),
+  owner: 'pighui',
+  repo: 'myblogdes',
+  oauth: {
+    client_id: '79535b24d59031961e6c',
+    client_secret: '4f1907f09f33c1182feb2ddfeef33677e8e5ff36',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+
+  
+  
+</article>
+</section>
+                <aside id="sidebar">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="360" height="86" src="//music.163.com/outchain/player?type=2&id=1346998796&auto=0&height=66"></iframe>
+    
+        <div class="widget-box">
+    <div class="avatar-box">
+        <img class="avatar" src="/images/default-avatar.jpeg" title="图片来自网络">
+        <h3 class="avatar-name">
+            
+                一介书生
+            
+        </h3>
+        <p class="avatar-slogan">
+            盼 君 金 榜 题 名 时 。
+寒 窗 苦 读 数 十 载 ，
+        </p>
+    </div>
+</div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kali/">Kali</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ubuntu/">Ubuntu</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据分析/">数据分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/爬虫/">爬虫</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kali/">Kali</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分析/">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试/">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 11.43px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 12.86px;">Hexo</a> <a href="/tags/Kali/" style="font-size: 10px;">Kali</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/Ubuntu/" style="font-size: 15.71px;">Ubuntu</a> <a href="/tags/数据分析/" style="font-size: 18.57px;">数据分析</a> <a href="/tags/机器学习/" style="font-size: 14.29px;">机器学习</a> <a href="/tags/测试/" style="font-size: 11.43px;">测试</a> <a href="/tags/爬虫/" style="font-size: 17.14px;">爬虫</a> <a href="/tags/面试题/" style="font-size: 10px;">面试题</a>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/机器学习/人脸自动补全/">人脸自动补全</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/Logistics回归和数字识别/">Logistics回归和数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/LinearRegression线性回归/">LinearRegression线性回归</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/KNN-手写数字识别/">KNN-手写数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/K-近邻算法-KNN/">K-近邻算法（KNN）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+          <div class="widget-box">
+    <h3 class="widget-title">友链</h3>
+    <div class="widget">
+      
+        <a style="display: block;" href="https://yiluyanxia.github.io/" title target="_blank">一路眼瞎</a>
+      
+        <a style="display: block;" href="https://wljsky.cn/" title target="_blank">钧金</a>
+      
+    </div>
+  </div>
+
+    
+</aside>
+            </div>
+            <footer id="footer">
+    <!-- 百度推送 -->
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            } else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+    <!-- 百度统计 -->
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?58e88d550a3485e4fa9494eb391c7e47";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135687698-1"></script> -->
+    <script src="/js/google.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('set', {'user_id': 'UA-135687698-1'});
+        gtag('config', 'UA-135687698-1');
+    </script>
+    <div class="foot-box global-width">
+        &copy;Copyright&nbsp;2019 一介书生<br>
+        驱动于 <a href="http://hexo.io/" target="_blank">Hexo</a>
+        &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+        <br>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <span id="busuanzi_container_site_pv">阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+        <br>
+        豫ICP备<a href="http://ha.beian.miit.gov.cn/">19008962</a>号
+    </div>
+</footer>
+            <script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) {
+        var script = document.createElement('script');
+        script.src = "/js/jquery.min.js";
+        document.body.write(script);
+    }
+</script>
+
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+    <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+        </div>
+        <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="https://github.com/pighui" class="mobile-nav-link">基友</a>
+  
+    <a href="/archives" class="mobile-nav-link">文章</a>
+  
+    <a href="/me" class="mobile-nav-link">简历</a>
+  
+    <a href="/snow" class="mobile-nav-link">看雪</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/js/love.js"></script>
+    <script src="/js/snowy.js"></script>
+    <style type="text/css">.snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100001;
+        }</style>
+    <div class="snow-container"></div>
+</body>
+</html>

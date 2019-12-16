@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','/js/analytics.js','ga');
+
+ga('create', 'UA-135687698-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+    
+    <title>
+        对于Python中多进程的理解以及实现方法 |
+        
+        欢迎浏览本博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+    
+        <meta name="keywords" content="Ubuntu,Linux,Python,Python Web,爬虫,数据分析,机器学习">
+    
+    <meta name="description" content="Python中的多进程一、概念​    进程是OS（操作系统）中的概念，在某一程序（任务组）启动时，由OS分配的内存、进程控制状态快等相关资源，之后在进程中创建线程，来执行程序code。​     一般情况下，进程由三部分组成：内存、程序code、进程控制块（进程ID，进程的状态等描述）。如在Linux操作系统下，执行ps命令，查看所有的进程运行状态。在Windows下，可以通过任务管理器来查看当">
+<meta name="keywords" content="爬虫,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对于Python中多进程的理解以及实现方法">
+<meta property="og:url" content="https://www.xuhuiblog.cn/爬虫/对于Python中多进程的理解以及实现方法/index.html">
+<meta property="og:site_name" content="欢迎浏览本博客">
+<meta property="og:description" content="Python中的多进程一、概念​    进程是OS（操作系统）中的概念，在某一程序（任务组）启动时，由OS分配的内存、进程控制状态快等相关资源，之后在进程中创建线程，来执行程序code。​     一般情况下，进程由三部分组成：内存、程序code、进程控制块（进程ID，进程的状态等描述）。如在Linux操作系统下，执行ps命令，查看所有的进程运行状态。在Windows下，可以通过任务管理器来查看当">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.xuhuiblog.cn/爬虫/对于Python中多进程的理解以及实现方法/1.png">
+<meta property="og:updated_time" content="2019-04-22T12:20:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对于Python中多进程的理解以及实现方法">
+<meta name="twitter:description" content="Python中的多进程一、概念​    进程是OS（操作系统）中的概念，在某一程序（任务组）启动时，由OS分配的内存、进程控制状态快等相关资源，之后在进程中创建线程，来执行程序code。​     一般情况下，进程由三部分组成：内存、程序code、进程控制块（进程ID，进程的状态等描述）。如在Linux操作系统下，执行ps命令，查看所有的进程运行状态。在Windows下，可以通过任务管理器来查看当">
+<meta name="twitter:image" content="https://www.xuhuiblog.cn/爬虫/对于Python中多进程的理解以及实现方法/1.png">
+    
+        <link rel="alternate" href="/atom.xml" title="欢迎浏览本博客" type="application/atom+xml">
+    
+    
+        <link rel="icon" href="/images/favicon.ico">
+    
+    
+        <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <script>
+        let antiquityStorage = window.sessionStorage.getItem('antiquitySessionStorage');
+        if (antiquityStorage == '' || antiquityStorage == null) {
+            var antiquityLoader = '<div id="loaderbox"><div class="loader"><div class="load-roll"><div class="load-top"></div><div class="load-right"></div><div class="load-bottom"></div></div></div></div>';
+            document.write(antiquityLoader);
+            document.body.style.overflow = 'hidden'
+        }
+    </script>
+</head>
+</html>
+<body>
+<div id="fullpage" class="mobile-nav-right">
+    
+    <div id="wrapper" style="background-image: url(/images/bg.jpg)"
+         title="图片来自网络">
+        
+
+            <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-right">
+      
+        <a class="nav-item" href="/" title>首页</a>
+      
+        <a class="nav-item" href="https://github.com/pighui" title>基友</a>
+      
+        <a class="nav-item" href="/archives" title>文章</a>
+      
+        <a class="nav-item" href="/me" title>简历</a>
+      
+        <a class="nav-item" href="/snow" title>看雪</a>
+      
+    </nav>
+  </div>
+</header>
+            <div id="middlecontent" title class="global-width sidebar-right">
+                <section id="main"><article id="post-对于Python中多进程的理解以及实现方法" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      对于Python中多进程的理解以及实现方法
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/爬虫/对于Python中多进程的理解以及实现方法/" class="article-date">
+  <time datetime="2019-04-15T08:15:21.000Z" itemprop="datePublished">2019-04-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/爬虫/">爬虫</a>
+  </div>
+
+    
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
+
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+    </span>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h1 id="Python中的多进程"><a href="#Python中的多进程" class="headerlink" title="Python中的多进程"></a>Python中的多进程</h1><h2 id="一、概念"><a href="#一、概念" class="headerlink" title="一、概念"></a>一、概念</h2><p>​    进程是OS（操作系统）中的概念，在某一程序（任务组）启动时，由OS分配的内存、进程控制状态快等相关资源，之后在进程中创建线程，来执行程序code。<br>​     一般情况下，进程由三部分组成：内存、程序code、进程控制块（进程ID，进程的状态等描述）。如在Linux操作系统下，执行ps命令，查看所有的进程运行状态。在Windows下，可以通过任务管理器来查看当前系统下的所有进程。<br><a id="more"></a><br>​     在Python中创建进程的方式有三种：</p>
+<ul>
+<li>os.fork()只针对linux系统的，Windows/Linux下可以使用multiprocessing模块</li>
+<li>os.system()执行OS的命令，如pwd，ps，top，free，awk</li>
+<li>os.popen()执行OS的命令，但是以字节流的方式读取执行的结果。os.system()只执行命令，没办法读取执行结果。</li>
+</ul>
+<h2 id="二、进程的生命周期"><a href="#二、进程的生命周期" class="headerlink" title="二、进程的生命周期"></a>二、进程的生命周期</h2><p>​    整个进程的生命周期有五个状态（过程），分别是创建、就绪、运行、阻塞和结束。<br><img src="/爬虫/对于Python中多进程的理解以及实现方法/1.png" alt></p>
+<h2 id="三、Python程序的应用"><a href="#三、Python程序的应用" class="headerlink" title="三、Python程序的应用"></a>三、Python程序的应用</h2><h3 id="3-1-multiprocessing模块"><a href="#3-1-multiprocessing模块" class="headerlink" title="3.1 multiprocessing模块"></a>3.1 multiprocessing模块</h3><h4 id="3-1-1-创建和运行进程"><a href="#3-1-1-创建和运行进程" class="headerlink" title="3.1.1 创建和运行进程"></a>3.1.1 创建和运行进程</h4><p>进程对象是由multiprocessing.Process类创建</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"></span><br><span class="line">process = multiprocessing.Process(target=new_keys)</span><br></pre></td></tr></table></figure></div>
+<p>target参数，表示进程执行的任务对象。此时new_keys是任务函数对象，此函数的定义如下：</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">每隔一秒钟生成一个6位由数字、大小字母组成的key</span></span><br><span class="line"><span class="string">并写入到keystore.keys文件中</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_key</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment">#ord(str) 返回一个ASCII字符的ASCII值(10进制值)</span></span><br><span class="line">    characters = list(range(ord(<span class="string">'0'</span>),ord(<span class="string">'9'</span>)+<span class="number">1</span>)) + \</span><br><span class="line">        list(range(ord(<span class="string">'a'</span>),ord(<span class="string">'z'</span>)+<span class="number">1</span>)) + \</span><br><span class="line">        list(range(ord(<span class="string">'A'</span>),ord(<span class="string">'Z'</span>)+<span class="number">1</span>))</span><br><span class="line">    <span class="comment">#chr(code) 返回ASCII值对应的ASCII字符</span></span><br><span class="line">    characters = [chr(code) <span class="keyword">for</span> code <span class="keyword">in</span> characters]</span><br><span class="line">    cs = <span class="string">''</span>.join([random.choice(characters) <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">6</span>)])</span><br><span class="line">    <span class="keyword">return</span> cs</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">new_keys</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        key = generate_key()</span><br><span class="line">        <span class="comment">#获取当前函数执行时，它所在的进程信息</span></span><br><span class="line">        current_process = multiprocessing.current_process()</span><br><span class="line">        <span class="comment">#进程的信息（进程ID，父进程，进程状态）</span></span><br><span class="line">        pid = current_process.pid  <span class="comment">#os.getpid()</span></span><br><span class="line">        ppid = os.getppid()</span><br><span class="line">        print(<span class="string">'%s in %s'</span>%(pid,ppid),time.strftime(<span class="string">'%d %H:%M:%S'</span>,time.localtime()),key)</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">'keystore.keys'</span>,<span class="string">'a'</span>) <span class="keyword">as</span> file:</span><br><span class="line">            file.write(key+<span class="string">'\n'</span>)</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br></pre></td></tr></table></figure></div>
+<p>创建之后，调用进程对象的start()函数可以启动进程。</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">process.start()</span><br></pre></td></tr></table></figure></div>
+<p><b><font color="red">注意:</font></b> <strong>调用进程对象的run()函数，直接执行此函数，并不是启动进程。</strong></p>
+<p>另外， 进程启动后，由系统进行调度，当前行不会阻塞一下。简单地说，当启动进程后，进程中指定的target则会在进程进入运行状态时，会自动执行。而process.start()执行后，当前进程会继续向下执行，不会被阻塞。</p>
+<h4 id="3-1-2-启动时的传参"><a href="#3-1-2-启动时的传参" class="headerlink" title="3.1.2 启动时的传参"></a>3.1.2 启动时的传参</h4><p>​    在创建进程类Process对象时，通过<strong>init</strong>()初始化参数中target来指定进程执行的程序(函数对象)，再通过args或kwargs来指定程序(函数)需要的数据(参数)。</p>
+<p>案例1： 启动一个进程的传参</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#! /usr/bin/env python</span></span><br><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">在创建Process时为target目标函数提供参数</span></span><br><span class="line"><span class="string">任务：由子进程完成keystore.keys文件的读取，每隔一秒读取一次</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_key</span><span class="params">(filepath: str,timedelta: int)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(filepath,<span class="string">'r'</span>) <span class="keyword">as</span> file:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> file:</span><br><span class="line">            print(os.getpid(),line,end =<span class="string">''</span>)</span><br><span class="line">            time.sleep(timedelta)</span><br><span class="line">        file.close()</span><br><span class="line">    print(<span class="string">'%s 读取完成！'</span> % filepath)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment">#read_key('keystore.keys',1)</span></span><br><span class="line">    <span class="comment">#process = Process(target=read_key,args=('keystore.keys',0.5))</span></span><br><span class="line">    <span class="comment">#process.start()</span></span><br><span class="line">    <span class="comment">#process.join() #等待子进程执行完，可能阻塞，直到子进程执行完</span></span><br><span class="line">    files = ((<span class="string">'keystore.keys'</span>,<span class="number">0.1</span>),</span><br><span class="line">             (<span class="string">'Day71.md'</span>,<span class="number">0.2</span>))</span><br><span class="line">    <span class="comment">#批量创建进程</span></span><br><span class="line">    process_list = [ Process(target=read_key,</span><br><span class="line">                             kwargs=dict(filepath=filepath,</span><br><span class="line">                                         timedelta=timedelta))</span><br><span class="line">                     <span class="keyword">for</span> filepath, timedelta <span class="keyword">in</span> files]</span><br><span class="line">    <span class="keyword">for</span> process <span class="keyword">in</span> process_list:</span><br><span class="line">        process.start()</span><br><span class="line">    <span class="keyword">for</span> process <span class="keyword">in</span> process_list:</span><br><span class="line">        process.join()</span><br><span class="line">    print(<span class="string">'--over--'</span>)</span><br></pre></td></tr></table></figure></div>
+<h4 id="3-1-3-多进程的通信-重点"><a href="#3-1-3-多进程的通信-重点" class="headerlink" title="3.1.3 多进程的通信[重点]"></a>3.1.3 多进程的通信[重点]</h4><h5 id="3-1-3-1-场景"><a href="#3-1-3-1-场景" class="headerlink" title="3.1.3.1 场景"></a>3.1.3.1 场景</h5><p>​    在高并发情况下，一个任务可能需要多个进程进行协作，如下载进程专门负责下载资源的功能，解析进程专门负责解析或提取网页中的数据，数据处理的进程负责接戏之后的数据存储、图片下载、数据预处理等工作。</p>
+<h5 id="3-1-3-2-前提"><a href="#3-1-3-2-前提" class="headerlink" title="3.1.3.2 前提"></a>3.1.3.2 前提</h5><p>​    由于<strong>进程和进程之间是相互独立的</strong>，当某一个进程因为程序的原因导致进程崩溃，不会影响其他的进程 。</p>
+<h5 id="3-1-3-2-四种进程间通信的方式"><a href="#3-1-3-2-四种进程间通信的方式" class="headerlink" title="3.1.3.2 四种进程间通信的方式"></a>3.1.3.2 四种进程间通信的方式</h5><ul>
+<li><p>Pipe管道</p>
+<p>管道的方式又分为半双工和全双工管道，半双工即是一端只能收，另一端只能发。全双工是两端都可以发和收。</p>
+</li>
+</ul>
+<h6 id="2-1）半双工"><a href="#2-1）半双工" class="headerlink" title="2-1）半双工"></a>2-1）半双工</h6><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#! /usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*-coding:UTF-8-*-</span></span><br><span class="line"><span class="comment">#__author__ :'pighui'</span></span><br><span class="line"><span class="comment">#__time__ :19-4-15 下午3:53</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">基于Pipe的进程通信</span></span><br><span class="line"><span class="string">1）半双工</span></span><br><span class="line"><span class="string">2）全双工</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process,Pipe</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download</span><span class="params">(conn)</span>:</span></span><br><span class="line">    <span class="comment">#从conn中读取下载的任务</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        url = conn.recv()</span><br><span class="line">        <span class="keyword">if</span> url == <span class="string">"over"</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        print(os.getpid(),url)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">start_requests</span><span class="params">(conn)</span>:</span></span><br><span class="line">    <span class="comment">#通过conn发布下载的任务</span></span><br><span class="line">    <span class="keyword">for</span> url <span class="keyword">in</span> (<span class="string">"http://www.baidu.com"</span>,</span><br><span class="line">                <span class="string">"http://www.sohu.com"</span>,</span><br><span class="line">                <span class="string">"http://www.360.com"</span>):</span><br><span class="line">        conn.send(url)</span><br><span class="line">        print(os.getpid(),<span class="string">'发布'</span>, url)</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">    conn.send(<span class="string">"over"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment">#duplex表示是否为全双工，False表示半双工</span></span><br><span class="line">    <span class="comment">#conn1 只收</span></span><br><span class="line">    <span class="comment">#conn2 只发</span></span><br><span class="line">    conn1, conn2 = Pipe(duplex=<span class="literal">False</span>)</span><br><span class="line">    <span class="comment">#创建发布下载任务的进程</span></span><br><span class="line">    publisher = Process(target=start_requests, args=(conn2,))</span><br><span class="line">    <span class="comment">#创建接收下载任务的进程</span></span><br><span class="line">    downloader = Process(target=download, args=(conn1,))</span><br><span class="line"></span><br><span class="line">    publisher.start()</span><br><span class="line">    downloader.start()</span><br><span class="line"></span><br><span class="line">    publisher.join()</span><br><span class="line">    downloader.join()</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'--over--'</span>)</span><br></pre></td></tr></table></figure></div>
+<h6 id="2-2-全双工"><a href="#2-2-全双工" class="headerlink" title="2-2)全双工"></a>2-2)全双工</h6><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#! /usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*-coding:UTF-8-*-</span></span><br><span class="line"><span class="comment">#__author__ :pighui</span></span><br><span class="line"><span class="comment">#__time__ :19-4-15 下午4:15</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#! /usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*-coding:UTF-8-*-</span></span><br><span class="line"><span class="comment">#__author__ :'pighui'</span></span><br><span class="line"><span class="comment">#__time__ :19-4-15 下午3:53</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">基于Pipe的进程通信</span></span><br><span class="line"><span class="string">1）半双工</span></span><br><span class="line"><span class="string">2）全双工</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process,Pipe</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download</span><span class="params">(conn)</span>:</span></span><br><span class="line">    <span class="comment">#从conn中读取下载的任务</span></span><br><span class="line">    <span class="comment">#当下载完成后，将数据返回给conn连接的管道</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="comment">#从管道接受数据</span></span><br><span class="line">        url = conn.recv()<span class="comment">#从管道接收</span></span><br><span class="line">        <span class="keyword">if</span> url == <span class="string">"over"</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        print(os.getpid(),<span class="string">'接受下载任务'</span>,url)</span><br><span class="line">        time.sleep(<span class="number">3</span>)<span class="comment">#模拟下载时间</span></span><br><span class="line">        print(os.getpid(),<span class="string">'下载完成'</span>,url)</span><br><span class="line">        conn.send(<span class="string">'%s-&gt;%s:%s'</span> % (os.getpid(),<span class="string">'下载完成'</span>,url))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">start_requests</span><span class="params">(conn)</span>:</span></span><br><span class="line">    <span class="comment">#通过conn发布下载的任务</span></span><br><span class="line">    <span class="keyword">for</span> url <span class="keyword">in</span> (<span class="string">"http://www.baidu.com"</span>,</span><br><span class="line">                <span class="string">"http://www.sohu.com"</span>,</span><br><span class="line">                <span class="string">"http://www.360.com"</span>):</span><br><span class="line">        conn.send(url)<span class="comment">#从管道发送</span></span><br><span class="line">        print(os.getpid(),<span class="string">'发布'</span>, url)</span><br><span class="line">        data = conn.recv() <span class="comment">#接收下载完成后的数据</span></span><br><span class="line">        print(os.getpid(), data)</span><br><span class="line">    conn.send(<span class="string">"over"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment">#duplex表示是否为全双工，False表示半双工</span></span><br><span class="line">    <span class="comment">#conn1 只收</span></span><br><span class="line">    <span class="comment">#conn2 只发</span></span><br><span class="line">    conn1, conn2 = Pipe(duplex=<span class="literal">True</span>)</span><br><span class="line">    <span class="comment">#创建发布下载任务的进程</span></span><br><span class="line">    publisher = Process(target=start_requests, args=(conn2,))</span><br><span class="line">    <span class="comment">#创建接收下载任务的进程</span></span><br><span class="line">    downloader = Process(target=download, args=(conn1,))</span><br><span class="line"></span><br><span class="line">    publisher.start()</span><br><span class="line">    downloader.start()</span><br><span class="line"></span><br><span class="line">    publisher.join()</span><br><span class="line">    downloader.join()</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'--over--'</span>)</span><br></pre></td></tr></table></figure></div>
+<ul>
+<li><p>Queue队列<br>队列本身是阻塞的，可以发布和读取可能会出现的阻塞</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#! /usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*-coding:UTF-8-*-</span></span><br><span class="line"><span class="comment">#__author__ :pighui</span></span><br><span class="line"><span class="comment">#__time__ :19-4-15 下午4:29</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">基于Queue队列实现进程间通信</span></span><br><span class="line"><span class="string">Queue对象常用的方法：</span></span><br><span class="line"><span class="string">put(value) 存放数据</span></span><br><span class="line"><span class="string">value = get() 读取数据</span></span><br><span class="line"><span class="string">empty() 是否为空</span></span><br><span class="line"><span class="string">qsize 当前队列的大小</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Queue</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">start_request</span><span class="params">(queue: Queue)</span>:</span></span><br><span class="line">    <span class="comment">#模拟某一网页的入口url，下载数据</span></span><br><span class="line">    urls = [<span class="string">'http://www.baidu.com/s=%s&amp;t=%s'</span> % (os.getpid(),time.strftime(<span class="string">'%H:%M:%S'</span>,time.localtime()))</span><br><span class="line">                <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">100000</span>) <span class="keyword">if</span> _ % <span class="number">1000</span> == <span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> url <span class="keyword">in</span> urls:</span><br><span class="line">        data = random.choice([<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>,<span class="string">'f'</span>])</span><br><span class="line">        <span class="comment">#queue中存放数据</span></span><br><span class="line">        queue.put((url, data))</span><br><span class="line">        time.sleep(<span class="number">0.3</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(queue: Queue)</span>:</span></span><br><span class="line">    <span class="comment">#从queue中读取响应的数据，并进行解析</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            url, data = queue.get(timeout=<span class="number">5</span>) <span class="comment">#读取数据超时，抛出异常</span></span><br><span class="line">            print(os.getpid(),<span class="string">'开始解析'</span>, (url, data))</span><br><span class="line">            time.sleep(<span class="number">0.4</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(os.getpid(),<span class="string">"任务完成"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment">#创建Queue对象</span></span><br><span class="line">    queue = Queue(maxsize=<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#创建两个进程（下载任务）</span></span><br><span class="line">    downloads  = [Process(target=start_request, args=(queue,))</span><br><span class="line">                  <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">2</span>)]</span><br><span class="line"></span><br><span class="line">    <span class="comment">#创建三个解析进程</span></span><br><span class="line">    parses = [Process(target=parse, args=(queue,))</span><br><span class="line">                 <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">3</span>)]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> process <span class="keyword">in</span> downloads+parses:</span><br><span class="line">        process.start()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> process <span class="keyword">in</span> downloads+parses:</span><br><span class="line">        process.join()</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'--over--'</span>)</span><br></pre></td></tr></table></figure></div>
+</li>
+</ul>
+<p><b><font color="red"><strong>注意:</strong></font></b>在windows操作中，queue可能存在put()失败的问题，可以将queue改成Manager对象中的Queue对象。部分代码如下：</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Manager</span><br><span class="line"></span><br><span class="line">queue = Manager().Queue()</span><br></pre></td></tr></table></figure></div>
+<ul>
+<li><p>共享内存Manager<br>由C语言实现的功能，系统本身会在内存区域中分出一个共享区域，实现多进程之间通信</p>
+</li>
+<li><p>信号或Socket<br>如果是在Linux中，使用socket模块中socket.AF_UNIX方式绑定或连接一个.socket文件实现进程间的通信。</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#! /usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*-coding:UTF-8-*-</span></span><br><span class="line"><span class="comment">#__author__ :pighui</span></span><br><span class="line"><span class="comment">#__time__ :19-4-15 下午5:37</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">基于socket实现进程间通信</span></span><br><span class="line"><span class="string">要求：通过.socket文件实现的</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download</span><span class="params">(url, socket_filepath)</span>:</span></span><br><span class="line">    print(os.getpid(), <span class="string">'start request'</span>, url)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    data = <span class="string">'%s:%s'</span> % (url, <span class="string">'&lt;html&gt;&lt;h1&gt;hi&lt;h1&gt;&lt;/html&gt;'</span>)</span><br><span class="line">    <span class="comment">#将data数据写入socket中，传递给parser进程</span></span><br><span class="line">    s = socket.socket(socket.AF_UNIX)</span><br><span class="line">    <span class="comment">#直到socket_filepath文件存在</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> os.path.exists(socket_filepath):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    s.connect(socket_filepath)</span><br><span class="line">    s.send(data.encode())</span><br><span class="line">    print(os.getpid(), <span class="string">'--发送数据成功--'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(socket_filepath)</span>:</span></span><br><span class="line">    s  = socket.socket(socket.AF_UNIX)</span><br><span class="line">    <span class="comment">#如果socket文件存在，则删除旧的socket文件</span></span><br><span class="line">    <span class="keyword">if</span> os.path.exists(socket_filepath):</span><br><span class="line">        os.remove(socket_filepath)</span><br><span class="line">    s.bind(socket_filepath)</span><br><span class="line">    s.listen()</span><br><span class="line">    c, addr = s.accept() <span class="comment">#等待连接</span></span><br><span class="line">    data = c.recv(<span class="number">1024</span>*<span class="number">8</span>) <span class="comment">#接受连接进程的数据</span></span><br><span class="line">    print(os.getpid(), data)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment">#指定两个进程间通信的socket文件</span></span><br><span class="line">    socket_file = <span class="string">'process5.socket'</span></span><br><span class="line">    downloader = Process(target=download,</span><br><span class="line">                         args=(<span class="string">'http://www.baidu.com'</span>, socket_file))</span><br><span class="line"></span><br><span class="line">    parser = Process(target=parse,</span><br><span class="line">                     args=(socket_file, ))</span><br><span class="line"></span><br><span class="line">    downloader.start()</span><br><span class="line">    parser.start()</span><br><span class="line"></span><br><span class="line">    downloader.join()</span><br><span class="line">    parser.join()</span><br><span class="line"></span><br><span class="line">    print(os.getpid(), <span class="string">'--over--'</span>)</span><br></pre></td></tr></table></figure></div>
+<p>如果在Window中， 可以使用AF_INET通信方式，只需要将上述代码中bind()绑定和connect()连接中的参数改成(ip, port)即可，详细代码如下：</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#! /usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*-coding:UTF-8-*-</span></span><br><span class="line"><span class="comment">#__author__ : pighui</span></span><br><span class="line"><span class="comment">#__time__ : 2019-4-15 下午6:21</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">基于socket实现进程间通信</span></span><br><span class="line"><span class="string"># 要求： 通过(ip, port) 网络通信</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download</span><span class="params">(url, port)</span>:</span></span><br><span class="line">    print(os.getpid(), <span class="string">'start request '</span>, url)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    data = <span class="string">'%s:%s'</span> % (url, <span class="string">'&lt;html&gt;&lt;h1&gt;hi&lt;/h1&gt;&lt;/html&gt;'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将data数据写入scoket中，传递给parser进程</span></span><br><span class="line">    s = socket.socket()</span><br><span class="line"></span><br><span class="line">    s.connect((<span class="string">'localhost'</span>, port))</span><br><span class="line">    <span class="comment"># 将数据写入socket</span></span><br><span class="line">    s.send(data.encode())</span><br><span class="line">    print(os.getpid(), <span class="string">'---发送数据成功--'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(port)</span>:</span></span><br><span class="line">    s = socket.socket(socket.AF_INET)</span><br><span class="line">    s.bind((<span class="string">''</span>, port)) <span class="comment"># 绑定socket文件</span></span><br><span class="line">    s.listen()</span><br><span class="line">    c, address = s.accept() <span class="comment"># 等待连接</span></span><br><span class="line">    data = c.recv(<span class="number">1024</span>*<span class="number">8</span>)  <span class="comment"># 接收连接进程的数据</span></span><br><span class="line">    print(os.getpid(), data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    downloader = Process(target=download,</span><br><span class="line">                         args=(<span class="string">'http://www.baidu.com'</span>, <span class="number">8999</span>))</span><br><span class="line"></span><br><span class="line">    parser = Process(target=parse,</span><br><span class="line">                     args=(<span class="number">8999</span>, ))</span><br><span class="line">    downloader.start()</span><br><span class="line">    parser.start()</span><br><span class="line"></span><br><span class="line">    downloader.join()</span><br><span class="line">    parser.join()</span><br><span class="line"></span><br><span class="line">    print(os.getpid(), <span class="string">'----over----'</span>)</span><br></pre></td></tr></table></figure></div>
+</li>
+</ul>
+<p>总结一下socket的用法如下：</p>
+<p>1.用于进程间通信(Process-Process)</p>
+<p>使用.socket文件</p>
+<p>2.用于网络间通信(client-server)</p>
+<p>使用(ip,port)</p>
+<p>socket的使用步骤，分客户端和服务端，详情如下：</p>
+<p>1.Server端</p>
+<ul>
+<li><p>创建socket-socket(socket.AF_INET/AF_UNIX)</p>
+</li>
+<li><p>绑定(ip,port)或.socket文件-bind()</p>
+</li>
+<li><p>监听-listen()</p>
+</li>
+<li><p>等待客户端的连接-accept()阻塞方法</p>
+</li>
+<li><p>通过连接的客户端对象进行通信</p>
+<ul>
+<li>client.recv(8192)接收数据</li>
+<li>client.send(b’hi’)发送数据</li>
+</ul>
+</li>
+<li><p>关闭连接</p>
+<p>client.close()</p>
+</li>
+</ul>
+<p>2.Client端</p>
+<ul>
+<li><p>创建socket</p>
+</li>
+<li><p>连接服务器(ip,port)或.socket文件-connect()</p>
+<ul>
+<li>s.send(b’’)发送数据</li>
+<li>s.recv(8192)接收数据</li>
+</ul>
+</li>
+<li><p>关闭连接</p>
+<p>s.close()</p>
+</li>
+</ul>
+<h3 id="3-2-os-system-函数"><a href="#3-2-os-system-函数" class="headerlink" title="3.2 os.system()函数"></a>3.2 os.system()函数</h3><p>主要用于Python的程序执行操作系统命令的，如开启视频转换功能、开启定时爬虫任务等。和os.popen()函数不同之处在于，只执行操作系统的命令，而不获取命令执行的结果。</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">使用os.system来执行操作系统的命令</span></span><br><span class="line"><span class="string">- 创建子进程来执行OS的命令</span></span><br><span class="line"><span class="string">- 通过 sys.argv 接收命令行中的参数</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 读取命令行的参数</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    命令行格式： </span></span><br><span class="line"><span class="string">    &gt; python os_system.py filepath</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># print(sys.argv)</span></span><br><span class="line">    <span class="comment"># if len(sys.argv) &lt;= 1:</span></span><br><span class="line">    <span class="comment">#     raise Exception('必须指定读取的文件名参数')</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment"># filepath = sys.argv[1]</span></span><br><span class="line">    <span class="comment"># Linux命令统计文件的行数</span></span><br><span class="line">    <span class="comment"># cat ../day71/keystore.keys |wc -l</span></span><br><span class="line">    <span class="comment"># os.system('cat %s |wc -l' % filepath)</span></span><br><span class="line">    <span class="comment"># os.system('notepad %s ' % filepath)  # window</span></span><br><span class="line">    os.system(<span class="string">'ls -la ..'</span>)</span><br></pre></td></tr></table></figure></div>
+<h3 id="3-3-os-popen-函数"><a href="#3-3-os-popen-函数" class="headerlink" title="3.3 os.popen()函数"></a>3.3 os.popen()函数</h3><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">通过os.popen()实现与操作系统进行交互</span></span><br><span class="line"><span class="string">使用场景如下：</span></span><br><span class="line"><span class="string">-  远程启动或关闭服务</span></span><br><span class="line"><span class="string">-  远程获取服务的资源</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 1. 执行OS命令</span></span><br><span class="line">    cmd = os.popen(<span class="string">'dir -la'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 2. 读取命令执行的结果</span></span><br><span class="line">    result = cmd.read()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 3. 分析和处理数据</span></span><br><span class="line">    print(result)</span><br></pre></td></tr></table></figure></div>
+<p>案例需求：读取服务器下可用的docker images，并将读取的结果写入到csv文件中。<br>实现步骤:<br>    1.os.popen(‘docker images’) 执行命令<br>    2.result = cmd.read() 读取结果<br>    3.将读取的结果的标题(第一行)作为csv文件的标题<br>    4.将剩余的数据写入到csv文件中。<br>详细代码：</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">通过os.popen()实现与操作系统进行交互</span></span><br><span class="line"><span class="string">使用场景如下：</span></span><br><span class="line"><span class="string">-  远程启动或关闭服务</span></span><br><span class="line"><span class="string">-  远程获取服务的资源</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 1. 执行OS命令</span></span><br><span class="line">    cmd = os.popen(<span class="string">'docker images'</span>)</span><br><span class="line"></span><br><span class="line">    file = open(<span class="string">'images.csv'</span>, <span class="string">'w'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 2. 读取命令执行的结果</span></span><br><span class="line">    result = cmd.read()</span><br><span class="line">    result = result.split(<span class="string">'\n'</span>)</span><br><span class="line">    titles = result[<span class="number">0</span>].split()</span><br><span class="line"></span><br><span class="line">    writer = csv.DictWriter(file, fieldnames=titles)</span><br><span class="line">    writer.writeheader()  <span class="comment"># 写入标题（第一次）</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> result[<span class="number">1</span>:]:</span><br><span class="line">        row = line.split()</span><br><span class="line">        <span class="keyword">if</span> len(row) &lt; <span class="number">6</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        writer.writerow(&#123;</span><br><span class="line">            <span class="string">'REPOSITORY'</span>: row[<span class="number">0</span>],</span><br><span class="line">            <span class="string">'TAG'</span>: row[<span class="number">1</span>],</span><br><span class="line">            <span class="string">'IMAGE'</span>: row[<span class="number">2</span>],</span><br><span class="line">            <span class="string">'ID'</span>: row[<span class="number">3</span>],</span><br><span class="line">            <span class="string">'CREATED'</span>: row[<span class="number">4</span>]+<span class="string">' '</span>+row[<span class="number">5</span>],</span><br><span class="line">            <span class="string">'SIZE'</span>: row[<span class="number">6</span>]</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">    file.close()</span><br><span class="line">    print(<span class="string">'--写入成功--'</span>)</span><br></pre></td></tr></table></figure></div>
+
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+      <a href="/Hexo/为hexo博客添加gitment评论功能/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption"></strong>
+        <div class="article-nav-title">
+          
+            为hexo博客添加gitment评论功能
+          
+        </div>
+      </a>
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/Ubuntu/Ubuntu系统阅读CHM文档的最终解决方案/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">Ubuntu系统阅读CHM文档的最终解决方案</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://www.xuhuiblog.cn/css/gitment.css">
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/gitment.js"></script>
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/md5.min.js"></script>
+<script>
+var gitment = new Gitment({
+  id: md5(window.location.pathname.replace(/index.html/, "")),
+  owner: 'pighui',
+  repo: 'myblogdes',
+  oauth: {
+    client_id: '79535b24d59031961e6c',
+    client_secret: '4f1907f09f33c1182feb2ddfeef33677e8e5ff36',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+
+  
+  
+</article>
+</section>
+                <aside id="sidebar">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="360" height="86" src="//music.163.com/outchain/player?type=2&id=1346998796&auto=0&height=66"></iframe>
+    
+        <div class="widget-box">
+    <div class="avatar-box">
+        <img class="avatar" src="/images/default-avatar.jpeg" title="图片来自网络">
+        <h3 class="avatar-name">
+            
+                一介书生
+            
+        </h3>
+        <p class="avatar-slogan">
+            盼 君 金 榜 题 名 时 。
+寒 窗 苦 读 数 十 载 ，
+        </p>
+    </div>
+</div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kali/">Kali</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ubuntu/">Ubuntu</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据分析/">数据分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/爬虫/">爬虫</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kali/">Kali</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分析/">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试/">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 11.43px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 12.86px;">Hexo</a> <a href="/tags/Kali/" style="font-size: 10px;">Kali</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/Ubuntu/" style="font-size: 15.71px;">Ubuntu</a> <a href="/tags/数据分析/" style="font-size: 18.57px;">数据分析</a> <a href="/tags/机器学习/" style="font-size: 14.29px;">机器学习</a> <a href="/tags/测试/" style="font-size: 11.43px;">测试</a> <a href="/tags/爬虫/" style="font-size: 17.14px;">爬虫</a> <a href="/tags/面试题/" style="font-size: 10px;">面试题</a>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/机器学习/人脸自动补全/">人脸自动补全</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/Logistics回归和数字识别/">Logistics回归和数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/LinearRegression线性回归/">LinearRegression线性回归</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/KNN-手写数字识别/">KNN-手写数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/K-近邻算法-KNN/">K-近邻算法（KNN）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+          <div class="widget-box">
+    <h3 class="widget-title">友链</h3>
+    <div class="widget">
+      
+        <a style="display: block;" href="https://yiluyanxia.github.io/" title target="_blank">一路眼瞎</a>
+      
+        <a style="display: block;" href="https://wljsky.cn/" title target="_blank">钧金</a>
+      
+    </div>
+  </div>
+
+    
+</aside>
+            </div>
+            <footer id="footer">
+    <!-- 百度推送 -->
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            } else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+    <!-- 百度统计 -->
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?58e88d550a3485e4fa9494eb391c7e47";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135687698-1"></script> -->
+    <script src="/js/google.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('set', {'user_id': 'UA-135687698-1'});
+        gtag('config', 'UA-135687698-1');
+    </script>
+    <div class="foot-box global-width">
+        &copy;Copyright&nbsp;2019 一介书生<br>
+        驱动于 <a href="http://hexo.io/" target="_blank">Hexo</a>
+        &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+        <br>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <span id="busuanzi_container_site_pv">阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+        <br>
+        豫ICP备<a href="http://ha.beian.miit.gov.cn/">19008962</a>号
+    </div>
+</footer>
+            <script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) {
+        var script = document.createElement('script');
+        script.src = "/js/jquery.min.js";
+        document.body.write(script);
+    }
+</script>
+
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+    <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+        </div>
+        <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="https://github.com/pighui" class="mobile-nav-link">基友</a>
+  
+    <a href="/archives" class="mobile-nav-link">文章</a>
+  
+    <a href="/me" class="mobile-nav-link">简历</a>
+  
+    <a href="/snow" class="mobile-nav-link">看雪</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/js/love.js"></script>
+    <script src="/js/snowy.js"></script>
+    <style type="text/css">.snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100001;
+        }</style>
+    <div class="snow-container"></div>
+</body>
+</html>

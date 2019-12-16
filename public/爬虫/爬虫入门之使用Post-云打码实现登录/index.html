@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','/js/analytics.js','ga');
+
+ga('create', 'UA-135687698-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+    
+    <title>
+        爬虫入门之使用Post+云打码实现登录 |
+        
+        欢迎浏览本博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+    
+        <meta name="keywords" content="Ubuntu,Linux,Python,Python Web,爬虫,数据分析,机器学习">
+    
+    <meta name="description" content="本文将介绍的是如何使用urllib中的处理器+云打码api调用实现验证码登录。 准备工作： ​    在云打码平台注册，并购买一定数量的验证码条数。">
+<meta name="keywords" content="爬虫,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬虫入门之使用Post+云打码实现登录">
+<meta property="og:url" content="https://www.xuhuiblog.cn/爬虫/爬虫入门之使用Post-云打码实现登录/index.html">
+<meta property="og:site_name" content="欢迎浏览本博客">
+<meta property="og:description" content="本文将介绍的是如何使用urllib中的处理器+云打码api调用实现验证码登录。 准备工作： ​    在云打码平台注册，并购买一定数量的验证码条数。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-04-22T13:09:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="爬虫入门之使用Post+云打码实现登录">
+<meta name="twitter:description" content="本文将介绍的是如何使用urllib中的处理器+云打码api调用实现验证码登录。 准备工作： ​    在云打码平台注册，并购买一定数量的验证码条数。">
+    
+        <link rel="alternate" href="/atom.xml" title="欢迎浏览本博客" type="application/atom+xml">
+    
+    
+        <link rel="icon" href="/images/favicon.ico">
+    
+    
+        <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <script>
+        let antiquityStorage = window.sessionStorage.getItem('antiquitySessionStorage');
+        if (antiquityStorage == '' || antiquityStorage == null) {
+            var antiquityLoader = '<div id="loaderbox"><div class="loader"><div class="load-roll"><div class="load-top"></div><div class="load-right"></div><div class="load-bottom"></div></div></div></div>';
+            document.write(antiquityLoader);
+            document.body.style.overflow = 'hidden'
+        }
+    </script>
+</head>
+</html>
+<body>
+<div id="fullpage" class="mobile-nav-right">
+    
+    <div id="wrapper" style="background-image: url(/images/bg.jpg)"
+         title="图片来自网络">
+        
+
+            <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-right">
+      
+        <a class="nav-item" href="/" title>首页</a>
+      
+        <a class="nav-item" href="https://github.com/pighui" title>基友</a>
+      
+        <a class="nav-item" href="/archives" title>文章</a>
+      
+        <a class="nav-item" href="/me" title>简历</a>
+      
+        <a class="nav-item" href="/snow" title>看雪</a>
+      
+    </nav>
+  </div>
+</header>
+            <div id="middlecontent" title class="global-width sidebar-right">
+                <section id="main"><article id="post-爬虫入门之使用Post-云打码实现登录" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      爬虫入门之使用Post+云打码实现登录
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/爬虫/爬虫入门之使用Post-云打码实现登录/" class="article-date">
+  <time datetime="2019-04-19T12:18:35.000Z" itemprop="datePublished">2019-04-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/爬虫/">爬虫</a>
+  </div>
+
+    
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
+
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+    </span>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <p>本文将介绍的是如何使用urllib中的处理器+云打码api调用实现验证码登录。</p>
+<p>准备工作：</p>
+<p>​    在<a href="http://www.yundama.com/" target="_blank" rel="noopener">云打码</a>平台注册，并购买一定数量的验证码条数。</p>
+<a id="more"></a>
+<h4 id="1-登录脚本"><a href="#1-登录脚本" class="headerlink" title="1.登录脚本"></a>1.登录脚本</h4><p>目标连接：<a href="https://www.gushiwen.org/" target="_blank" rel="noopener">https://www.gushiwen.org/</a></p>
+<p>CookieJar和HTTPCookieProcess处理器的应用<br>1） login接口，实现登录操作<br>2） 登录之后，再请求个人中心，获取个人收藏的信息</p>
+<p>使用的步骤<br>1) 创建http.cookiejar.CookieJar 类对象<br>2) 创建urllib.request.HTTPCookieProcessor对象，并传入CookieJar对象<br>3）将HTTPCookieProcess对象添加到opener</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> http.cookiejar <span class="keyword">import</span> CookieJar</span><br><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urlencode</span><br><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> HTTPHandler, HTTPCookieProcessor, build_opener, Request</span><br><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlretrieve</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> util <span class="keyword">import</span> html, header, ydm_api</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">import</span> ssl</span><br><span class="line">ssl._create_default_https_context = ssl._create_unverified_context</span><br><span class="line"></span><br><span class="line"><span class="comment"># 让opener具有HTTP请求的能力</span></span><br><span class="line"><span class="comment"># 和Cookie信息的处理能力</span></span><br><span class="line">opener = build_opener(</span><br><span class="line">    HTTPHandler(),</span><br><span class="line">    HTTPCookieProcessor(CookieJar())</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">request</span><span class="params">(url, data: dict, headers=None)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> data:</span><br><span class="line">        <span class="comment"># 将post上传的数据转成字节流</span></span><br><span class="line">        form_params = urlencode(data)  <span class="comment"># key=value&amp;key2=value2</span></span><br><span class="line">        req = Request(url, form_params.encode(), headers)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">if</span> headers:</span><br><span class="line">            req = Request(url, headers=headers)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            req = Request(url)</span><br><span class="line"></span><br><span class="line">    resp = opener.open(req)</span><br><span class="line">    html_txt = html.to_html(resp.read(),</span><br><span class="line">                            html.get_charset(resp.getheader(<span class="string">'Content-Type'</span>)))</span><br><span class="line">    print(html_txt)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    login_url = <span class="string">'https://so.gushiwen.org/user/login.aspx?from=http%3a%2f%2fso.gushiwen.org%2fuser%2fcollect.aspx'</span></span><br><span class="line">    collect_url = <span class="string">'https://so.gushiwen.org/user/collect.aspx'</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 验证码的图片</span></span><br><span class="line">    code_url = <span class="string">'https://so.gushiwen.org/RandCode.ashx'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">#urlretrieve(code_url, 'code.png') # 刷新并保存验证图片</span></span><br><span class="line">    resp = opener.open(code_url)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'code.png'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> file:</span><br><span class="line">        file.write(resp.read())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 注意： ydm_api模块，需要安装requests库</span></span><br><span class="line">    <span class="comment"># pip install requests</span></span><br><span class="line">    result = ydm_api.ydm(<span class="string">'code.png'</span>)</span><br><span class="line">    print(<span class="string">'验证码的结果：'</span>, result)</span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">'action'</span>:<span class="string">''</span>,</span><br><span class="line">        <span class="string">'from'</span>:<span class="string">'http://so.gushiwen.org/user/collect.aspx'</span>,</span><br><span class="line">        <span class="string">'email'</span>: <span class="string">'账号'</span>,</span><br><span class="line">        <span class="string">'pwd'</span>: <span class="string">'密码'</span>,</span><br><span class="line">        <span class="string">'code'</span>: result  <span class="comment"># 验证码， 第三方平台的API解码</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    request(login_url, data, headers=header.get_headers())</span><br><span class="line">    <span class="comment"># request(collect_url)</span></span><br></pre></td></tr></table></figure></div>
+<h4 id="2-云打码平台接口调用脚本"><a href="#2-云打码平台接口调用脚本" class="headerlink" title="2.云打码平台接口调用脚本"></a>2.云打码平台接口调用脚本</h4><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> http.client, mimetypes, urllib, json, time, requests</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">######################################################################</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">YDMHttp</span>:</span></span><br><span class="line">    apiurl = <span class="string">'http://api.yundama.com/api.php'</span></span><br><span class="line">    username = <span class="string">''</span></span><br><span class="line">    password = <span class="string">''</span></span><br><span class="line">    appid = <span class="string">''</span></span><br><span class="line">    appkey = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, username, password, appid, appkey)</span>:</span></span><br><span class="line">        self.username = username</span><br><span class="line">        self.password = password</span><br><span class="line">        self.appid = str(appid)</span><br><span class="line">        self.appkey = appkey</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">request</span><span class="params">(self, fields, files=[])</span>:</span></span><br><span class="line">        response = self.post_url(self.apiurl, fields, files)</span><br><span class="line">        response = json.loads(response)</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">balance</span><span class="params">(self)</span>:</span></span><br><span class="line">        data = &#123;<span class="string">'method'</span>: <span class="string">'balance'</span>, <span class="string">'username'</span>: self.username, <span class="string">'password'</span>: self.password, <span class="string">'appid'</span>: self.appid,</span><br><span class="line">                <span class="string">'appkey'</span>: self.appkey&#125;</span><br><span class="line">        response = self.request(data)</span><br><span class="line">        <span class="keyword">if</span> (response):</span><br><span class="line">            <span class="keyword">if</span> (response[<span class="string">'ret'</span>] <span class="keyword">and</span> response[<span class="string">'ret'</span>] &lt; <span class="number">0</span>):</span><br><span class="line">                <span class="keyword">return</span> response[<span class="string">'ret'</span>]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> response[<span class="string">'balance'</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-9001</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">(self)</span>:</span></span><br><span class="line">        data = &#123;<span class="string">'method'</span>: <span class="string">'login'</span>, <span class="string">'username'</span>: self.username, <span class="string">'password'</span>: self.password, <span class="string">'appid'</span>: self.appid,</span><br><span class="line">                <span class="string">'appkey'</span>: self.appkey&#125;</span><br><span class="line">        response = self.request(data)</span><br><span class="line">        <span class="keyword">if</span> (response):</span><br><span class="line">            <span class="keyword">if</span> (response[<span class="string">'ret'</span>] <span class="keyword">and</span> response[<span class="string">'ret'</span>] &lt; <span class="number">0</span>):</span><br><span class="line">                <span class="keyword">return</span> response[<span class="string">'ret'</span>]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> response[<span class="string">'uid'</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-9001</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">upload</span><span class="params">(self, filename, codetype, timeout)</span>:</span></span><br><span class="line">        data = &#123;<span class="string">'method'</span>: <span class="string">'upload'</span>, <span class="string">'username'</span>: self.username, <span class="string">'password'</span>: self.password, <span class="string">'appid'</span>: self.appid,</span><br><span class="line">                <span class="string">'appkey'</span>: self.appkey, <span class="string">'codetype'</span>: str(codetype), <span class="string">'timeout'</span>: str(timeout)&#125;</span><br><span class="line">        file = &#123;<span class="string">'file'</span>: filename&#125;</span><br><span class="line">        response = self.request(data, file)</span><br><span class="line">        <span class="keyword">if</span> (response):</span><br><span class="line">            <span class="keyword">if</span> (response[<span class="string">'ret'</span>] <span class="keyword">and</span> response[<span class="string">'ret'</span>] &lt; <span class="number">0</span>):</span><br><span class="line">                <span class="keyword">return</span> response[<span class="string">'ret'</span>]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> response[<span class="string">'cid'</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-9001</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">result</span><span class="params">(self, cid)</span>:</span></span><br><span class="line">        data = &#123;<span class="string">'method'</span>: <span class="string">'result'</span>, <span class="string">'username'</span>: self.username, <span class="string">'password'</span>: self.password, <span class="string">'appid'</span>: self.appid,</span><br><span class="line">                <span class="string">'appkey'</span>: self.appkey, <span class="string">'cid'</span>: str(cid)&#125;</span><br><span class="line">        response = self.request(data)</span><br><span class="line">        <span class="keyword">return</span> response <span class="keyword">and</span> response[<span class="string">'text'</span>] <span class="keyword">or</span> <span class="string">''</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decode</span><span class="params">(self, filename, codetype, timeout)</span>:</span></span><br><span class="line">        cid = self.upload(filename, codetype, timeout)</span><br><span class="line">        <span class="keyword">if</span> (cid &gt; <span class="number">0</span>):</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, timeout):</span><br><span class="line">                result = self.result(cid)</span><br><span class="line">                <span class="keyword">if</span> (result != <span class="string">''</span>):</span><br><span class="line">                    <span class="keyword">return</span> cid, result</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    time.sleep(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-3003</span>, <span class="string">''</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> cid, <span class="string">''</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">report</span><span class="params">(self, cid)</span>:</span></span><br><span class="line">        data = &#123;<span class="string">'method'</span>: <span class="string">'report'</span>, <span class="string">'username'</span>: self.username, <span class="string">'password'</span>: self.password, <span class="string">'appid'</span>: self.appid,</span><br><span class="line">                <span class="string">'appkey'</span>: self.appkey, <span class="string">'cid'</span>: str(cid), <span class="string">'flag'</span>: <span class="string">'0'</span>&#125;</span><br><span class="line">        response = self.request(data)</span><br><span class="line">        <span class="keyword">if</span> (response):</span><br><span class="line">            <span class="keyword">return</span> response[<span class="string">'ret'</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-9001</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post_url</span><span class="params">(self, url, fields, files=[])</span>:</span></span><br><span class="line">        <span class="keyword">for</span> key <span class="keyword">in</span> files:</span><br><span class="line">            files[key] = open(files[key], <span class="string">'rb'</span>);</span><br><span class="line">        res = requests.post(url, files=files, data=fields)</span><br><span class="line">        <span class="keyword">return</span> res.text</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">######################################################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户名（普通用户名）</span></span><br><span class="line">username = <span class="string">'你的用户名'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 密码</span></span><br><span class="line">password = <span class="string">'你的密码'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 软件ＩＤ，开发者分成必要参数。登录开发者后台【我的软件】获得！</span></span><br><span class="line">appid = <span class="number">5100</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 软件密钥，开发者分成必要参数。登录开发者后台【我的软件】获得！</span></span><br><span class="line">appkey = <span class="string">'2a05b965cea2553a378bc2955c4756a5'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证码类型，# 例：1004表示4位字母数字，不同类型收费不同。请准确填写，否则影响识别率。在此查询所有类型 http://www.yundama.com/price.html</span></span><br><span class="line">codetype = <span class="number">1004</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 超时时间，秒</span></span><br><span class="line">timeout = <span class="number">60</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ydm</span><span class="params">(filename)</span>:</span></span><br><span class="line">    <span class="comment"># 初始化</span></span><br><span class="line">    yundama = YDMHttp(username, password, appid, appkey)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 登陆云打码</span></span><br><span class="line">    uid = yundama.login();</span><br><span class="line">    print(<span class="string">'uid: %s'</span> % uid)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 查询余额</span></span><br><span class="line">    balance = yundama.balance();</span><br><span class="line">    print(<span class="string">'balance: %s'</span> % balance)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 开始识别，图片路径，验证码类型ID，超时时间（秒），识别结果</span></span><br><span class="line">    cid, result = yundama.decode(filename, codetype, timeout);</span><br><span class="line">    print(<span class="string">'cid: %s, result: %s'</span> % (cid, result))</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">    <span class="comment">######################################################################</span></span><br></pre></td></tr></table></figure></div>
+
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+      <a href="/爬虫/Python爬虫之urllib中处理器的使用介绍/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption"></strong>
+        <div class="article-nav-title">
+          
+            Python爬虫之urllib中处理器的使用介绍
+          
+        </div>
+      </a>
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/Kali/将kali安装到U盘并加密/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">将kali安装到U盘并加密</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://www.xuhuiblog.cn/css/gitment.css">
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/gitment.js"></script>
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/md5.min.js"></script>
+<script>
+var gitment = new Gitment({
+  id: md5(window.location.pathname.replace(/index.html/, "")),
+  owner: 'pighui',
+  repo: 'myblogdes',
+  oauth: {
+    client_id: '79535b24d59031961e6c',
+    client_secret: '4f1907f09f33c1182feb2ddfeef33677e8e5ff36',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+
+  
+  
+</article>
+</section>
+                <aside id="sidebar">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="360" height="86" src="//music.163.com/outchain/player?type=2&id=1346998796&auto=0&height=66"></iframe>
+    
+        <div class="widget-box">
+    <div class="avatar-box">
+        <img class="avatar" src="/images/default-avatar.jpeg" title="图片来自网络">
+        <h3 class="avatar-name">
+            
+                一介书生
+            
+        </h3>
+        <p class="avatar-slogan">
+            盼 君 金 榜 题 名 时 。
+寒 窗 苦 读 数 十 载 ，
+        </p>
+    </div>
+</div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kali/">Kali</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ubuntu/">Ubuntu</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据分析/">数据分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/爬虫/">爬虫</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kali/">Kali</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分析/">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试/">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 11.43px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 12.86px;">Hexo</a> <a href="/tags/Kali/" style="font-size: 10px;">Kali</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/Ubuntu/" style="font-size: 15.71px;">Ubuntu</a> <a href="/tags/数据分析/" style="font-size: 18.57px;">数据分析</a> <a href="/tags/机器学习/" style="font-size: 14.29px;">机器学习</a> <a href="/tags/测试/" style="font-size: 11.43px;">测试</a> <a href="/tags/爬虫/" style="font-size: 17.14px;">爬虫</a> <a href="/tags/面试题/" style="font-size: 10px;">面试题</a>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/机器学习/人脸自动补全/">人脸自动补全</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/Logistics回归和数字识别/">Logistics回归和数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/LinearRegression线性回归/">LinearRegression线性回归</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/KNN-手写数字识别/">KNN-手写数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/K-近邻算法-KNN/">K-近邻算法（KNN）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+          <div class="widget-box">
+    <h3 class="widget-title">友链</h3>
+    <div class="widget">
+      
+        <a style="display: block;" href="https://yiluyanxia.github.io/" title target="_blank">一路眼瞎</a>
+      
+        <a style="display: block;" href="https://wljsky.cn/" title target="_blank">钧金</a>
+      
+    </div>
+  </div>
+
+    
+</aside>
+            </div>
+            <footer id="footer">
+    <!-- 百度推送 -->
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            } else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+    <!-- 百度统计 -->
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?58e88d550a3485e4fa9494eb391c7e47";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135687698-1"></script> -->
+    <script src="/js/google.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('set', {'user_id': 'UA-135687698-1'});
+        gtag('config', 'UA-135687698-1');
+    </script>
+    <div class="foot-box global-width">
+        &copy;Copyright&nbsp;2019 一介书生<br>
+        驱动于 <a href="http://hexo.io/" target="_blank">Hexo</a>
+        &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+        <br>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <span id="busuanzi_container_site_pv">阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+        <br>
+        豫ICP备<a href="http://ha.beian.miit.gov.cn/">19008962</a>号
+    </div>
+</footer>
+            <script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) {
+        var script = document.createElement('script');
+        script.src = "/js/jquery.min.js";
+        document.body.write(script);
+    }
+</script>
+
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+    <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+        </div>
+        <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="https://github.com/pighui" class="mobile-nav-link">基友</a>
+  
+    <a href="/archives" class="mobile-nav-link">文章</a>
+  
+    <a href="/me" class="mobile-nav-link">简历</a>
+  
+    <a href="/snow" class="mobile-nav-link">看雪</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/js/love.js"></script>
+    <script src="/js/snowy.js"></script>
+    <style type="text/css">.snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100001;
+        }</style>
+    <div class="snow-container"></div>
+</body>
+</html>

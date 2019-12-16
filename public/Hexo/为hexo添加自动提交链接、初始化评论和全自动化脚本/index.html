@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','/js/analytics.js','ga');
+
+ga('create', 'UA-135687698-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+    
+    <title>
+        为hexo添加自动提交链接、初始化评论和全自动化脚本 |
+        
+        欢迎浏览本博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+    
+        <meta name="keywords" content="Ubuntu,Linux,Python,Python Web,爬虫,数据分析,机器学习">
+    
+    <meta name="description" content="这篇文章将要给大家介绍的是三个自动化脚本。(放于hexo博客根目录) １．comment.js    自动初始化gitment评论，向谷歌提交sitemap.xml。 ​    需要md5的js加密脚本。点击下载 ​    运行命令     1node comment.js">
+<meta name="keywords" content="Hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为hexo添加自动提交链接、初始化评论和全自动化脚本">
+<meta property="og:url" content="https://www.xuhuiblog.cn/Hexo/为hexo添加自动提交链接、初始化评论和全自动化脚本/index.html">
+<meta property="og:site_name" content="欢迎浏览本博客">
+<meta property="og:description" content="这篇文章将要给大家介绍的是三个自动化脚本。(放于hexo博客根目录) １．comment.js    自动初始化gitment评论，向谷歌提交sitemap.xml。 ​    需要md5的js加密脚本。点击下载 ​    运行命令     1node comment.js">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.xuhuiblog.cn/Hexo/为hexo添加自动提交链接、初始化评论和全自动化脚本/1.png">
+<meta property="og:image" content="https://www.xuhuiblog.cn/Hexo/为hexo添加自动提交链接、初始化评论和全自动化脚本/2.png">
+<meta property="og:updated_time" content="2019-04-22T07:24:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为hexo添加自动提交链接、初始化评论和全自动化脚本">
+<meta name="twitter:description" content="这篇文章将要给大家介绍的是三个自动化脚本。(放于hexo博客根目录) １．comment.js    自动初始化gitment评论，向谷歌提交sitemap.xml。 ​    需要md5的js加密脚本。点击下载 ​    运行命令     1node comment.js">
+<meta name="twitter:image" content="https://www.xuhuiblog.cn/Hexo/为hexo添加自动提交链接、初始化评论和全自动化脚本/1.png">
+    
+        <link rel="alternate" href="/atom.xml" title="欢迎浏览本博客" type="application/atom+xml">
+    
+    
+        <link rel="icon" href="/images/favicon.ico">
+    
+    
+        <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <script>
+        let antiquityStorage = window.sessionStorage.getItem('antiquitySessionStorage');
+        if (antiquityStorage == '' || antiquityStorage == null) {
+            var antiquityLoader = '<div id="loaderbox"><div class="loader"><div class="load-roll"><div class="load-top"></div><div class="load-right"></div><div class="load-bottom"></div></div></div></div>';
+            document.write(antiquityLoader);
+            document.body.style.overflow = 'hidden'
+        }
+    </script>
+</head>
+</html>
+<body>
+<div id="fullpage" class="mobile-nav-right">
+    
+    <div id="wrapper" style="background-image: url(/images/bg.jpg)"
+         title="图片来自网络">
+        
+
+            <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-right">
+      
+        <a class="nav-item" href="/" title>首页</a>
+      
+        <a class="nav-item" href="https://github.com/pighui" title>基友</a>
+      
+        <a class="nav-item" href="/archives" title>文章</a>
+      
+        <a class="nav-item" href="/me" title>简历</a>
+      
+        <a class="nav-item" href="/snow" title>看雪</a>
+      
+    </nav>
+  </div>
+</header>
+            <div id="middlecontent" title class="global-width sidebar-right">
+                <section id="main"><article id="post-为hexo添加自动提交链接、初始化评论和全自动化脚本" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      为hexo添加自动提交链接、初始化评论和全自动化脚本
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/Hexo/为hexo添加自动提交链接、初始化评论和全自动化脚本/" class="article-date">
+  <time datetime="2019-04-22T06:21:05.000Z" itemprop="datePublished">2019-04-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Hexo/">Hexo</a>
+  </div>
+
+    
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
+
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+    </span>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <p>这篇文章将要给大家介绍的是三个自动化脚本。(放于hexo博客根目录)</p>
+<p>１．comment.js    自动初始化gitment评论，向谷歌提交sitemap.xml。</p>
+<p>​    需要md5的js加密脚本。<a href="https://www.xuhuiblog.cn/js/md5.min.js">点击</a>下载</p>
+<p>​    运行命令    </p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node comment.js</span><br></pre></td></tr></table></figure></div>
+<a id="more"></a>
+<p>２．auto-push-sitemap.py    自动向百度提交baidu-sitemap.xml</p>
+<p>​    需要python3环境，请自行安装。</p>
+<p>​    运行命令    </p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python auto-push-sitemap.py</span><br></pre></td></tr></table></figure></div>
+<p>３．auto.sh    全自动脚本，调用其他两个脚本＋自动备份到github仓库。</p>
+<p>​    需要bash环境。</p>
+<p>​    运行命令</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> blog</span><br><span class="line">./auto.sh</span><br></pre></td></tr></table></figure></div>
+<p>ＰＳ：非本人所写，均来自于互联网。侵删。</p>
+<h1 id="1-comment-js"><a href="#1-comment-js" class="headerlink" title="1.comment.js"></a>1.comment.js</h1><h2 id="①在github中添加一个token"><a href="#①在github中添加一个token" class="headerlink" title="①在github中添加一个token"></a>①在github中<a href="https://github.com/settings/tokens" target="_blank" rel="noopener">添加</a>一个token</h2><p><img src="/Hexo/为hexo添加自动提交链接、初始化评论和全自动化脚本/1.png" alt></p>
+<h2 id="②安装依赖包"><a href="#②安装依赖包" class="headerlink" title="②安装依赖包"></a>②安装依赖包</h2><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm install request --save</span><br><span class="line">npm install xml-parser --save</span><br><span class="line">npm install yamljs --save</span><br><span class="line">npm install cheerio --save</span><br></pre></td></tr></table></figure></div>
+<h2 id="③生成comment-js并配置"><a href="#③生成comment-js并配置" class="headerlink" title="③生成comment.js并配置"></a>③生成comment.js并配置</h2><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="JS"><figure class="iseeu highlight /js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> md5 = <span class="built_in">require</span>(<span class="string">"./md5.min.js"</span>)</span><br><span class="line"><span class="keyword">const</span> request = <span class="built_in">require</span>(<span class="string">"request"</span>);</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">"fs"</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"><span class="keyword">const</span> url = <span class="built_in">require</span>(<span class="string">"url"</span>);</span><br><span class="line"><span class="keyword">const</span> xmlParser = <span class="built_in">require</span>(<span class="string">"xml-parser"</span>);</span><br><span class="line"><span class="keyword">const</span> YAML = <span class="built_in">require</span>(<span class="string">"yamljs"</span>);</span><br><span class="line"><span class="keyword">const</span> cheerio = <span class="built_in">require</span>(<span class="string">"cheerio"</span>);</span><br><span class="line"><span class="comment">// 根据自己的情况进行配置</span></span><br><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">    username: <span class="string">"pighui"</span>, <span class="comment">// GitHub 用户名</span></span><br><span class="line">    token: <span class="string">"78997d4283fe45ba9028e20d5b7a807d4c223356"</span>,  <span class="comment">// GitHub Token</span></span><br><span class="line">    repo: <span class="string">"myblogdes"</span>,  <span class="comment">// 存放 issues的git仓库</span></span><br><span class="line">    <span class="comment">// sitemap.xml的路径，commit.js放置在根目录下，无需修改，其他情况自行处理</span></span><br><span class="line">    sitemapUrl: path.resolve(__dirname, <span class="string">"./public/sitemap.xml"</span>),</span><br><span class="line">    kind: <span class="string">"Gitment"</span>,  <span class="comment">// "Gitalk" or "Gitment"</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> issuesUrl = <span class="string">`https://api.github.com/repos/<span class="subst">$&#123;config.username&#125;</span>/<span class="subst">$&#123;config.repo&#125;</span>/issues?access_token=<span class="subst">$&#123;config.token&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> requestGetOpt = &#123;</span><br><span class="line">    url: <span class="string">`<span class="subst">$&#123;issuesUrl&#125;</span>&amp;page=1&amp;per_page=1000`</span>,</span><br><span class="line">    json: <span class="literal">true</span>,</span><br><span class="line">    headers: &#123;</span><br><span class="line">        <span class="string">"User-Agent"</span>: <span class="string">"github-user"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> requestPostOpt = &#123;</span><br><span class="line">    ...requestGetOpt,</span><br><span class="line">    url:issuesUrl,</span><br><span class="line">    method: <span class="string">"POST"</span>,</span><br><span class="line">    form: <span class="string">""</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"开始初始化评论..."</span>);</span><br><span class="line"></span><br><span class="line">(<span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"开始检索链接，请稍等..."</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> websiteConfig = YAML.parse(fs.readFileSync(path.resolve(__dirname, <span class="string">"./_config.yml"</span>), <span class="string">"utf8"</span>));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> urls = sitemapXmlReader(config.sitemapUrl);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`共检索到<span class="subst">$&#123;urls.length&#125;</span>个链接`</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"开始获取已经初始化的issues:"</span>);</span><br><span class="line">        <span class="keyword">let</span> issues = <span class="keyword">await</span> send(requestGetOpt);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`已经存在<span class="subst">$&#123;issues.length&#125;</span>个issues`</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> notInitIssueLinks = urls.filter(<span class="function">(<span class="params">link</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> !issues.find(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">                link = removeProtocol(link);</span><br><span class="line">                <span class="keyword">return</span> item.body.includes(link);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">if</span> (notInitIssueLinks.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">`本次有<span class="subst">$&#123;notInitIssueLinks.length&#125;</span>个链接需要初始化issue：`</span>);</span><br><span class="line">            <span class="built_in">console</span>.log(notInitIssueLinks);</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"开始提交初始化请求, 大约需要40秒..."</span>);</span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">             * 部署好网站后，直接执行start，新增文章并不会生成评论</span></span><br><span class="line"><span class="comment">             * 经测试，最少需要等待40秒，才可以正确生成， 怀疑跟github的api有关系，没有找到实锤</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            setTimeout(<span class="keyword">async</span> ()=&gt;&#123;</span><br><span class="line">                <span class="keyword">let</span> initRet = <span class="keyword">await</span> notInitIssueLinks.map(<span class="keyword">async</span> (item) =&gt; &#123;</span><br><span class="line">                    <span class="keyword">let</span> html = <span class="keyword">await</span> send(&#123; ...requestGetOpt, <span class="attr">url</span>: item &#125;);</span><br><span class="line">                    <span class="keyword">let</span> title = cheerio.load(html)(<span class="string">"title"</span>).text();</span><br><span class="line">                    <span class="keyword">let</span> pathLabel = md5(url.parse(item).path.replace(<span class="regexp">/index.html/</span>, <span class="string">""</span>));</span><br><span class="line">                    <span class="keyword">let</span> body = <span class="string">`<span class="subst">$&#123;item&#125;</span>&lt;br&gt;&lt;br&gt;<span class="subst">$&#123;websiteConfig.description&#125;</span>`</span>;</span><br><span class="line">                    <span class="keyword">let</span> form = <span class="built_in">JSON</span>.stringify(&#123; body, <span class="attr">labels</span>: [config.kind, pathLabel], title &#125;);</span><br><span class="line">                    <span class="keyword">return</span> send(&#123; ...requestPostOpt, form &#125;);</span><br><span class="line">                &#125;);</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">`已完成<span class="subst">$&#123;initRet.length&#125;</span>个！`</span>);</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">"可以愉快的发表评论了！"</span>);</span><br><span class="line">            &#125;,<span class="number">40000</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"本次发布无新增页面，无需初始化issue!!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`初始化issue出错，错误如下：`</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(e);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sitemapXmlReader</span>(<span class="params">file</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> data = fs.readFileSync(file, <span class="string">"utf8"</span>);</span><br><span class="line">    <span class="keyword">let</span> sitemap = xmlParser(data);</span><br><span class="line">    <span class="keyword">return</span> sitemap.root.children.map(<span class="function"><span class="keyword">function</span> (<span class="params">url</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> loc = url.children.filter(<span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> item.name === <span class="string">"loc"</span>;</span><br><span class="line">        &#125;)[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">return</span> loc.content;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">removeProtocol</span>(<span class="params">url</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> url.substr(url.indexOf(<span class="string">":"</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">send</span>(<span class="params">options</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">        request(options, <span class="function"><span class="keyword">function</span> (<span class="params">error, response, body</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (!error) &#123;</span><br><span class="line">                resolve(body);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                reject(error);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<h1 id="2-auto-push-sitemap-py"><a href="#2-auto-push-sitemap-py" class="headerlink" title="2.auto-push-sitemap.py"></a>2.auto-push-sitemap.py</h1><h2 id="①在百度站长平台拿到推送接口地址"><a href="#①在百度站长平台拿到推送接口地址" class="headerlink" title="①在百度站长平台拿到推送接口地址"></a>①在百度站长平台拿到推送接口地址</h2><p><img src="/Hexo/为hexo添加自动提交链接、初始化评论和全自动化脚本/2.png" alt></p>
+<h2 id="②安装Python包"><a href="#②安装Python包" class="headerlink" title="②安装Python包"></a>②安装Python包</h2><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install beautifulsoup4</span><br><span class="line">pip install requests	</span><br><span class="line">pip install lxml</span><br></pre></td></tr></table></figure></div>
+<h2 id="③生成auto-push-sitemap-py并配置"><a href="#③生成auto-push-sitemap-py并配置" class="headerlink" title="③生成auto-push-sitemap.py并配置"></a>③生成auto-push-sitemap.py并配置</h2><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3.6</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup <span class="keyword">as</span> BS</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># import msvcrt</span></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">hexo 博客专用，向百度站长平台提交所有网址</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">本脚本必须放在hexo博客的根目录下执行！需要已安装生成百度站点地图的插件。</span></span><br><span class="line"><span class="string">百度站长平台提交链接：http://zhanzhang.baidu.com/linksubmit/index</span></span><br><span class="line"><span class="string">主动推送：最为快速的提交方式，推荐您将站点当天新产出链接立即通过此方式推送给百度，以保证新链接可以及时被百度收录。</span></span><br><span class="line"><span class="string">从中找到自己的接口调用地址</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">python环境：</span></span><br><span class="line"><span class="string">pip install beautifulsoup4</span></span><br><span class="line"><span class="string">pip install requests	</span></span><br><span class="line"><span class="string">pip install lxml </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ❌❌❌ 抄的需要更改这个URL！！这是我的！！❌❌❌</span></span><br><span class="line">url = <span class="string">'http://data.zz.baidu.com/urls?site=https://www.xuhuiblog.cn&amp;token=JrNrZrHdsf33BV2l'</span></span><br><span class="line">baidu_sitemap = os.path.join(sys.path[<span class="number">0</span>], <span class="string">'public'</span>, <span class="string">'baidusitemap.xml'</span>)</span><br><span class="line">google_sitemap = os.path.join(sys.path[<span class="number">0</span>], <span class="string">'public'</span>, <span class="string">'sitemap.xml'</span>)</span><br><span class="line">sitemap = [baidu_sitemap, google_sitemap]</span><br><span class="line"></span><br><span class="line"><span class="keyword">assert</span> (os.path.exists(baidu_sitemap) <span class="keyword">or</span> os.path.exists(</span><br><span class="line">    google_sitemap)), <span class="string">"没找到任何网站地图，请检查！"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从站点地图中读取网址列表</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getUrls</span><span class="params">()</span>:</span></span><br><span class="line">    urls = []</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> sitemap:</span><br><span class="line">        <span class="keyword">if</span> os.path.exists(_):</span><br><span class="line">            <span class="keyword">with</span> open(_, <span class="string">"r"</span>) <span class="keyword">as</span> f:</span><br><span class="line">                xml = f.read()</span><br><span class="line">        soup = BS(xml, <span class="string">"xml"</span>)</span><br><span class="line">        tags = soup.find_all(<span class="string">"loc"</span>)</span><br><span class="line">        urls += [x.string <span class="keyword">for</span> x <span class="keyword">in</span> tags]</span><br><span class="line">        <span class="keyword">if</span> _ == baidu_sitemap:</span><br><span class="line">            tags = soup.find_all(<span class="string">"breadCrumb"</span>, url=<span class="literal">True</span>)</span><br><span class="line">            urls += [x[<span class="string">"url"</span>] <span class="keyword">for</span> x <span class="keyword">in</span> tags]</span><br><span class="line">    <span class="keyword">return</span> urls</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># POST提交网址列表</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">postUrls</span><span class="params">(urls)</span>:</span></span><br><span class="line">    urls = set(urls)  <span class="comment"># 先去重</span></span><br><span class="line">    print(<span class="string">"一共提取出 %s 个网址"</span> % len(urls))</span><br><span class="line">    print(urls)</span><br><span class="line">    data = <span class="string">"\n"</span>.join(urls)</span><br><span class="line">    <span class="keyword">return</span> requests.post(url, data=data).text</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    urls = getUrls()</span><br><span class="line">    result = postUrls(urls)</span><br><span class="line">    print(<span class="string">"\n提交结果："</span>)</span><br><span class="line">    print(result)</span><br><span class="line"><span class="comment">#    msvcrt.getch()</span></span><br></pre></td></tr></table></figure></div>
+<h1 id="3-auto-sh"><a href="#3-auto-sh" class="headerlink" title="3.auto.sh"></a>3.auto.sh</h1><h2 id="①生成脚本"><a href="#①生成脚本" class="headerlink" title="①生成脚本"></a>①生成脚本</h2><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ----------- OPT ------------</span></span><br><span class="line">opt=<span class="string">'p'</span></span><br><span class="line"><span class="comment"># s: 本地server</span></span><br><span class="line"><span class="comment"># p: 部署远端server</span></span><br><span class="line"><span class="comment"># b: 备份</span></span><br><span class="line"><span class="comment"># ----------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置VPN</span></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">setproxy</span></span>()&#123;</span><br><span class="line">    <span class="comment"># export &#123;HTTP,HTTPS,FTP&#125;_PROXY="http://127.0.0.1:3128" 也可以设置http代理</span></span><br><span class="line">    <span class="built_in">export</span> ALL_PROXY=socks5://127.0.0.1:1080</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"当前IP：`curl -s ip.sb`"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消VPN</span></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">unsetproxy</span></span>()&#123;</span><br><span class="line">    <span class="comment"># unset &#123;HTTP,HTTPS,FTP&#125;_PROXY</span></span><br><span class="line">    <span class="built_in">unset</span> ALL_PROXY</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"当前IP：`curl -s ip.sb`"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 确认文章URL没有重复</span></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">checkout_URLs</span></span>()&#123;</span><br><span class="line">    rm -rf .tmp-*</span><br><span class="line">    find `(<span class="built_in">pwd</span>)`/<span class="built_in">source</span>/_posts/* -name <span class="string">"*.md"</span> &gt; .tmp-md_paths</span><br><span class="line">    cat .tmp-md_paths | <span class="keyword">while</span> <span class="built_in">read</span> line; <span class="keyword">do</span></span><br><span class="line">        sed -n <span class="string">'/url: /p'</span> <span class="variable">$&#123;line&#125;</span> | awk <span class="string">'NR==1&#123;print $2&#125;'</span> &gt;&gt; .tmp-urls</span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line">    sort .tmp-urls | uniq &gt; .tmp-uniq_urls</span><br><span class="line">    mv .tmp-uniq_urls .tmp-urls</span><br><span class="line">    <span class="keyword">if</span> [ `cat .tmp-md_paths|wc -l` -eq `cat .tmp-urls|wc -l` ]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"url可能有重复，请核对"</span></span><br><span class="line">        cat .tmp-urls</span><br><span class="line">        <span class="built_in">exit</span> 1</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    rm -rf .tmp-*</span><br><span class="line">    <span class="built_in">echo</span> -e <span class="string">' --&gt; 文章URL已校验.\n'</span>    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 备份</span></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">backup</span></span>()&#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"最后更新于:"</span> `date` &gt; README.md</span><br><span class="line">    git add *</span><br><span class="line">    git commit -m <span class="string">"backup"</span></span><br><span class="line">    git push</span><br><span class="line">    <span class="built_in">echo</span> -e <span class="string">' --&gt; 已备份.\n'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 操作序列</span></span><br><span class="line"><span class="built_in">cd</span> ~/myblog</span><br><span class="line">checkout_URLs</span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$opt</span> = <span class="string">'s'</span> ]; <span class="keyword">then</span></span><br><span class="line">    hexo g &amp;&amp; hexo s</span><br><span class="line"><span class="keyword">elif</span> [ <span class="variable">$opt</span> = <span class="string">'b'</span> ]; <span class="keyword">then</span></span><br><span class="line">    backup</span><br><span class="line"><span class="keyword">elif</span> [ <span class="variable">$opt</span> = <span class="string">'p'</span> ]; <span class="keyword">then</span></span><br><span class="line">    setproxy</span><br><span class="line">    hexo g -d</span><br><span class="line">    <span class="built_in">echo</span> -e <span class="string">' --&gt; 已成功部署.\n'</span></span><br><span class="line">    sleep 1</span><br><span class="line"><span class="comment">#   unsetproxy</span></span><br><span class="line">    python3 auto-push-sitemap.py</span><br><span class="line">    <span class="built_in">echo</span> -e <span class="string">' --&gt; 已上传站图.\n'</span></span><br><span class="line"><span class="comment">#   setproxy</span></span><br><span class="line">    backup</span><br><span class="line">    node ./comment.js</span><br><span class="line"><span class="comment">#   ruby comment.rb</span></span><br><span class="line">    <span class="built_in">echo</span> -e <span class="string">' --&gt; 评论已自动创建.\n'</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">' --&gt;  所有操作已完成.'</span></span><br></pre></td></tr></table></figure></div>
+<h2 id="②添加运行权限"><a href="#②添加运行权限" class="headerlink" title="②添加运行权限"></a>②添加运行权限</h2><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x auto.sh</span><br></pre></td></tr></table></figure></div>
+<p>分享结束，欢迎交流。</p>
+
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+      <a href="/爬虫/Python爬虫之使用bs4爬取BOSS直聘/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption"></strong>
+        <div class="article-nav-title">
+          
+            Python爬虫之使用bs4爬取BOSS直聘
+          
+        </div>
+      </a>
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/Docker/在Ubuntu18-10安装Docker/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">在Ubuntu18.10安装Docker</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://www.xuhuiblog.cn/css/gitment.css">
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/gitment.js"></script>
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/md5.min.js"></script>
+<script>
+var gitment = new Gitment({
+  id: md5(window.location.pathname.replace(/index.html/, "")),
+  owner: 'pighui',
+  repo: 'myblogdes',
+  oauth: {
+    client_id: '79535b24d59031961e6c',
+    client_secret: '4f1907f09f33c1182feb2ddfeef33677e8e5ff36',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+
+  
+  
+</article>
+</section>
+                <aside id="sidebar">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="360" height="86" src="//music.163.com/outchain/player?type=2&id=1346998796&auto=0&height=66"></iframe>
+    
+        <div class="widget-box">
+    <div class="avatar-box">
+        <img class="avatar" src="/images/default-avatar.jpeg" title="图片来自网络">
+        <h3 class="avatar-name">
+            
+                一介书生
+            
+        </h3>
+        <p class="avatar-slogan">
+            盼 君 金 榜 题 名 时 。
+寒 窗 苦 读 数 十 载 ，
+        </p>
+    </div>
+</div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kali/">Kali</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ubuntu/">Ubuntu</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据分析/">数据分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/爬虫/">爬虫</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kali/">Kali</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分析/">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试/">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 11.43px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 12.86px;">Hexo</a> <a href="/tags/Kali/" style="font-size: 10px;">Kali</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/Ubuntu/" style="font-size: 15.71px;">Ubuntu</a> <a href="/tags/数据分析/" style="font-size: 18.57px;">数据分析</a> <a href="/tags/机器学习/" style="font-size: 14.29px;">机器学习</a> <a href="/tags/测试/" style="font-size: 11.43px;">测试</a> <a href="/tags/爬虫/" style="font-size: 17.14px;">爬虫</a> <a href="/tags/面试题/" style="font-size: 10px;">面试题</a>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/机器学习/人脸自动补全/">人脸自动补全</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/Logistics回归和数字识别/">Logistics回归和数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/LinearRegression线性回归/">LinearRegression线性回归</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/KNN-手写数字识别/">KNN-手写数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/K-近邻算法-KNN/">K-近邻算法（KNN）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+          <div class="widget-box">
+    <h3 class="widget-title">友链</h3>
+    <div class="widget">
+      
+        <a style="display: block;" href="https://yiluyanxia.github.io/" title target="_blank">一路眼瞎</a>
+      
+        <a style="display: block;" href="https://wljsky.cn/" title target="_blank">钧金</a>
+      
+    </div>
+  </div>
+
+    
+</aside>
+            </div>
+            <footer id="footer">
+    <!-- 百度推送 -->
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            } else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+    <!-- 百度统计 -->
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?58e88d550a3485e4fa9494eb391c7e47";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135687698-1"></script> -->
+    <script src="/js/google.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('set', {'user_id': 'UA-135687698-1'});
+        gtag('config', 'UA-135687698-1');
+    </script>
+    <div class="foot-box global-width">
+        &copy;Copyright&nbsp;2019 一介书生<br>
+        驱动于 <a href="http://hexo.io/" target="_blank">Hexo</a>
+        &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+        <br>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <span id="busuanzi_container_site_pv">阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+        <br>
+        豫ICP备<a href="http://ha.beian.miit.gov.cn/">19008962</a>号
+    </div>
+</footer>
+            <script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) {
+        var script = document.createElement('script');
+        script.src = "/js/jquery.min.js";
+        document.body.write(script);
+    }
+</script>
+
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+    <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+        </div>
+        <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="https://github.com/pighui" class="mobile-nav-link">基友</a>
+  
+    <a href="/archives" class="mobile-nav-link">文章</a>
+  
+    <a href="/me" class="mobile-nav-link">简历</a>
+  
+    <a href="/snow" class="mobile-nav-link">看雪</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/js/love.js"></script>
+    <script src="/js/snowy.js"></script>
+    <style type="text/css">.snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100001;
+        }</style>
+    <div class="snow-container"></div>
+</body>
+</html>

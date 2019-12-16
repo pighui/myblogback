@@ -1,0 +1,73 @@
+# Header
+menu:
+  首页: /
+  基友: https://github.com/pighui
+  文章: /archives
+  简历: /me
+  看雪: /snow
+rss: /atom.xml
+nav: right
+mobile_nav: right
+
+
+
+# Content
+excerpt_link: 阅读全文
+fancybox: true
+
+# Sidebar
+sidebar: right
+widgets:
+- userinfo
+- category
+- tag
+- tagcloud
+- archive
+- recent_posts
+- blogroll
+
+# display widgets at the bottom of index pages (pagination == 2)
+index_widgets:
+# - category
+# - tagcloud
+# - archive
+
+# widget behavior
+archive_type: 'monthly'
+show_count: false
+
+# Background
+background_image: /images/bg.jpg
+background_title: 图片来自网络
+
+# favicon
+favicon: /images/favicon.ico
+
+#Userinfo
+author: 一介书生
+slogan: 盼 君 金 榜 题 名 时 。
+
+  寒 窗 苦 读 数 十 载 ，
+avatar: /images/default-avatar.jpeg
+avatar_title: 图片来自网络
+
+# Article code panel: cloud doorframe mac
+highlightPanel: cloud
+
+#Gitment
+gitment:
+  owner: pighui
+  repo: myblogdes
+  client_id: 79535b24d59031961e6c
+  client_secret: 4f1907f09f33c1182feb2ddfeef33677e8e5ff36
+
+# Miscellaneous
+google_analytics: UA-135687698-1
+gauges_analytics:
+google_site_verification: 
+baidu_site_verification:
+
+# 友情链接
+blogroll:
+  一路眼瞎: https://yiluyanxia.github.io/
+  钧金: https://wljsky.cn/

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','/js/analytics.js','ga');
+
+ga('create', 'UA-135687698-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+    
+    <title>
+        Logistics回归和数字识别 |
+        
+        欢迎浏览本博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+    
+        <meta name="keywords" content="Ubuntu,Linux,Python,Python Web,爬虫,数据分析,机器学习">
+    
+    <meta name="description" content="逻辑斯蒂回归【关键词】Logistics函数，最大似然估计，梯度下降法">
+<meta name="keywords" content="Python,机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Logistics回归和数字识别">
+<meta property="og:url" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/index.html">
+<meta property="og:site_name" content="欢迎浏览本博客">
+<meta property="og:description" content="逻辑斯蒂回归【关键词】Logistics函数，最大似然估计，梯度下降法">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/images/1.PNG">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/images/2.PNG">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/images/3.jpg">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/images/4.jpg">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/images/5.jpg">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/images/6.jpg">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/images/7.jpg">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/images/8.jpg">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/images/9.jpg">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/images/10.jpg">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/images/11.jpg">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/output_24_2.png">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/output_32_0.png">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/output_44_1.png">
+<meta property="og:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/output_54_0.png">
+<meta property="og:updated_time" content="2019-05-17T13:11:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Logistics回归和数字识别">
+<meta name="twitter:description" content="逻辑斯蒂回归【关键词】Logistics函数，最大似然估计，梯度下降法">
+<meta name="twitter:image" content="https://www.xuhuiblog.cn/机器学习/Logistics回归和数字识别/images/1.PNG">
+    
+        <link rel="alternate" href="/atom.xml" title="欢迎浏览本博客" type="application/atom+xml">
+    
+    
+        <link rel="icon" href="/images/favicon.ico">
+    
+    
+        <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <script>
+        let antiquityStorage = window.sessionStorage.getItem('antiquitySessionStorage');
+        if (antiquityStorage == '' || antiquityStorage == null) {
+            var antiquityLoader = '<div id="loaderbox"><div class="loader"><div class="load-roll"><div class="load-top"></div><div class="load-right"></div><div class="load-bottom"></div></div></div></div>';
+            document.write(antiquityLoader);
+            document.body.style.overflow = 'hidden'
+        }
+    </script>
+</head>
+</html>
+<body>
+<div id="fullpage" class="mobile-nav-right">
+    
+    <div id="wrapper" style="background-image: url(/images/bg.jpg)"
+         title="图片来自网络">
+        
+
+            <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-right">
+      
+        <a class="nav-item" href="/" title>首页</a>
+      
+        <a class="nav-item" href="https://github.com/pighui" title>基友</a>
+      
+        <a class="nav-item" href="/archives" title>文章</a>
+      
+        <a class="nav-item" href="/me" title>简历</a>
+      
+        <a class="nav-item" href="/snow" title>看雪</a>
+      
+    </nav>
+  </div>
+</header>
+            <div id="middlecontent" title class="global-width sidebar-right">
+                <section id="main"><article id="post-Logistics回归和数字识别" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      Logistics回归和数字识别
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/机器学习/Logistics回归和数字识别/" class="article-date">
+  <time datetime="2019-05-10T04:27:45.000Z" itemprop="datePublished">2019-05-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/机器学习/">机器学习</a>
+  </div>
+
+    
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li></ul>
+
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+    </span>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h1 id="逻辑斯蒂回归"><a href="#逻辑斯蒂回归" class="headerlink" title="逻辑斯蒂回归"></a>逻辑斯蒂回归</h1><h2 id="【关键词】Logistics函数，最大似然估计，梯度下降法"><a href="#【关键词】Logistics函数，最大似然估计，梯度下降法" class="headerlink" title="【关键词】Logistics函数，最大似然估计，梯度下降法"></a>【关键词】Logistics函数，最大似然估计，梯度下降法</h2><a id="more"></a>
+<h2 id="1、Logistics回归的原理"><a href="#1、Logistics回归的原理" class="headerlink" title="1、Logistics回归的原理"></a>1、Logistics回归的原理</h2><p>利用Logistics回归进行分类的主要思想是：根据现有数据对分类边界线建立回归公式，以此进行分类。这里的“回归” 一词源于最佳拟合，表示要找到最佳拟合参数集。</p>
+<p>训练分类器时的做法就是寻找最佳拟合参数，使用的是最优化算法。接下来介绍这个二值型输出分类器的数学原理</p>
+<p>Logistic Regression和Linear Regression的原理是相似的，可以简单的描述为这样的过程：</p>
+<p>（1）找一个合适的预测函数，一般表示为h函数，该函数就是我们需要找的分类函数，它用来预测输入数据的判断结果。这个过程是非常关键的，需要对数据有一定的了解或分析，知道或者猜测预测函数的“大概”形式，比如是线性函数还是非线性函数。</p>
+<p>（2）构造一个Cost函数（损失函数），该函数表示预测的输出（h）与训练数据类别（y）之间的偏差，可以是二者之间的差（h-y）或者是其他的形式。综合考虑所有训练数据的“损失”，将Cost求和或者求平均，记为J(θ)函数，表示所有训练数据预测值与实际类别的偏差。</p>
+<p>（3）显然，J(θ)函数的值越小表示预测函数越准确（即h函数越准确），所以这一步需要做的是找到J(θ)函数的最小值。找函数的最小值有不同的方法，Logistic Regression实现时有梯度下降法（Gradient Descent）。</p>
+<h3 id="1-构造预测函数"><a href="#1-构造预测函数" class="headerlink" title="1)  构造预测函数"></a>1)  构造预测函数</h3><p>Logistic Regression虽然名字里带“回归”，但是它实际上是一种分类方法，用于两分类问题（即输出只有两种）。首先需要先找到一个预测函数（h），显然，该函数的输出必须是两类值（分别代表两个类别），所以利用了<em>Logistic函数（或称为Sigmoid函数）</em>，函数形式为：</p>
+<p><img src="/机器学习/Logistics回归和数字识别/images/1.PNG" alt="1.PNG"></p>
+<p>该函数形状为：</p>
+<p><img src="/机器学习/Logistics回归和数字识别/images/2.PNG" alt="2.PNG"></p>
+<p>预测函数可以写为：</p>
+<p><img src="/机器学习/Logistics回归和数字识别/images/3.jpg" alt="3.jpg"></p>
+<h3 id="2）构造损失函数"><a href="#2）构造损失函数" class="headerlink" title="2）构造损失函数"></a>2）构造损失函数</h3><p>Cost函数和J(θ)函数是基于<em>最大似然估计</em>推导得到的。</p>
+<p>每个样本属于其真实标记的概率，即似然函数，可以写成：</p>
+<p><img src="/机器学习/Logistics回归和数字识别/images/4.jpg" alt="4.jpg"></p>
+<p>所有样本都属于其真实标记的概率为</p>
+<p><img src="/机器学习/Logistics回归和数字识别/images/5.jpg" alt="5.jpg"></p>
+<p>对数似然函数为</p>
+<p><img src="/机器学习/Logistics回归和数字识别/images/6.jpg" alt="6.jpg"></p>
+<p>最大似然估计就是要求得使l(θ)取最大值时的θ，其实这里可以使用梯度上升法求解，求得的θ就是要求的最佳参数</p>
+<h3 id="3-梯度下降法求J-θ-的最小值"><a href="#3-梯度下降法求J-θ-的最小值" class="headerlink" title="3) 梯度下降法求J(θ)的最小值"></a>3) 梯度下降法求J(θ)的最小值</h3><p>求J(θ)的最小值可以使用<em>梯度下降法</em>，根据梯度下降法可得θ的更新过程:</p>
+<p><img src="/机器学习/Logistics回归和数字识别/images/7.jpg" alt="7.jpg"></p>
+<p>式中为α学习步长，下面来求偏导：</p>
+<p><img src="/机器学习/Logistics回归和数字识别/images/8.jpg" alt="8.jpg"></p>
+<p>上式求解过程中用到如下的公式：</p>
+<p><img src="/机器学习/Logistics回归和数字识别/images/9.jpg" alt="9.jpg"></p>
+<p>因此，θ的更新过程可以写成:</p>
+<p><img src="/机器学习/Logistics回归和数字识别/images/10.jpg" alt="10.jpg"></p>
+<p>因为式中α本来为一常量，所以1/m一般将省略，所以最终的θ更新过程为：</p>
+<p><img src="/机器学习/Logistics回归和数字识别/images/11.jpg" alt="11.jpg"></p>
+<h2 id="2、实战"><a href="#2、实战" class="headerlink" title="2、实战"></a>2、实战</h2><p><code>sklearn.linear_model.LogisticRegression(penalty=&#39;l2&#39;, dual=False, tol=0.0001, C=1.0, fit_intercept=True, intercept_scaling=1, class_weight=None, random_state=None, solver=&#39;liblinear&#39;, max_iter=100, multi_class=&#39;ovr&#39;, verbose=0, warm_start=False, n_jobs=1)</code></p>
+<p>solver参数的选择：</p>
+<ul>
+<li>“liblinear”：小数量级的数据集</li>
+<li>“lbfgs” or “newton-cg”：大数量级的数据集以及多分类问题</li>
+<li>“sag”：极大的数据集</li>
+</ul>
+<h3 id="逻辑斯提-Logistic-总结"><a href="#逻辑斯提-Logistic-总结" class="headerlink" title="逻辑斯提 Logistic 总结"></a>逻辑斯提 Logistic 总结</h3><ul>
+<li>是一个线性回归模型，处理二分类问题</li>
+<li>概率论</li>
+<li>对分类边界建立回归公式</li>
+<li>不能处理回归问题</li>
+</ul>
+<h3 id="1-手写数字数据集的分类"><a href="#1-手写数字数据集的分类" class="headerlink" title="1) 手写数字数据集的分类"></a>1) 手写数字数据集的分类</h3><p>使用KNN与Logistic回归两种方法</p>
+<ul>
+<li>数据 load_digits() 函数</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> pandas <span class="keyword">import</span> Series, DataFrame</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">%matplotlib inline</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_digits</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">digits = load_digits()</span><br></pre></td></tr></table></figure></div>
+<p>切分训练与预测数据： train_test_split()</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split <span class="keyword">as</span> split</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trainX,testX,trainy,testy = split(digits.data, digits.target)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trainX.shape</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(1347, 64)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">display(trainy[<span class="number">15</span>])</span><br><span class="line">plt.imshow(trainX[<span class="number">15</span>].reshape(<span class="number">8</span>, <span class="number">8</span>), cmap=<span class="string">'gray'</span>)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">8</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;matplotlib.image.AxesImage at 0x7f9161730978&gt;</span><br></pre></td></tr></table></figure></div>
+<p><img src="/机器学习/Logistics回归和数字识别/output_24_2.png" alt="png"></p>
+<p>创建模型，训练和预测</p>
+<ul>
+<li>LogisticRegression(C=0.1)<ul>
+<li>C惩罚系数 允许误差的阈值</li>
+<li>C越大，允许的误差越大</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logistic = LogisticRegression(C=<span class="number">0.1</span>)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logistic.fit(trainX, trainy).score(testX, testy)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.9733333333333334</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y_ = logistic.predict(testX)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">testX.shape</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(450, 64)</span><br></pre></td></tr></table></figure></div>
+<p>展示结果:前100个样本数据</p>
+<ul>
+<li>plt.imshow(arr, cmap=’gray’)</li>
+<li>axes.axis(‘off’)</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">plt.figure(figsize=(<span class="number">30</span>, <span class="number">40</span>))</span><br><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> range(<span class="number">100</span>):  <span class="comment"># 前100预测的图片</span></span><br><span class="line">    ax = plt.subplot(<span class="number">10</span>, <span class="number">10</span>, index+<span class="number">1</span>)</span><br><span class="line">    ax.axis(<span class="string">'off'</span>)</span><br><span class="line">    ax.set_title(<span class="string">'True:%s\nPredict:%s'</span> %(testy[index], y_[index]),</span><br><span class="line">                fontsize=<span class="number">30</span>)</span><br><span class="line">    plt.imshow(testX[index].reshape(<span class="number">8</span>, <span class="number">8</span>), cmap=<span class="string">'gray'</span>)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></div>
+<p><img src="/机器学习/Logistics回归和数字识别/output_32_0.png" alt="png"></p>
+<h3 id="2-使用make-blobs产生数据集进行分类"><a href="#2-使用make-blobs产生数据集进行分类" class="headerlink" title="2) 使用make_blobs产生数据集进行分类"></a>2) 使用make_blobs产生数据集进行分类</h3><p>导包使用datasets.make_blobs创建一系列点</p>
+<ul>
+<li>n_samples=100 样本点数</li>
+<li>n_features=2  样本特征</li>
+<li>centers=[[1,4],[3,2],[5,6]]  三个中心数据</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> make_blobs</span><br></pre></td></tr></table></figure></div>
+<p>设置三个中心点，随机创建100个点</p>
+<ul>
+<li>samples,target = make_blobs(n_samples, n_features,centers)</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">samples, target = make_blobs(<span class="number">100</span>, <span class="number">2</span>, [[<span class="number">1</span>,<span class="number">5</span>], [<span class="number">4</span>,<span class="number">2</span>], [<span class="number">5</span>,<span class="number">6</span>]])</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">samples.shape</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(100, 2)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Series(target).unique()</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array([1, 2, 0])</span><br></pre></td></tr></table></figure></div>
+<p>创建机器学习模型，训练数据</p>
+<ul>
+<li>knn分类 训练</li>
+<li>logistic训练</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">knn_c = KNeighborsClassifier(n_neighbors=<span class="number">5</span>)</span><br><span class="line">logistic = LogisticRegression(C=<span class="number">0.1</span>,</span><br><span class="line">                              solver=<span class="string">'liblinear'</span>, multi_class=<span class="string">'ovr'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> model <span class="keyword">in</span> [knn_c, logistic]:</span><br><span class="line">    model.fit(samples, target)</span><br></pre></td></tr></table></figure></div>
+<p>显示两个特征的散点图</p>
+<ul>
+<li>plt.scatter(train[:,0],train[:,1],c=target)</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plt.scatter(samples[:, <span class="number">0</span>], samples[:, <span class="number">1</span>], c= target)</span><br><span class="line">plt.show</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;function matplotlib.pyplot.show(*args, **kw)&gt;</span><br></pre></td></tr></table></figure></div>
+<p><img src="/机器学习/Logistics回归和数字识别/output_44_1.png" alt="png"></p>
+<p>提取坐标点，对坐标点进行处理</p>
+<ul>
+<li>获取边界<ul>
+<li>f1_min, f1_max = train[:,0].min()-0.5, train[:,1].max()+0.5</li>
+<li>f2_min, f2_max = train[:,1].min()-0.5, train[:,1].max()+0.5</li>
+</ul>
+</li>
+<li>等差数列<ul>
+<li>f1 = np.linspace(f1_min, f1_max,200)</li>
+<li>f2 = np.linspace(f2_min, f2_max, 200)</li>
+</ul>
+</li>
+<li>f1和f2交叉、合并成X_test测试数据<ul>
+<li>f1_m,f2_m = np.meshgrid(f1, f2)</li>
+<li>X_test = np.c_[f1_m.ravel(),f2_m.ravel()]</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f1 = np.linspace(samples[:, <span class="number">0</span>].min()<span class="number">-0.5</span>,</span><br><span class="line">                samples[:, <span class="number">0</span>].max()+<span class="number">0.5</span>, num=<span class="number">200</span>)</span><br><span class="line">f2 = np.linspace(samples[:, <span class="number">1</span>].min()<span class="number">-0.5</span>,</span><br><span class="line">                samples[:, <span class="number">1</span>].max()+<span class="number">0.5</span>, num=<span class="number">200</span>)</span><br><span class="line">f1, f2 = np.meshgrid(f1, f2) <span class="comment"># 将f1，f2转成200*200的二维数组</span></span><br><span class="line">testX = np.c_[f1.ravel(), f2.ravel()] <span class="comment"># 转成2列40000行的预测数据</span></span><br></pre></td></tr></table></figure></div>
+<p>预测坐标点数据, 同时查看执行的时间 %time指令</p>
+<ul>
+<li>knn分类 预测</li>
+<li>logistic 预测</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%time y_knn = knn_c.predict(testX)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CPU times: user 231 ms, sys: 24.4 ms, total: 255 ms</span><br><span class="line">Wall time: 65 ms</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%time y_logistic = logistic.predict(testX)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CPU times: user 7.69 ms, sys: 0 ns, total: 7.69 ms</span><br><span class="line">Wall time: 2.14 ms</span><br></pre></td></tr></table></figure></div>
+<p>绘制图形</p>
+<ul>
+<li>matplotlib.colors.ListedColormap</li>
+</ul>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> matplotlib.colors <span class="keyword">import</span> ListedColormap</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmaps = ListedColormap([<span class="string">'red'</span>, <span class="string">'green'</span>, <span class="string">'blue'</span>])</span><br></pre></td></tr></table></figure></div>
+<p>画出两种模型的真实数据与预测数据的散点图</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">plt.figure(figsize=(<span class="number">12</span>, <span class="number">5</span>))</span><br><span class="line"></span><br><span class="line">ax1 = plt.subplot(<span class="number">121</span>)</span><br><span class="line"><span class="comment"># y_knn 模型预测的数据，满屏的点</span></span><br><span class="line">plt.scatter(testX[:, <span class="number">0</span>], testX[:, <span class="number">1</span>], c=y_knn, cmap=cmaps)</span><br><span class="line">plt.scatter(samples[:, <span class="number">0</span>], samples[:, <span class="number">1</span>], c=target)</span><br><span class="line">ax1.set_title(<span class="string">'KNN分类与预测'</span>, fontproperties=<span class="string">'SimHei'</span>, fontsize=<span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ax2 = plt.subplot(<span class="number">122</span>)</span><br><span class="line"><span class="comment"># y_logistic 模型预测的数据，满屏的点</span></span><br><span class="line">plt.scatter(testX[:, <span class="number">0</span>], testX[:, <span class="number">1</span>], c=y_logistic, cmap=cmaps)</span><br><span class="line">plt.scatter(samples[:, <span class="number">0</span>], samples[:, <span class="number">1</span>], c=target)</span><br><span class="line">ax2.set_title(<span class="string">'Logistic预测数据'</span>, fontproperties=<span class="string">'SimHei'</span>, fontsize=<span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></div>
+<p><img src="/机器学习/Logistics回归和数字识别/output_54_0.png" alt="png"></p>
+<h2 id="3、预测年收入是否大于50K美元"><a href="#3、预测年收入是否大于50K美元" class="headerlink" title="3、预测年收入是否大于50K美元"></a>3、预测年收入是否大于50K美元</h2><p>读取adults.txt文件，并使用逻辑斯底回归算法训练模型，根据种族race、职业occupation、工作时长hours_per_week来预测一个人的收入</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adults = pd.read_csv(<span class="string">'data/adults.txt'</span>)</span><br><span class="line">adults.head()</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>age</th><br>      <th>workclass</th><br>      <th>final_weight</th><br>      <th>education</th><br>      <th>education_num</th><br>      <th>marital_status</th><br>      <th>occupation</th><br>      <th>relationship</th><br>      <th>race</th><br>      <th>sex</th><br>      <th>capital_gain</th><br>      <th>capital_loss</th><br>      <th>hours_per_week</th><br>      <th>native_country</th><br>      <th>salary</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>0</th><br>      <td>39</td><br>      <td>State-gov</td><br>      <td>77516</td><br>      <td>Bachelors</td><br>      <td>13</td><br>      <td>Never-married</td><br>      <td>Adm-clerical</td><br>      <td>Not-in-family</td><br>      <td>White</td><br>      <td>Male</td><br>      <td>2174</td><br>      <td>0</td><br>      <td>40</td><br>      <td>United-States</td><br>      <td>&lt;=50K</td><br>    </tr><br>    <tr><br>      <th>1</th><br>      <td>50</td><br>      <td>Self-emp-not-inc</td><br>      <td>83311</td><br>      <td>Bachelors</td><br>      <td>13</td><br>      <td>Married-civ-spouse</td><br>      <td>Exec-managerial</td><br>      <td>Husband</td><br>      <td>White</td><br>      <td>Male</td><br>      <td>0</td><br>      <td>0</td><br>      <td>13</td><br>      <td>United-States</td><br>      <td>&lt;=50K</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>38</td><br>      <td>Private</td><br>      <td>215646</td><br>      <td>HS-grad</td><br>      <td>9</td><br>      <td>Divorced</td><br>      <td>Handlers-cleaners</td><br>      <td>Not-in-family</td><br>      <td>White</td><br>      <td>Male</td><br>      <td>0</td><br>      <td>0</td><br>      <td>40</td><br>      <td>United-States</td><br>      <td>&lt;=50K</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>53</td><br>      <td>Private</td><br>      <td>234721</td><br>      <td>11th</td><br>      <td>7</td><br>      <td>Married-civ-spouse</td><br>      <td>Handlers-cleaners</td><br>      <td>Husband</td><br>      <td>Black</td><br>      <td>Male</td><br>      <td>0</td><br>      <td>0</td><br>      <td>40</td><br>      <td>United-States</td><br>      <td>&lt;=50K</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>28</td><br>      <td>Private</td><br>      <td>338409</td><br>      <td>Bachelors</td><br>      <td>13</td><br>      <td>Married-civ-spouse</td><br>      <td>Prof-specialty</td><br>      <td>Wife</td><br>      <td>Black</td><br>      <td>Female</td><br>      <td>0</td><br>      <td>0</td><br>      <td>40</td><br>      <td>Cuba</td><br>      <td>&lt;=50K</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 种族 ，职业， 工作时间做训练数据，薪资为目标数据</span></span><br><span class="line">samples = adults[[<span class="string">'race'</span>, <span class="string">'occupation'</span>, <span class="string">'hours_per_week'</span>]]</span><br><span class="line">target = adults[<span class="string">'salary'</span>].values</span><br></pre></td></tr></table></figure></div>
+<p>找出需要进行数值化处理的列， 并进行数值化处理</p>
+<p>df.columns[df.dtypes == object]</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">samples.dtypes == object  <span class="comment"># 查看是object类型的列，需进行数值化处理</span></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">race               True</span><br><span class="line">occupation         True</span><br><span class="line">hours_per_week    False</span><br><span class="line">dtype: bool</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">samples.columns[samples.dtypes == object]</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Index([&apos;race&apos;, &apos;occupation&apos;], dtype=&apos;object&apos;)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">items = samples[<span class="string">'race'</span>].unique() <span class="comment"># 根据类型是object的列，查出他的分类</span></span><br><span class="line">items</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">array([&apos;White&apos;, &apos;Black&apos;, &apos;Asian-Pac-Islander&apos;, &apos;Amer-Indian-Eskimo&apos;,</span><br><span class="line">       &apos;Other&apos;], dtype=object)</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.argwhere(items==<span class="string">'White'</span>)[<span class="number">0</span>, <span class="number">0</span>]  <span class="comment"># 查看行数据中某一值在items中的位置</span></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基于函数的封装</span></span><br><span class="line"><span class="comment"># 对数据中的所有object列的值进行数值化</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">to_numeric</span><span class="params">(df, inplace=False)</span>:</span></span><br><span class="line">    df2 = df <span class="keyword">if</span> inplace <span class="keyword">else</span> df.copy()</span><br><span class="line">    cols = df2.columns[df2.dtypes==object]</span><br><span class="line">    <span class="keyword">for</span> col_name <span class="keyword">in</span> cols:</span><br><span class="line">        <span class="comment"># 获取col_name列所有item名称</span></span><br><span class="line">        items = df2[col_name].unique()</span><br><span class="line">        df2[col_name] = df[col_name].map(<span class="keyword">lambda</span> item: np.argwhere(items==item)[<span class="number">0</span>,<span class="number">0</span>])</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> inplace:</span><br><span class="line">        <span class="keyword">return</span> df2</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 原来的数据</span></span><br><span class="line">samples.head()</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>race</th><br>      <th>occupation</th><br>      <th>hours_per_week</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>0</th><br>      <td>White</td><br>      <td>Adm-clerical</td><br>      <td>40</td><br>    </tr><br>    <tr><br>      <th>1</th><br>      <td>White</td><br>      <td>Exec-managerial</td><br>      <td>13</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>White</td><br>      <td>Handlers-cleaners</td><br>      <td>40</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>Black</td><br>      <td>Handlers-cleaners</td><br>      <td>40</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>Black</td><br>      <td>Prof-specialty</td><br>      <td>40</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用自定义函数数值化之后的数据</span></span><br><span class="line">df2 = to_numeric(samples)</span><br><span class="line">df2.head()</span><br></pre></td></tr></table></figure></div>
+<div><br><style scoped><br>    .dataframe tbody tr th:only-of-type {<br>        vertical-align: middle;<br>    }<br>    .dataframe tbody tr th {<br>    vertical-align: top;<br>}<br>.dataframe thead th {<br>    text-align: right;<br>}<br></style><br><table border="1" class="dataframe"><br>  <thead><br>    <tr style="text-align: right;"><br>      <th></th><br>      <th>race</th><br>      <th>occupation</th><br>      <th>hours_per_week</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <th>0</th><br>      <td>0</td><br>      <td>0</td><br>      <td>40</td><br>    </tr><br>    <tr><br>      <th>1</th><br>      <td>0</td><br>      <td>1</td><br>      <td>13</td><br>    </tr><br>    <tr><br>      <th>2</th><br>      <td>0</td><br>      <td>2</td><br>      <td>40</td><br>    </tr><br>    <tr><br>      <th>3</th><br>      <td>1</td><br>      <td>2</td><br>      <td>40</td><br>    </tr><br>    <tr><br>      <th>4</th><br>      <td>1</td><br>      <td>3</td><br>      <td>40</td><br>    </tr><br>  </tbody><br></table><br></div>
+
+
+
+
+
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+      <a href="/机器学习/人脸自动补全/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption"></strong>
+        <div class="article-nav-title">
+          
+            人脸自动补全
+          
+        </div>
+      </a>
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/机器学习/LinearRegression线性回归/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">LinearRegression线性回归</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://www.xuhuiblog.cn/css/gitment.css">
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/gitment.js"></script>
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/md5.min.js"></script>
+<script>
+var gitment = new Gitment({
+  id: md5(window.location.pathname.replace(/index.html/, "")),
+  owner: 'pighui',
+  repo: 'myblogdes',
+  oauth: {
+    client_id: '79535b24d59031961e6c',
+    client_secret: '4f1907f09f33c1182feb2ddfeef33677e8e5ff36',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+
+  
+  
+</article>
+</section>
+                <aside id="sidebar">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="360" height="86" src="//music.163.com/outchain/player?type=2&id=1346998796&auto=0&height=66"></iframe>
+    
+        <div class="widget-box">
+    <div class="avatar-box">
+        <img class="avatar" src="/images/default-avatar.jpeg" title="图片来自网络">
+        <h3 class="avatar-name">
+            
+                一介书生
+            
+        </h3>
+        <p class="avatar-slogan">
+            盼 君 金 榜 题 名 时 。
+寒 窗 苦 读 数 十 载 ，
+        </p>
+    </div>
+</div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kali/">Kali</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ubuntu/">Ubuntu</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据分析/">数据分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/爬虫/">爬虫</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kali/">Kali</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分析/">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试/">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 11.43px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 12.86px;">Hexo</a> <a href="/tags/Kali/" style="font-size: 10px;">Kali</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/Ubuntu/" style="font-size: 15.71px;">Ubuntu</a> <a href="/tags/数据分析/" style="font-size: 18.57px;">数据分析</a> <a href="/tags/机器学习/" style="font-size: 14.29px;">机器学习</a> <a href="/tags/测试/" style="font-size: 11.43px;">测试</a> <a href="/tags/爬虫/" style="font-size: 17.14px;">爬虫</a> <a href="/tags/面试题/" style="font-size: 10px;">面试题</a>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/机器学习/人脸自动补全/">人脸自动补全</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/Logistics回归和数字识别/">Logistics回归和数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/LinearRegression线性回归/">LinearRegression线性回归</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/KNN-手写数字识别/">KNN-手写数字识别</a>
+          </li>
+        
+          <li>
+            <a href="/机器学习/K-近邻算法-KNN/">K-近邻算法（KNN）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+          <div class="widget-box">
+    <h3 class="widget-title">友链</h3>
+    <div class="widget">
+      
+        <a style="display: block;" href="https://yiluyanxia.github.io/" title target="_blank">一路眼瞎</a>
+      
+        <a style="display: block;" href="https://wljsky.cn/" title target="_blank">钧金</a>
+      
+    </div>
+  </div>
+
+    
+</aside>
+            </div>
+            <footer id="footer">
+    <!-- 百度推送 -->
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            } else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+    <!-- 百度统计 -->
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?58e88d550a3485e4fa9494eb391c7e47";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135687698-1"></script> -->
+    <script src="/js/google.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('set', {'user_id': 'UA-135687698-1'});
+        gtag('config', 'UA-135687698-1');
+    </script>
+    <div class="foot-box global-width">
+        &copy;Copyright&nbsp;2019 一介书生<br>
+        驱动于 <a href="http://hexo.io/" target="_blank">Hexo</a>
+        &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+        <br>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <span id="busuanzi_container_site_pv">阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+        <br>
+        豫ICP备<a href="http://ha.beian.miit.gov.cn/">19008962</a>号
+    </div>
+</footer>
+            <script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) {
+        var script = document.createElement('script');
+        script.src = "/js/jquery.min.js";
+        document.body.write(script);
+    }
+</script>
+
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+    <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+        </div>
+        <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="https://github.com/pighui" class="mobile-nav-link">基友</a>
+  
+    <a href="/archives" class="mobile-nav-link">文章</a>
+  
+    <a href="/me" class="mobile-nav-link">简历</a>
+  
+    <a href="/snow" class="mobile-nav-link">看雪</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/js/love.js"></script>
+    <script src="/js/snowy.js"></script>
+    <style type="text/css">.snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100001;
+        }</style>
+    <div class="snow-container"></div>
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','/js/analytics.js','ga');
+
+ga('create', 'UA-135687698-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+    
+    <title>
+        logging模块介绍 |
+        
+        欢迎浏览本博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    
+    
+        <meta name="keywords" content="Ubuntu,Linux,Python,Python Web,爬虫,数据分析,机器学习">
+    
+    <meta name="description" content="logging日志日志信息是软件开发过程中进行调试的一种非常有用的方式，特别是在大型软件开发过程需要很多相关人员进行协作的情况下。开发人员通过在代码中加入一些特定的能够记录软件运行过程中的各种事件信息能够有利于甄别代码中存在的问题。这些信息可能包括时间，描述信息以及错误或者异常发生时候的特定上下文信息。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="logging模块介绍">
+<meta property="og:url" content="https://www.xuhuiblog.cn/Python/logging模块介绍/index.html">
+<meta property="og:site_name" content="欢迎浏览本博客">
+<meta property="og:description" content="logging日志日志信息是软件开发过程中进行调试的一种非常有用的方式，特别是在大型软件开发过程需要很多相关人员进行协作的情况下。开发人员通过在代码中加入一些特定的能够记录软件运行过程中的各种事件信息能够有利于甄别代码中存在的问题。这些信息可能包括时间，描述信息以及错误或者异常发生时候的特定上下文信息。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-05T07:27:03.157Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="logging模块介绍">
+<meta name="twitter:description" content="logging日志日志信息是软件开发过程中进行调试的一种非常有用的方式，特别是在大型软件开发过程需要很多相关人员进行协作的情况下。开发人员通过在代码中加入一些特定的能够记录软件运行过程中的各种事件信息能够有利于甄别代码中存在的问题。这些信息可能包括时间，描述信息以及错误或者异常发生时候的特定上下文信息。">
+    
+        <link rel="alternate" href="/atom.xml" title="欢迎浏览本博客" type="application/atom+xml">
+    
+    
+        <link rel="icon" href="/images/favicon.ico">
+    
+    
+        <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <script>
+        let antiquityStorage = window.sessionStorage.getItem('antiquitySessionStorage');
+        if (antiquityStorage == '' || antiquityStorage == null) {
+            var antiquityLoader = '<div id="loaderbox"><div class="loader"><div class="load-roll"><div class="load-top"></div><div class="load-right"></div><div class="load-bottom"></div></div></div></div>';
+            document.write(antiquityLoader);
+            document.body.style.overflow = 'hidden'
+        }
+    </script>
+</head>
+</html>
+<body>
+<div id="fullpage" class="mobile-nav-right">
+    
+    <div id="wrapper" style="background-image: url(/images/bg.jpg)"
+         title="图片来自网络">
+        
+
+            <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-right">
+      
+        <a class="nav-item" href="/" title>首页</a>
+      
+        <a class="nav-item" href="https://github.com/pighui" title>基友</a>
+      
+        <a class="nav-item" href="/archives" title>文章</a>
+      
+        <a class="nav-item" href="/me" title>简历</a>
+      
+        <a class="nav-item" href="/snow" title>看雪</a>
+      
+    </nav>
+  </div>
+</header>
+            <div id="middlecontent" title class="global-width sidebar-right">
+                <section id="main"><article id="post-logging模块介绍" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      logging模块介绍
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/Python/logging模块介绍/" class="article-date">
+  <time datetime="2019-05-05T06:50:53.000Z" itemprop="datePublished">2019-05-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+  </div>
+
+    
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+    </span>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <h3 id="logging日志"><a href="#logging日志" class="headerlink" title="logging日志"></a>logging日志</h3><p>日志信息是软件开发过程中进行调试的一种非常有用的方式，特别是在大型软件开发过程需要很多相关人员进行协作的情况下。开发人员通过在代码中加入一些特定的能够记录软件运行过程中的各种事件信息能够有利于甄别代码中存在的问题。这些信息可能包括时间，描述信息以及错误或者异常发生时候的特定上下文信息。</p>
+<a id="more"></a>
+<p>  最原始的 debug 方法是通过在代码中嵌入 print  语句，通过输出一些相关的信息来定位程序的问题。但这种方法有一定的缺陷，正常的程序输出和 debug  信息混合在一起，给分析带来一定困难，当程序调试结束不再需要 debug 输出的时候，通常没有很简单的方法将 print  的信息屏蔽掉或者定位到文件。python 中自带的 logging 模块可以比较方便的解决这些问题，它提供日志功能，将 logger 的  level 分为六个级别，可以通过 Logger.setLevel(lvl) 来设置。默认的级别为 warning。</p>
+<h4 id="日志的级别"><a href="#日志的级别" class="headerlink" title="日志的级别"></a>日志的级别</h4><table>
+<thead>
+<tr>
+<th>Level</th>
+<th>值</th>
+<th>使用情形</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NOTSET</td>
+<td>0</td>
+<td>日志记录,一般仅仅用来记录运行状况</td>
+</tr>
+<tr>
+<td>DEBUG</td>
+<td>10</td>
+<td>详细的信息，在追踪问题的时候使用</td>
+</tr>
+<tr>
+<td>INFO</td>
+<td>20</td>
+<td>正常的信息</td>
+</tr>
+<tr>
+<td>WARNING</td>
+<td>30</td>
+<td>一些不可预见的问题发生，或者将要发生，如磁盘空间低等，但不影响程序的运行</td>
+</tr>
+<tr>
+<td>ERROR</td>
+<td>40</td>
+<td>由于某些严重的问题，程序中的一些功能受到影响</td>
+</tr>
+<tr>
+<td>CRITICAL</td>
+<td>50</td>
+<td>严重的错误，或者程序本身不能够继续运行</td>
+</tr>
+</tbody>
+</table>
+<h4 id="logging-lib-包含的-4-个主要对象"><a href="#logging-lib-包含的-4-个主要对象" class="headerlink" title="logging lib 包含的 4 个主要对象"></a>logging lib 包含的 4 个主要对象</h4><ul>
+<li>logger:logger 是程序信息输出的接口。它分散在不同的代码中使得程序可以在运行的时候记录相应的信息，并根据设置的日志级别或  filter 来决定哪些信息需要输出并将这些信息分发到其关联的 handler。常用的方法有  Logger.setLevel()，Logger.addHandler() ，Logger.removeHandler()  ，Logger.addFilter() ，Logger.debug(), Logger.info(), Logger.warning(),  Logger.error()，getLogger() 等。logger 支持层次继承关系，子 logger 的名称通常是父  logger.name 的方式。如果不创建 logger 的实例，则使用默认的 root logger，通过  logging.getLogger() 或者 logging.getLogger(“”) 得到 root logger 实例。</li>
+<li>Handler:Handler 用来处理信息的输出，可以将信息输出到控制台，文件或者网络。可以通过  Logger.addHandler() 来给 logger 对象添加 handler，常用的 handler 有 StreamHandler 和  FileHandler 类。StreamHandler 发送错误信息到流，而 FileHandler 类用于向文件输出日志信息，这两个  handler 定义在 logging 的核心模块中。其他的 hander 定义在 logging.handles 模块中，如：HTTPHandler,SocketHandler。</li>
+<li>Formatter:Formatter 则决定了 log 信息的格式 , 格式使用类似于 %(&lt; dictionary key  &gt;)s 的形式来定义，如’%(asctime)s - %(levelname)s - %(message)s’，支持的 key 可以在  python 自带的文档 LogRecord attributes 中查看。</li>
+<li>Filter:Filter 用来决定哪些信息需要输出。可以被 handler 和 logger 使用，支持层次关系，比如如果设置了  filter 为名称为 A.B 的 logger，则该 logger 和其子 logger 的信息会被输出，如 A.B,A.B.C.</li>
+</ul>
+<h4 id="logger"><a href="#logger" class="headerlink" title="logger"></a>logger</h4><p>logger是一个树结构，默认有个根root，其他logger都是其上的枝桠，比如创建一个name=’A.B’的logger，其实际结构就是 :</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">    root((root))</span><br><span class="line">    A((A))</span><br><span class="line">    B((B))</span><br><span class="line">    root--&gt;A</span><br><span class="line">    A--&gt;B</span><br></pre></td></tr></table></figure></div>
+<p>再创建一个name=’A.C.D’的logger，结构变为：</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">    root((root))</span><br><span class="line">    A((A))</span><br><span class="line">    B((B))</span><br><span class="line">    C((C))</span><br><span class="line">    D((D))</span><br><span class="line">    root--&gt;A</span><br><span class="line">    A--&gt;B</span><br><span class="line">    A--&gt;C</span><br><span class="line">    C--&gt;D</span><br></pre></td></tr></table></figure></div>
+<p>下面的代码片段简要说明了logger、Handler、Formatter、Filter之间的关系及使用：</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">LOG1=logging.getLogger(<span class="string">'b.c'</span>) </span><br><span class="line">filehandler = logging.FileHandler(<span class="string">'test.log'</span>,<span class="string">'a'</span>) </span><br><span class="line">formatter = logging.Formatter(<span class="string">'%(name)s %(asctime)s %(levelname)s %(message)s'</span>) </span><br><span class="line">filehandler.setFormatter(formatter) </span><br><span class="line">filter=logging.Filter(<span class="string">'b'</span>) </span><br><span class="line">filehandler.addFilter(filter) </span><br><span class="line">LOG1.addHandler(filehandler)</span><br></pre></td></tr></table></figure></div>
+<h4 id="日志简单配置示例"><a href="#日志简单配置示例" class="headerlink" title="日志简单配置示例"></a>日志简单配置示例</h4><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line">logger = logging.getLogger(<span class="string">'test'</span>)</span><br><span class="line">logging.basicConfig()  <span class="comment"># basicConfig是logging提供的简单的配置方法，不用basicConfig则需要手动添加handler</span></span><br><span class="line"></span><br><span class="line">logger.setLevel(logging.INFO)  <span class="comment"># 输出所有大于等于INFO级别的log</span></span><br><span class="line">logger.info(<span class="string">'I am &lt;info&gt; message.'</span>)</span><br><span class="line">logger.debug(<span class="string">'I am &lt;debug&gt; message.'</span>)  <span class="comment"># 不输出</span></span><br></pre></td></tr></table></figure></div>
+<p>输出：</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INFO:test:I am &lt;info&gt; message.</span><br></pre></td></tr></table></figure></div>
+<p>要注意的是： root 的默认级别是 WARNING！， 而且logger实际输出时的level是取决于EffectiveLevel，即从该级往上走，遇到的第一个level不为0的logger的level，也就是说如果你创建了logger，而没有为其设置level，那它默认是NOTSET，程序会往上层找，直到root，而root级别是WARNING，所以可能会导致没有输出日志。</p>
+<h4 id="handler日志输出目的地"><a href="#handler日志输出目的地" class="headerlink" title="handler日志输出目的地"></a>handler日志输出目的地</h4><p>我们写日志一个很重要的问题就是把日志输出到什么地方去，我们可能希望某些日志在console打印出来，可能希望有更详细的日志输出到log文件里去。怎么控制这些输出就需要用handler了。</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line">logger = logging.getLogger(<span class="string">'test'</span>)</span><br><span class="line">logger.addHandler(logging.StreamHandler())  <span class="comment"># 添加StreamHandler</span></span><br><span class="line">logger.setLevel(logging.INFO)  <span class="comment"># 输出所有大于INFO级别的log</span></span><br><span class="line">logger.info(<span class="string">'I am &lt;info&gt; message.'</span>)</span><br><span class="line">logger.debug(<span class="string">'I am &lt;debug&gt; message.'</span>)  <span class="comment"># 不输出</span></span><br></pre></td></tr></table></figure></div>
+<p>我们把上面的例子稍微改动了一下，可以看到输出如下，输出到了console里。在pycharm中都是显示在输出窗口中。只不过缺少了INFO:的级别类型</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I am &lt;info&gt; message.</span><br></pre></td></tr></table></figure></div>
+<p>这就是logging提供的最基本的一个handler，其他各种handler都是从这个handler继承发展来的。理论上可以把日志输出到各种流中，stderr、文件、socket等都可以。当然logging已经将各种流handler封装好了。</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line">logger = logging.getLogger(<span class="string">'test'</span>)</span><br><span class="line">logger.addHandler(logging.StreamHandler())</span><br><span class="line">logger.addHandler(logging.FileHandler(<span class="string">'test.log'</span>))  <span class="comment"># 再添一个FileHandler</span></span><br><span class="line">logger.setLevel(logging.INFO)  <span class="comment"># 输出所有大于INFO级别的log</span></span><br><span class="line">logger.info(<span class="string">'I am &lt;info&gt; message.'</span>)</span><br><span class="line">logger.debug(<span class="string">'I am &lt;debug&gt; message.'</span>)  <span class="comment"># 不输出</span></span><br></pre></td></tr></table></figure></div>
+<p>可以看到，info不仅仅输出到了console中，还在当前文件夹下创建了一个test.log文件并输出到了该文件中。在logging.handlers中还封装了一堆更高级的handlers，可以了解下，尤其是RotatingFileHandler和TimedRotatingFileHandler，可以把你的日志按一定规则分割成多份。你也可以自己封装handler哦，网上有人这么干的。</p>
+<p>上面我们看到了logger的级别，可以控制这个logger要输出什么级别的log。但这里我们发现可以在logger里添加handler，控制输出log到哪里，明显发现，其实我们想要在不同的handler里输出不同级别的日志。</p>
+<p>比如我们想要在console里输出warning以上的日志，在log文件里输出debug以上的日志，该怎么办呢？</p>
+<p>handler也是有级别的。</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line">logger = logging.getLogger(<span class="string">'test'</span>)</span><br><span class="line">logger.setLevel(logging.INFO)  <span class="comment"># 输出所有大于INFO级别的log</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加StreamHandler，并设置级别为WARNING</span></span><br><span class="line">stream_hdl = logging.StreamHandler()</span><br><span class="line">stream_hdl.setLevel(logging.WARNING)</span><br><span class="line">logger.addHandler(stream_hdl)</span><br><span class="line"><span class="comment"># 添加FileHandler，并设置级别为DEBUG</span></span><br><span class="line">file_hdl = logging.FileHandler(<span class="string">'test.log'</span>)</span><br><span class="line">file_hdl.setLevel(logging.DEBUG)</span><br><span class="line">logger.addHandler(file_hdl)</span><br><span class="line"></span><br><span class="line">logger.info(<span class="string">'I am &lt;info&gt; message.'</span>)</span><br><span class="line">logger.debug(<span class="string">'I am &lt;debug&gt; message.'</span>)  <span class="comment"># 不输出</span></span><br></pre></td></tr></table></figure></div>
+<p>logger实例的log()函数，例如info()和debug()函数先针对logger实例的级别进行过滤，不超过logger实例级别的log()函数，不会被加载到logger实例中。</p>
+<p>在这段代码中logger实例的等级为INFO，所以info()和debug()函数只有info函数会被记录到logger实例中。</p>
+<p>logger实例中记录的log()函数再被StreamHandler和FileHandler根据各自的级别进行筛选。</p>
+<p>这段代码中StreamHandler级别为WARNING，而FileHandler的级别为DEBUG，所以记录在logger实例中的info()函数只在FileHandler中输出，也就是只有在test.log函数中输出。</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I am &lt;info&gt; message.</span><br></pre></td></tr></table></figure></div>
+<h4 id="formatter-输出日志的格式"><a href="#formatter-输出日志的格式" class="headerlink" title="formatter : 输出日志的格式"></a>formatter : 输出日志的格式</h4><p>细心的话可以发现，我们后来自己添加的handler输出的log是没有格式的，就仅仅是输出而已。但basicConfig()输出的log是有格式的（虽然很丑）。</p>
+<p>不同在于basicConfig()中的handler是带有formatter的。我们要添加formatter就需要用到logging中的另一个类Formatter</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line">logger = logging.getLogger(<span class="string">'test'</span>)</span><br><span class="line">logger.setLevel(logging.DEBUG)  <span class="comment"># 输出所有大于INFO级别的log</span></span><br><span class="line">fmt = logging.Formatter(<span class="string">'%(name)s - %(levelname)s - %(asctime)s - %(message)s'</span>)</span><br><span class="line"><span class="comment"># 添加StreamHandler，并设置级别为WARNING</span></span><br><span class="line">stream_hdl = logging.StreamHandler()</span><br><span class="line">stream_hdl.setLevel(logging.DEBUG)</span><br><span class="line">stream_hdl.setFormatter(fmt)</span><br><span class="line">logger.addHandler(stream_hdl)</span><br><span class="line"><span class="comment"># 添加FileHandler，并设置级别为DEBUG</span></span><br><span class="line">file_hdl = logging.FileHandler(<span class="string">'test.log'</span>)</span><br><span class="line">file_hdl.setLevel(logging.DEBUG)</span><br><span class="line">file_hdl.setFormatter(fmt)</span><br><span class="line">logger.addHandler(file_hdl)</span><br><span class="line"></span><br><span class="line">logger.info(<span class="string">'I am &lt;info&gt; message.'</span>)</span><br><span class="line">logger.debug(<span class="string">'I am &lt;debug&gt; message.'</span>)  <span class="comment"># 不输出</span></span><br></pre></td></tr></table></figure></div>
+<p>是不是漂亮多了，logging的formatter可以输出的不止这几个信息，还有很多：</p>
+<p>%(name)s ——logger实例的名称<br>%(levelno)s ——等级编号，为(DEBUG, INFO, WARNING, ERROR, CRITICAL)对应的编号<br>%(levelname)s ——等级名称，为 (“DEBUG”, “INFO”, “WARNING”, “ERROR”, “CRITICAL”)中的一个<br>%(pathname)s ——触发log的文件的全路径<br>%(filename)s ——触发log的文件的文件名<br>%(module)s ——触发log的模块名<br>%(lineno)d ——触发log的代码行数<br>%(funcName)s ——函数名<br>%(created)f ——log记录的创建时间<br>%(asctime)s ——log记录的文本时间<br>%(msecs)d ——创建时间对应的毫秒级时间戳<br>%(relativeCreated)d ——应用启动到当前记录被加载之间的时间差<br>%(thread)d ——线程id<br>%(threadName)s ——线程名称<br>%(process)d ——进程id<br>%(message)s ——日志记录的消息显示</p>
+<h3 id="日志调试示例"><a href="#日志调试示例" class="headerlink" title="日志调试示例"></a>日志调试示例</h3><p>logging.conf 日志配置文件，可以使用上面手动配置的方式实现等效效果。</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[loggers] </span><br><span class="line">keys=root,simpleExample </span><br><span class="line"></span><br><span class="line">[handlers] </span><br><span class="line">keys=consoleHandler </span><br><span class="line"></span><br><span class="line">[formatters] </span><br><span class="line">keys=simpleFormatter </span><br><span class="line"></span><br><span class="line">[logger_root] </span><br><span class="line">level=DEBUG </span><br><span class="line">handlers=consoleHandler </span><br><span class="line"></span><br><span class="line">[logger_simpleExample] </span><br><span class="line">level=DEBUG </span><br><span class="line">handlers=consoleHandler </span><br><span class="line">qualname=simpleExample </span><br><span class="line">propagate=0 </span><br><span class="line"></span><br><span class="line">[handler_consoleHandler] </span><br><span class="line">class=&quot;StreamHandler&quot; </span><br><span class="line">level=DEBUG </span><br><span class="line">formatter=simpleFormatter </span><br><span class="line">args=(sys.stdout,) </span><br><span class="line"></span><br><span class="line">[formatter_simpleFormatter] </span><br><span class="line">format=%(asctime)s - %(name)s - %(levelname) - %(message)s </span><br><span class="line">datefmt=</span><br></pre></td></tr></table></figure></div>
+<h4 id="配置文件简要说明"><a href="#配置文件简要说明" class="headerlink" title="配置文件简要说明"></a>配置文件简要说明</h4><p>1）配置文件中一定要包含loggers、handlers、formatters这些section，它们通过keys这个option来指定该配置文件中已经定义好的loggers、handlers和formatters，多个值之间用逗号分隔；另外loggers这个section中的keys一定要包含root这个值；</p>
+<p>2）loggers、handlers、formatters中所指定的日志器、处理器和格式器都需要在下面以单独的section进行定义。seciton的命名规则为[logger_loggerName]、[formatter_formatterName]、[handler_handlerName]</p>
+<p>3）定义logger的section必须指定level和handlers这两个option，level的可取值为DEBUG、INFO、WARNING、ERROR、CRITICAL、NOTSET，其中NOTSET表示所有级别的日志消息都要记录，包括用户定义级别；handlers的值是以逗号分隔的handler名字列表，这里出现的handler必须出现在[handlers]这个section中，并且相应的handler必须在配置文件中有对应的section定义；</p>
+<p>4）对于非root  logger来说，除了level和handlers这两个option之外，还需要一些额外的option，其中qualname是必须提供的option，它表示在logger层级中的名字，在应用代码中通过这个名字得到logger；propagate是可选项，其默认是为1，表示消息将会传递给高层次logger的handler，通常我们需要指定其值为0，这个可以看下下面的例子；另外，对于非root  logger的level如果设置为NOTSET，系统将会查找高层次的logger来决定此logger的有效level。</p>
+<p>5）定义handler的section中必须指定class和args这两个option，level和formatter为可选option；class表示用于创建handler的类名，args表示传递给class所指定的handler类初始化方法参数，它必须是一个元组（tuple）的形式，即便只有一个参数值也需要是一个元组的形式；level与logger中的level一样，而formatter指定的是该处理器所使用的格式器，这里指定的格式器名称必须出现在formatters这个section中，且在配置文件中必须要有这个formatter的section定义；如果不指定formatter则该handler将会以消息本身作为日志消息进行记录，而不添加额外的时间、日志器名称等信息；</p>
+<p>6）定义formatter的sectioin中的option都是可选的，其中包括format用于指定格式字符串，默认为消息字符串本身；datefmt用于指定asctime的时间格式，默认为’%Y-%m-%d  %H:%M:%S’；class用于指定格式器类名，默认为logging.Formatter；</p>
+<h4 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h4><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python </span></span><br><span class="line"><span class="keyword">import</span> thread </span><br><span class="line"><span class="keyword">import</span> time </span><br><span class="line"><span class="keyword">import</span> logging </span><br><span class="line"><span class="keyword">import</span> logging.config </span><br><span class="line">logging.config.fileConfig(<span class="string">'logging.conf'</span>) <span class="comment">#载入配置文件</span></span><br><span class="line"><span class="comment"># create logger </span></span><br><span class="line">logger = logging.getLogger(<span class="string">'simpleExample'</span>) </span><br><span class="line"><span class="comment"># Define a function for the thread </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_time</span><span class="params">( threadName, delay)</span>:</span> </span><br><span class="line">    logger.debug(<span class="string">'thread 1 call print_time function body'</span>) </span><br><span class="line">    count = <span class="number">0</span> </span><br><span class="line">    logger.debug(<span class="string">'count:%s'</span>,count)</span><br></pre></td></tr></table></figure></div>
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+      <a href="/数据分析/美国股票数据分析案例/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption"></strong>
+        <div class="article-nav-title">
+          
+            美国股票数据分析案例
+          
+        </div>
+      </a>
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/数据分析/Pandas的数据处理/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">Pandas的数据处理</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://www.xuhuiblog.cn/css/gitment.css">
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/gitment.js"></script>
+<script type="text/javascript" src="https://www.xuhuiblog.cn/js/md5.min.js"></script>
+<script>
+var gitment = new Gitment({
+  id: md5(window.location.pathname.replace(/index.html/, "")),
+  owner: 'pighui',
+  repo: 'myblogdes',
+  oauth: {
+    client_id: '79535b24d59031961e6c',
+    client_secret: '4f1907f09f33c1182feb2ddfeef33677e8e5ff36',
+  },
+})
+gitment.render('gitmentContainer')
+</script>
+
+  
+  
+</article>
+</section>
+                <aside id="sidebar">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="360" height="86" src="//music.163.com/outchain/player?type=2&id=1346998796&auto=0&height=66"></iframe>
+    
+        <div class="widget-box">
+    <div class="avatar-box">
+        <img class="avatar" src="/images/default-avatar.jpeg" title="图片来自网络">
+        <h3 class="avatar-name">
+            
+                一介书生
+            
+        </h3>
+        <p class="avatar-slogan">
+            盼 君 金 榜 题 名 时 。
+寒 窗 苦 读 数 十 载 ，
+        </p>
+    </div>
+</div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kali/">Kali</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ubuntu/">Ubuntu</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据分析/">数据分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/爬虫/">爬虫</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kali/">Kali</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分析/">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试/">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a></li></ul>
+    </div>
+  </div>
+
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 11.67px;">Docker</a> <a href="/tags/Hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/Kali/" style="font-size: 10px;">Kali</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/Ubuntu/" style="font-size: 16.67px;">Ubuntu</a> <a href="/tags/数据分析/" style="font-size: 18.33px;">数据分析</a> <a href="/tags/测试/" style="font-size: 11.67px;">测试</a> <a href="/tags/爬虫/" style="font-size: 15px;">爬虫</a> <a href="/tags/面试题/" style="font-size: 10px;">面试题</a>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li></ul>
+    </div>
+  </div>
+
+    
+        
+  <div class="widget-box">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/数据分析/Matplotlib的基本使用/">Matplotlib的基本使用</a>
+          </li>
+        
+          <li>
+            <a href="/数据分析/scipy中的图片过滤/">scipy中的图片过滤</a>
+          </li>
+        
+          <li>
+            <a href="/数据分析/scipy中的ndimage的应用/">scipy中的ndimage的应用</a>
+          </li>
+        
+          <li>
+            <a href="/数据分析/scipy的io操作/">scipy的io操作</a>
+          </li>
+        
+          <li>
+            <a href="/数据分析/scipy的图片处理/">scipy的图片处理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+          <div class="widget-box">
+    <h3 class="widget-title">友链</h3>
+    <div class="widget">
+      
+        <a style="display: block;" href="https://yiluyanxia.github.io/" title target="_blank">一路眼瞎</a>
+      
+        <a style="display: block;" href="https://wljsky.cn/" title target="_blank">钧金</a>
+      
+    </div>
+  </div>
+
+    
+</aside>
+            </div>
+            <footer id="footer">
+    <!-- 百度推送 -->
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            } else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+    <!-- 百度统计 -->
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?58e88d550a3485e4fa9494eb391c7e47";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135687698-1"></script> -->
+    <script src="/js/google.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('set', {'user_id': 'UA-135687698-1'});
+        gtag('config', 'UA-135687698-1');
+    </script>
+    <div class="foot-box global-width">
+        &copy;Copyright&nbsp;2019 一介书生<br>
+        驱动于 <a href="http://hexo.io/" target="_blank">Hexo</a>
+        &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity">antiquity</a>
+        <br>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <span id="busuanzi_container_site_pv">阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+        <br>
+        豫ICP备<a href="http://ha.beian.miit.gov.cn/">19008962</a>号
+    </div>
+</footer>
+            <script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) {
+        var script = document.createElement('script');
+        script.src = "/js/jquery.min.js";
+        document.body.write(script);
+    }
+</script>
+
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+    <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+        </div>
+        <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="https://github.com/pighui" class="mobile-nav-link">基友</a>
+  
+    <a href="/archives" class="mobile-nav-link">文章</a>
+  
+    <a href="/me" class="mobile-nav-link">简历</a>
+  
+    <a href="/snow" class="mobile-nav-link">看雪</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>
+    </div>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/js/love.js"></script>
+    <script src="/js/snowy.js"></script>
+    <style type="text/css">.snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100001;
+        }</style>
+    <div class="snow-container"></div>
+</body>
+</html>

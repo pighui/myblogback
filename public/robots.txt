@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Allow: /archives
+Allow: /me
+Allow: /snow
+
+Disallow: /js/
+Disallow: /css/
+Disallow: /projects/
+Disallow: /images/
+Disallow: /fonts/
+Disallow: /fancybox/
+
+Sitemap: https://www.xuhuiblog.cn/sitemap.xml
+Sitemap: https://www.xuhuiblog.cn/baidusitemap.xml
